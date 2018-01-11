@@ -1,121 +1,131 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team4342.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4342.robot.subsystems.ExampleSubsystem;
+
+import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
+import org.usfirst.frc.team4342.robot.auton.Priority;
+import org.usfirst.frc.team4342.robot.auton.StartPosition;
+import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
+import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 /**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
+ * Main Robot Class
+ * @author FRC Team 4342
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
-	public static OI m_oi;
-
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
-
+	private SendableChooser<StartPosition> startPositionChooser;
+	private SendableChooser<Priority> priorityChooser;
+	private AutonomousRoutine autonomousRoutine;
+	
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * Robot-wide initialization code
 	 */
 	@Override
-	public void robotInit() {
-		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+	public void robotInit()
+	{
+		Logger.info("Bootstrapping Demonator7...");
+		
+		OI.getInstance();
+		DemonDashboard.start();
+		PDPLogger.start();
+		
+		Logger.info("Initializing autonomous choosers...");
+		startPositionChooser = new SendableChooser<StartPosition>();
+		startPositionChooser.addDefault("Left", StartPosition.LEFT);
+		startPositionChooser.addObject("Center", StartPosition.CENTER);
+		startPositionChooser.addObject("Right", StartPosition.RIGHT);
+		SmartDashboard.putData("Start Position Chooser", startPositionChooser);
+		
+		priorityChooser = new SendableChooser<Priority>();
+		priorityChooser.addDefault("Switch", Priority.SWITCH);
+		priorityChooser.addObject("Scale", Priority.SCALE);
+		priorityChooser.addObject("Both", Priority.BOTH);
+		SmartDashboard.putData("Start Position Chooser", priorityChooser);
+		
+		
+		Logger.info("Finished bootstrapping Demonator7.");
+	}
+	
+	/**
+	 * Initialization code for teleop (operator control) mode
+	 */
+	@Override
+	public void teleopInit()
+	{
+		stopAutonomousRoutine();
 	}
 
 	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
+	 * Periodic code for teleop (operator control) mode
 	 */
 	@Override
-	public void disabledInit() {
-
-	}
-
-	@Override
-	public void disabledPeriodic() {
+	public void teleopPeriodic()
+	{
 		Scheduler.getInstance().run();
 	}
-
+	
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
+	 * Initialization code for autonomous mode 
 	 */
 	@Override
-	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+	public void autonomousInit()
+	{
+		stopAutonomousRoutine();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
+		// TODO: Interpret SendableChoosers to instantiate the auto routine
+		
+		startAutonomousRoutine();
 	}
-
+	
 	/**
-	 * This function is called periodically during autonomous.
+	 * Periodic code for autonomous mode
 	 */
 	@Override
-	public void autonomousPeriodic() {
+	public void autonomousPeriodic()
+	{
+		if(autonomousRoutine != null)
+			Scheduler.getInstance().run();
+	}
+	
+	/**
+	 * Initialization code for test mode 
+	 */
+	@Override
+	public void testInit()
+	{
+		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
 	}
-
-	@Override
-	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}
-	}
-
+	
 	/**
-	 * This function is called periodically during operator control.
+	 * Initialization code for disabled mode
 	 */
 	@Override
-	public void teleopPeriodic() {
+	public void disabledInit()
+	{
+		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
 	}
-
+	
 	/**
-	 * This function is called periodically during test mode.
+	 * Starts the autonomous routine
 	 */
-	@Override
-	public void testPeriodic() {
+	private void startAutonomousRoutine()
+	{
+		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
+			autonomousRoutine.start();
+	}
+	
+	/**
+	 * Stops the autonomous routine
+	 */
+	private void stopAutonomousRoutine()
+	{
+		if(autonomousRoutine != null)
+			autonomousRoutine.cancel();
 	}
 }
