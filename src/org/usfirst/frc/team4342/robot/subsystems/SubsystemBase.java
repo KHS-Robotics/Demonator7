@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * Superclass of all subsystems
  */
-public class SubsystemBase extends Subsystem {
+public abstract class SubsystemBase extends Subsystem {
 	/**
 	 * Sets the default command to <code>null</code>
 	 */
-	public void initDefaultCommand() {
+	protected void initDefaultCommand() {
 		this.setDefaultCommand(null);
 	}
 }
