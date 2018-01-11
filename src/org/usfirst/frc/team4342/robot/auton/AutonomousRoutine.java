@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- * Superclass for Auto Routines
+ * Superclass for Autonomous Routines
  */
 public abstract class AutonomousRoutine extends CommandGroup {
-	private final StartPosition position;
-	private final Priority priority;
+	protected final StartPosition position;
+	protected final Priority priority;
 	
 	/**
 	 * Constructs an autonomous routine
@@ -18,24 +18,6 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	public AutonomousRoutine(StartPosition position, Priority priority) {
 		this.position = position;
 		this.priority = priority;
-	}
-	
-	/**
-	 * Gets the routine's starting position
-	 * @return the routine's starting position
-	 * @see StartPosition
-	 */
-	protected final StartPosition getPosition() {
-		return position;
-	}
-	
-	/**
-	 * Gets the priority for the routine
-	 * @return the priority for the routine
-	 * @see Priority
-	 */
-	protected final Priority getPriority() {
-		return priority;
 	}
 	
 	/**
@@ -96,7 +78,7 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	
 	/**
 	 * Gets if their switch is right
-	 * @return true if left, false otherwise
+	 * @return true if right, false otherwise
 	 */
 	protected final boolean isOpponentSwitchRight() {
 		return !isOpponentSwitchLeft();
@@ -105,7 +87,7 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	/**
 	 * Returns three characters (R or L) specifying which plate is ours,
 	 * starting with the closest plate.
-	 * @return three characters (R or L)
+	 * @return a three character string indicating which plates are ours
 	 */
 	private static String getPlateLocations() {
 		return DriverStation.getInstance().getGameSpecificMessage();
