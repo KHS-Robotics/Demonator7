@@ -1,8 +1,3 @@
-.classpath
-.project
-build.xml
-build.properties
-
 # Compiled class file
 *.class
 
