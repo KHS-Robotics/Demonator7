@@ -5,7 +5,7 @@ import org.usfirst.frc.team4342.robot.OI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Class to put data to the smart dashboard on a separate thread
+ * Class to put data to the SmartDashboard on a separate thread
  */
 public class DemonDashboard 
 {
@@ -43,7 +43,7 @@ public class DemonDashboard
 		private static final OI oi = OI.getInstance();
 		
 		/**
-		 * Puts data to the Smart Dashboard every 50ms. The data is retrieved from OI
+		 * Puts data to the SmartDashboard every 50ms. The data is retrieved from OI
 		 * @see org.usfirst.frc.team4342.robot.OI
 		 */
 		@Override
@@ -55,7 +55,7 @@ public class DemonDashboard
 			{
 				try
 				{
-					// Get values from io object here
+					// Get values from oi object here
 					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
 					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
 					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());

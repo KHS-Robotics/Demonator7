@@ -1,5 +1,5 @@
 package org.usfirst.frc.team4342.robot.auton;
 
 public enum Priority {
-	SWITCH, SCALE, BOTH;
+	BASELINE, SWITCH, SCALE, BOTH;
 }

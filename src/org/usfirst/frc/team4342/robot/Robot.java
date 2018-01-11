@@ -25,8 +25,7 @@ public class Robot extends TimedRobot {
 	 * Robot-wide initialization code
 	 */
 	@Override
-	public void robotInit()
-	{
+	public void robotInit() {
 		Logger.info("Bootstrapping Demonator7...");
 		
 		OI.getInstance();
@@ -41,11 +40,11 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Start Position Chooser", startPositionChooser);
 		
 		priorityChooser = new SendableChooser<Priority>();
-		priorityChooser.addDefault("Switch", Priority.SWITCH);
+		priorityChooser.addDefault("Baseline", Priority.BASELINE);
+		priorityChooser.addObject("Switch", Priority.SWITCH);
 		priorityChooser.addObject("Scale", Priority.SCALE);
 		priorityChooser.addObject("Both", Priority.BOTH);
-		SmartDashboard.putData("Start Position Chooser", priorityChooser);
-		
+		SmartDashboard.putData("Priority Chooser", priorityChooser);
 		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
@@ -54,8 +53,7 @@ public class Robot extends TimedRobot {
 	 * Initialization code for teleop (operator control) mode
 	 */
 	@Override
-	public void teleopInit()
-	{
+	public void teleopInit() {
 		stopAutonomousRoutine();
 	}
 
@@ -63,8 +61,7 @@ public class Robot extends TimedRobot {
 	 * Periodic code for teleop (operator control) mode
 	 */
 	@Override
-	public void teleopPeriodic()
-	{
+	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 	}
 	
@@ -72,8 +69,7 @@ public class Robot extends TimedRobot {
 	 * Initialization code for autonomous mode 
 	 */
 	@Override
-	public void autonomousInit()
-	{
+	public void autonomousInit() {
 		stopAutonomousRoutine();
 
 		// TODO: Interpret SendableChoosers to instantiate the auto routine
@@ -85,28 +81,25 @@ public class Robot extends TimedRobot {
 	 * Periodic code for autonomous mode
 	 */
 	@Override
-	public void autonomousPeriodic()
-	{
+	public void autonomousPeriodic() {
 		if(autonomousRoutine != null)
 			Scheduler.getInstance().run();
-	}
-	
-	/**
-	 * Initialization code for test mode 
-	 */
-	@Override
-	public void testInit()
-	{
-		stopAutonomousRoutine();
-		Scheduler.getInstance().run();
 	}
 	
 	/**
 	 * Initialization code for disabled mode
 	 */
 	@Override
-	public void disabledInit()
-	{
+	public void disabledInit() {
+		stopAutonomousRoutine();
+		Scheduler.getInstance().run();
+	}
+	
+	/**
+	 * Initialization code for test mode 
+	 */
+	@Override
+	public void testInit() {
 		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
 	}
@@ -114,8 +107,7 @@ public class Robot extends TimedRobot {
 	/**
 	 * Starts the autonomous routine
 	 */
-	private void startAutonomousRoutine()
-	{
+	private void startAutonomousRoutine() {
 		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
 			autonomousRoutine.start();
 	}
@@ -123,8 +115,7 @@ public class Robot extends TimedRobot {
 	/**
 	 * Stops the autonomous routine
 	 */
-	private void stopAutonomousRoutine()
-	{
+	private void stopAutonomousRoutine() {
 		if(autonomousRoutine != null)
 			autonomousRoutine.cancel();
 	}
