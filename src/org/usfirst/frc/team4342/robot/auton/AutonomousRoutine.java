@@ -20,6 +20,12 @@ public abstract class AutonomousRoutine extends CommandGroup {
 		this.priority = priority;
 	}
 	
+	@Override
+	public void initialize()
+	{
+		
+	}
+	
 	/**
 	 * Gets if our switch is left
 	 * @return true if left, false otherwise
