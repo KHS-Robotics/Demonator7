@@ -19,8 +19,7 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	}
 	
 	@Override
-	public void initialize()
-	{
+	protected void initialize() {
 		
 	}
 	

@@ -56,6 +56,7 @@ public class DemonDashboard
 				try
 				{
 					// Get values from oi object here
+					SmartDashboard.putNumber("NavX-Angle", oi.NavX.getAngle());
 					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
 					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
 					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());
