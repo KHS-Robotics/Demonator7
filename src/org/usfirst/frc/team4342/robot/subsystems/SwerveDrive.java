@@ -34,7 +34,7 @@ public class SwerveDrive extends SubsystemBase {
 		// TODO: Set default command to DriveSwerveWithJoystick
 	}
 	
-	public void resetAngle() {
+	public void resetNavX() {
 		navx.reset();
 	}
 	
