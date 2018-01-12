@@ -2,9 +2,9 @@ package org.usfirst.frc.team4342.robot.auton;
 
 public class AutoBoth extends AutonomousRoutine {
 	
-	public AutoBoth(StartPosition position, Priority priority) {
+	public AutoBoth(StartPosition position) {
 		
-		super(position, priority);
+		super(position);
 	}
 
 }

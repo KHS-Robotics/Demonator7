@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team4342.robot.auton.AutoBaseline;
+import org.usfirst.frc.team4342.robot.auton.AutoBoth;
+import org.usfirst.frc.team4342.robot.auton.AutoScale;
+import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
@@ -72,7 +76,28 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		stopAutonomousRoutine();
 
-		// TODO: Interpret SendableChoosers to instantiate the auto routine
+		final StartPosition position = startPositionChooser.getSelected();
+		switch(priorityChooser.getSelected()) {
+			case BASELINE:
+				autonomousRoutine = new AutoBaseline(position);
+			break;
+			
+			case SWITCH:
+				autonomousRoutine = new AutoSwitch(position);
+			break;
+			
+			case SCALE:
+				autonomousRoutine = new AutoScale(position);
+			break;
+				
+			case BOTH:
+				autonomousRoutine = new AutoBoth(position);
+			break;
+			
+			default:
+				Logger.warning("Auto priority could not be determined! Crossing auto line!");
+				autonomousRoutine = new AutoBaseline(position);
+		}
 		
 		startAutonomousRoutine();
 	}

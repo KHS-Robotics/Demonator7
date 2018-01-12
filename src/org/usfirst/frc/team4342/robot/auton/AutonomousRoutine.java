@@ -8,16 +8,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup {
 	protected final StartPosition position;
-	protected final Priority priority;
 	
 	/**
 	 * Constructs an autonomous routine
 	 * @param position the starting position of the robot
 	 * @param priority
 	 */
-	public AutonomousRoutine(StartPosition position, Priority priority) {
+	public AutonomousRoutine(StartPosition position) {
 		this.position = position;
-		this.priority = priority;
 	}
 	
 	@Override

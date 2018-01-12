@@ -5,9 +5,9 @@ import org.usfirst.frc.team4342.robot.logging.Logger;
 
 public class AutoSwitch extends AutonomousRoutine {
 	
-	public AutoSwitch(StartPosition position, Priority priority) {
+	public AutoSwitch(StartPosition position) {
 		
-		super(position, priority);
+		super(position);
 		
 		if(position == StartPosition.LEFT)
 		{
