@@ -15,6 +15,7 @@ public class RobotMap {
 	public static final int LEFT_DRIVE_STICK = 0;
 	public static final int RIGHT_DRIVE_STICK = 0;
 	public static final int SWITCH_BOX = 0;
+	public static final int ELEVATOR_STICK = 0;
 	
 	public static final int LEFT_HEIGHT_IN = 0;
 	public static final int LEFT_HEIGHT_OUT = 0;

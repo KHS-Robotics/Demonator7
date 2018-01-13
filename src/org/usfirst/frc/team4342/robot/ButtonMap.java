@@ -30,5 +30,10 @@ public class ButtonMap
 	{
 		public static final int INAKE = 3;
 		public static final int RELEASE = 4;
+		public static final int ELEVATE_SCALE_HIGH = 9;
+		public static final int ELEVATE_SCLALE_NEUTRAL = 7;
+		public static final int ELEVATE_SCALE_LOW = 10;
+		public static final int ELEVATE_SWITCH = 12;
+		public static final int ELEVATE_PICKUP_CUBE = 11;
 	}
 }
