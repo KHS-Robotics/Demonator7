@@ -19,6 +19,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -46,11 +47,13 @@ public class OI {
 	public final SwerveDrive SwerveDrive;
 	
 	public final TalonSRX FrontLeft, FrontRight, MiddleLeft, MiddleRight, RearLeft, RearRight, 
-						  FrontLeftPivot, FrontRightPivot, RearLeftPivot, RearRightPivot;
+						  FrontLeftPivot, FrontRightPivot, RearLeftPivot, RearRightPivot,
+						  EleMotor;
 	public final AHRS NavX;
 	public final Ultrasonic LeftHeight, RightHeight, LeftDistance, RightDistance;
-	public final Encoder LeftDrive, RightDrive, FrontLeftEnc, FrontRightEnc, RearLeftEnc, RearRightEnc;
+	public final Encoder LeftDrive, RightDrive, FrontLeftEnc, FrontRightEnc, RearLeftEnc, RearRightEnc, EleEnc;
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
+	public final DigitalInput EleLS;
 	
 	private OI() {
 		Logger.info("Constructing IO.....");
@@ -87,6 +90,7 @@ public class OI {
 		FrontRightPivot = new TalonSRX(0);
 		RearLeftPivot = new TalonSRX(0);
 		RearRightPivot = new TalonSRX(0);
+		EleMotor = new TalonSRX(0);
 		
 		// Encoders
 		LeftDrive = new Encoder(0,0);
@@ -95,12 +99,16 @@ public class OI {
 		FrontRightEnc = new Encoder(0,0);
 		RearLeftEnc = new Encoder(0,0);
 		RearRightEnc = new Encoder(0,0);
+		EleEnc = new Encoder(0,0);
+		
+		//Digital Inputs
+		EleLS = new DigitalInput(0);
 		
 		SwerveDrive = new SwerveDrive(FrontRight, FrontLeft, RearRight, RearLeft, LeftDrive, RightDrive, NavX);
 
 		// Subsystems
 		Accumulator = new Accumulator();
-		Elevator = new Elevator();
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		TankDrive = new TankDrive(FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 
 		JoystickButton climbButton = new JoystickButton(SwitchBox, 0);
