@@ -48,12 +48,11 @@ public class OI {
 	public final SwerveDrive SwerveDrive;
 	public final Climber Climber;
 	
-	public final TalonSRX FrontLeft, FrontRight, MiddleLeft, MiddleRight, RearLeft, RearRight, 
-						  FrontLeftPivot, FrontRightPivot, RearLeftPivot, RearRightPivot,
+	public final TalonSRX FrontLeft, FrontRight, MiddleLeft, MiddleRight, RearLeft, RearRight,
 						  IntakeMotor, ClimberMotor, EleMotor;
 	public final AHRS NavX;
 	public final Ultrasonic LeftHeight, RightHeight, LeftDistance, RightDistance;
-	public final Encoder LeftDrive, RightDrive, FrontLeftEnc, FrontRightEnc, RearLeftEnc, RearRightEnc, EleEnc;
+	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
 	public final DigitalInput EleLS;
 	
@@ -61,18 +60,18 @@ public class OI {
 		Logger.info("Constructing OI.....");
 		
 		// Joysticks
-		LeftDriveStick = new Joystick(0);
-		RightDriveStick = new Joystick(1);
-		SwitchBox = new Joystick(2);
+		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
+		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
+		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		
 		// NavX
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// Ultrasonics
-		LeftHeight = new Ultrasonic(0,0);
-		RightHeight = new Ultrasonic(0,0);
-		LeftDistance = new Ultrasonic(0,0);
-		RightDistance = new Ultrasonic(0,0);
+		LeftHeight = new Ultrasonic(RobotMap.LEFT_HEIGHT_IN, RobotMap.LEFT_HEIGHT_IN);
+		RightHeight = new Ultrasonic(RobotMap.RIGHT_HEIGHT_IN, RobotMap.RIGHT_HEIGHT_OUT);
+		LeftDistance = new Ultrasonic(RobotMap.LEFT_DISTANCE_IN,RobotMap.LEFT_DISTANCE_OUT);
+		RightDistance = new Ultrasonic(RobotMap.RIGHT_DISTANCE_IN, RobotMap.RIGHT_DISTANCE_OUT);
 		
 		LeftHeight.setAutomaticMode(true);
 		RightHeight.setAutomaticMode(true);
@@ -80,30 +79,22 @@ public class OI {
 		RightDistance.setAutomaticMode(true);
 		
 		// TalonSRXs
-		FrontLeft = new TalonSRX(0);
-		FrontRight = new TalonSRX(0);
-		RearLeft = new TalonSRX(0);
-		RearRight = new TalonSRX(0);
-		MiddleLeft = new TalonSRX(0);
-		MiddleRight = new TalonSRX(0);
-		FrontLeftPivot = new TalonSRX(0);
-		FrontRightPivot = new TalonSRX(0);
-		RearLeftPivot = new TalonSRX(0);
-		RearRightPivot = new TalonSRX(0);
-		IntakeMotor = new TalonSRX(0);
-		ClimberMotor = new TalonSRX(0);
-		EleMotor = new TalonSRX(0);
+		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
+		FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
+		RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
+		RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
+		MiddleLeft = new TalonSRX(RobotMap.MIDDLE_LEFT);
+		MiddleRight = new TalonSRX(RobotMap.MIDDLE_RIGHT);
+		IntakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
+		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
+		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 		
 		// Encoders
-		LeftDrive = new Encoder(0,0);
-		RightDrive = new Encoder(0,0);
-		FrontLeftEnc = new Encoder(0,0);
-		FrontRightEnc = new Encoder(0,0);
-		RearLeftEnc = new Encoder(0,0);
-		RearRightEnc = new Encoder(0,0);
-		EleEnc = new Encoder(0,0);
+		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
+		RightDrive = new Encoder(RobotMap.RIGHT_DRIVE_IN, RobotMap.RIGHT_DRIVE_OUT);
+		EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
 		
-		EleLS = new DigitalInput(0);
+		EleLS = new DigitalInput(RobotMap.ELE_LS);
 		
 		SwerveDrive = new SwerveDrive(FrontRight, FrontLeft, RearRight, RearLeft, LeftDrive, RightDrive, NavX);
 
