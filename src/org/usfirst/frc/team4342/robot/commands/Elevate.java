@@ -1,28 +1,35 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-public class Elevate extends CommandBase {
+import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 
+public class Elevate extends CommandBase {
+	
+	private Elevator elevator;
+	private int height;
+
+	public Elevate(Elevator elevator, int height)
+	{
+		this.elevator = elevator;
+		this.height = height;
+	}
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		
+		elevator.setSetpoint(height);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return elevator.isAtSetpoint();
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 

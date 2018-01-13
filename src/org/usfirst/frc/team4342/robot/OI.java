@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.StartClimber;
-import org.usfirst.frc.team4342.robot.commands.Elevate;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
@@ -126,19 +125,16 @@ public class OI {
 		placeButton.whenPressed(new PlaceCube());
 		
 		JoystickButton elevateHigh = new JoystickButton(SwitchBox, 0);
-		elevateHigh.whenPressed(new ElevateToScaleHigh());
+		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
 		
 		JoystickButton elevateNeutral = new JoystickButton(SwitchBox, 0);
-		elevateNeutral.whenPressed(new ElevateToScaleNeutral());
+		elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
 		
 		JoystickButton elevateLow = new JoystickButton(SwitchBox, 0);
-		elevateLow.whenPressed(new ElevateToScaleLow());
+		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
 		
 		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, 0);
-		elevateSwitch.whenPressed(new ElevateToSwitch());
-		
-		JoystickButton elevateButton = new JoystickButton(SwitchBox, 0);
-		elevateButton.whenPressed(new Elevate());
+		elevateSwitch.whenPressed(new ElevateToSwitch(Elevator));
 		
 		JoystickButton tankDriveStraight = new JoystickButton(LeftDriveStick, 0);
 		tankDriveStraight.whenPressed(new TankDriveStraight());

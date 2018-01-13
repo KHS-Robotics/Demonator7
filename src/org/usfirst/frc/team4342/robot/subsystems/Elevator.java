@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase
 		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
 		elevatePID.setInputRange(-180, 180);
 		elevatePID.setOutputRange(-1, 1);
-		elevatePID.setContinuous();
+		elevatePID.setPercentTolerance(2);
 	}
 	
 	public void set(double output)
@@ -51,6 +51,11 @@ public class Elevator extends SubsystemBase
 	public boolean isAtBottom()
 	{
 		return ls.get();
+	}
+	
+	public boolean isAtSetpoint()
+	{
+		return elevatePID.onTarget();
 	}
 	
 	private class PIDOutputClass implements PIDOutput {

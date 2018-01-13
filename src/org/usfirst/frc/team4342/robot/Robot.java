@@ -83,15 +83,15 @@ public class Robot extends TimedRobot {
 			break;
 			
 			case SWITCH:
-				autonomousRoutine = new AutoSwitch(position);
+				autonomousRoutine = new AutoSwitch(position, OI.getInstance().Elevator);
 			break;
 			
 			case SCALE:
-				autonomousRoutine = new AutoScale(position);
+				autonomousRoutine = new AutoScale(position, OI.getInstance().Elevator);
 			break;
 				
 			case BOTH:
-				autonomousRoutine = new AutoBoth(position);
+				autonomousRoutine = new AutoBoth(position, OI.getInstance().Elevator);
 			break;
 			
 			default:

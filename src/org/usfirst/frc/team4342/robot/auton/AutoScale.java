@@ -6,10 +6,11 @@ import org.usfirst.frc.team4342.robot.commands.PlaceCube;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
+import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 
 public class AutoScale extends AutonomousRoutine{
 	
-	public AutoScale(StartPosition position) {
+	public AutoScale(StartPosition position, Elevator e) {
 		super(position);
 		
 		if(position == StartPosition.LEFT)
@@ -19,7 +20,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankDriveStraight(SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(RIGHT_TURN));
 				this.addSequential(new TankDriveStraight(SCALE_SIDE));
-				this.addSequential(new ElevateToScaleNeutral());
+				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new PlaceCube());	
 			}
 			else
@@ -31,7 +32,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankDriveStraight(SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(LEFT_TURN));
 				this.addSequential(new TankDriveStraight(SCALE_SIDE));
-				this.addSequential(new ElevateToScaleNeutral());
+				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new PlaceCube());	
 			}
 		}
@@ -42,7 +43,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankDriveStraight(SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(LEFT_TURN));
 				this.addSequential(new TankDriveStraight(SCALE_SIDE));
-				this.addSequential(new ElevateToScaleNeutral());
+				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new PlaceCube());	
 			}
 			else
@@ -54,7 +55,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankDriveStraight(SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(RIGHT_TURN));
 				this.addSequential(new TankDriveStraight(SCALE_SIDE));
-				this.addSequential(new ElevateToScaleNeutral());
+				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new PlaceCube());	
 			}
 		}
