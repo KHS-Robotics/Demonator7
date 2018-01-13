@@ -6,7 +6,7 @@ import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.StartIntake;
-import org.usfirst.frc.team4342.robot.commands.PlaceCube;
+import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
 import org.usfirst.frc.team4342.robot.commands.SwerveDriveStraight;
@@ -122,7 +122,7 @@ public class OI {
 		intakeButton.whenReleased(new StopIntake(Intake));
 		
 		JoystickButton placeButton = new JoystickButton(SwitchBox, 0);
-		placeButton.whenPressed(new PlaceCube());
+		placeButton.whenPressed(new ReleaseCube());
 		
 		JoystickButton elevateHigh = new JoystickButton(SwitchBox, 0);
 		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));

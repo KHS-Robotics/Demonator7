@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
-import org.usfirst.frc.team4342.robot.commands.PlaceCube;
+import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -22,7 +22,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());	
+				this.addSequential(new ReleaseCube());	
 			}
 			else
 			{
@@ -32,7 +32,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());
+				this.addSequential(new ReleaseCube());
 			}
 				
 		}
@@ -44,7 +44,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());
+				this.addSequential(new ReleaseCube());
 			}
 			else
 			{
@@ -53,7 +53,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 185.5)); //distance from expected position to other plate
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());
+				this.addSequential(new ReleaseCube());
 			}
 		}
 		else if(position == StartPosition.CENTER)
@@ -69,7 +69,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, WALL_DISTANCE - 36));
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());
+				this.addSequential(new ReleaseCube());
 			}
 			else
 			{
@@ -78,7 +78,7 @@ public class AutoSwitch extends AutonomousRoutine {
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, WALL_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new PlaceCube());
+				this.addSequential(new ReleaseCube());
 			}
 		}
 		else

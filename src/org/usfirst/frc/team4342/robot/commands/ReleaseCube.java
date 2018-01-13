@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-public class PlaceCube extends CommandBase {
+public class ReleaseCube extends CommandBase {
 
 	@Override
 	protected void initialize() {

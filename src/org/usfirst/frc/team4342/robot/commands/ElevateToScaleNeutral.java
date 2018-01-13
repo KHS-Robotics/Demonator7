@@ -6,7 +6,6 @@ public class ElevateToScaleNeutral extends Elevate {
 
 	public ElevateToScaleNeutral(Elevator elevator) {
 		super(elevator, 66);
-		// TODO Auto-generated constructor stub
 	}
 
 }

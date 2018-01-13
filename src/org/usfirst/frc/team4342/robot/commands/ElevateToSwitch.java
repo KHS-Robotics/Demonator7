@@ -6,7 +6,6 @@ public class ElevateToSwitch extends Elevate {
 
 	public ElevateToSwitch(Elevator elevator) {
 		super(elevator, 15);
-		// TODO Auto-generated constructor stub
 	}
 
 }

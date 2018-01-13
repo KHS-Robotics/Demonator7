@@ -23,7 +23,7 @@ public class Climber extends SubsystemBase
 		motor.set(ControlMode.PercentOutput, 1);
 	}
 	
-	public void disabled()
+	public void disable()
 	{
 		if(!enabled)
 			return;

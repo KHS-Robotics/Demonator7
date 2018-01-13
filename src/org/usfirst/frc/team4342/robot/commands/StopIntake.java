@@ -18,6 +18,6 @@ public class StopIntake extends InstantCommand
 	@Override
 	public void initialize()
 	{
-		intake.disabled();
+		intake.disable();
 	}
 }

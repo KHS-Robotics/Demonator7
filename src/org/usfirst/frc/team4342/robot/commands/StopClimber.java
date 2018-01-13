@@ -18,7 +18,7 @@ public class StopClimber extends InstantCommand
 	@Override
 	protected void initialize() 
 	{
-		climber.disabled();
+		climber.disable();
 	}
 
 }

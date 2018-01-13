@@ -2,7 +2,7 @@ package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
-import org.usfirst.frc.team4342.robot.commands.PlaceCube;
+import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -22,7 +22,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
-				this.addSequential(new PlaceCube());	
+				this.addSequential(new ReleaseCube());	
 			}
 			else
 			{
@@ -34,7 +34,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
-				this.addSequential(new PlaceCube());	
+				this.addSequential(new ReleaseCube());	
 			}
 		}
 		else if(position == StartPosition.RIGHT)
@@ -45,7 +45,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
-				this.addSequential(new PlaceCube());	
+				this.addSequential(new ReleaseCube());	
 			}
 			else
 			{
@@ -57,7 +57,7 @@ public class AutoScale extends AutonomousRoutine{
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
-				this.addSequential(new PlaceCube());	
+				this.addSequential(new ReleaseCube());	
 			}
 		}
 		else

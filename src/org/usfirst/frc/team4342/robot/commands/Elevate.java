@@ -11,20 +11,22 @@ public class Elevate extends CommandBase {
 	{
 		this.elevator = elevator;
 		this.height = height;
+		
+		this.requires(elevator);
 	}
+	
 	@Override
 	protected void initialize() {
-		
-	}
-
-	@Override
-	protected void execute() {
 		elevator.setSetpoint(height);
 	}
 
 	@Override
+	protected void execute() {
+		
+	}
+
+	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return elevator.isAtSetpoint();
 	}
 

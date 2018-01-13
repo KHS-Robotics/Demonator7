@@ -23,7 +23,7 @@ public class Elevator extends SubsystemBase
 		this.ls = ls;
 		
 		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
-		elevatePID.setInputRange(-180, 180);
+		elevatePID.setInputRange(0, 80);
 		elevatePID.setOutputRange(-1, 1);
 		elevatePID.setPercentTolerance(2);
 	}
