@@ -4,12 +4,12 @@ import org.usfirst.frc.team4342.robot.subsystems.Climber;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-public class StopClimber extends InstantCommand 
+public class StartClimber extends InstantCommand 
 {
 
 	private Climber climber;
 	
-	public StopClimber(Climber climber)
+	public StartClimber(Climber climber)
 	{
 		this.requires(climber);
 		this.climber = climber;
@@ -18,7 +18,7 @@ public class StopClimber extends InstantCommand
 	@Override
 	protected void initialize() 
 	{
-		climber.disabled();
+		climber.enable();
 	}
 
 }

@@ -1,21 +1,23 @@
 package org.usfirst.frc.team4342.robot;
 
-import org.usfirst.frc.team4342.robot.commands.Climb;
+import org.usfirst.frc.team4342.robot.commands.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.Elevate;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
-import org.usfirst.frc.team4342.robot.commands.IntakeCube;
+import org.usfirst.frc.team4342.robot.commands.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.PlaceCube;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
+import org.usfirst.frc.team4342.robot.commands.StopIntake;
 import org.usfirst.frc.team4342.robot.commands.SwerveDriveStraight;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.subsystems.Accumulator;
+import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
+import org.usfirst.frc.team4342.robot.subsystems.Climber;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -40,13 +42,15 @@ public class OI {
 		return instance;
 	}
 	
-	public final Accumulator Accumulator;
+	public final Intake Intake;
 	public final Elevator Elevator;
 	public final TankDrive TankDrive;
 	public final SwerveDrive SwerveDrive;
+	public final Climber Climber;
 	
 	public final TalonSRX FrontLeft, FrontRight, MiddleLeft, MiddleRight, RearLeft, RearRight, 
-						  FrontLeftPivot, FrontRightPivot, RearLeftPivot, RearRightPivot;
+						  FrontLeftPivot, FrontRightPivot, RearLeftPivot, RearRightPivot,
+						  IntakeMotor, ClimberMotor;
 	public final AHRS NavX;
 	public final Ultrasonic LeftHeight, RightHeight, LeftDistance, RightDistance;
 	public final Encoder LeftDrive, RightDrive, FrontLeftEnc, FrontRightEnc, RearLeftEnc, RearRightEnc;
@@ -87,6 +91,8 @@ public class OI {
 		FrontRightPivot = new TalonSRX(0);
 		RearLeftPivot = new TalonSRX(0);
 		RearRightPivot = new TalonSRX(0);
+		IntakeMotor = new TalonSRX(0);
+		ClimberMotor = new TalonSRX(0);
 		
 		// Encoders
 		LeftDrive = new Encoder(0,0);
@@ -99,16 +105,18 @@ public class OI {
 		SwerveDrive = new SwerveDrive(FrontRight, FrontLeft, RearRight, RearLeft, LeftDrive, RightDrive, NavX);
 
 		// Subsystems
-		Accumulator = new Accumulator();
+		Intake = new Intake(IntakeMotor);
 		Elevator = new Elevator();
 		TankDrive = new TankDrive(FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
+		Climber = new Climber(ClimberMotor);
 
 		JoystickButton climbButton = new JoystickButton(SwitchBox, 0);
-		climbButton.whenPressed(new Climb());
-		climbButton.whenReleased(new StopClimber());
+		climbButton.whenPressed(new StartClimber(Climber));
+		climbButton.whenReleased(new StopClimber(Climber));
 		
 		JoystickButton intakeButton = new JoystickButton(SwitchBox, 0);
-		intakeButton.whenPressed(new IntakeCube());
+		intakeButton.whenPressed(new StartIntake(Intake));
+		intakeButton.whenReleased(new StopIntake(Intake));
 		
 		JoystickButton placeButton = new JoystickButton(SwitchBox, 0);
 		placeButton.whenPressed(new PlaceCube());
