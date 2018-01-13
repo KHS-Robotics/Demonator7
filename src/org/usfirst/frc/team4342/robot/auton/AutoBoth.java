@@ -49,10 +49,33 @@ public class AutoBoth extends AutonomousRoutine {
 				this.addSequential(new ElevateToSwitch());
 				this.addSequential(new PlaceCube());	
 				this.addSequential(new TankDriveStraight(-SCALE_SIDE));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new IntakeCube());
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraight(-(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(264 - 8));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(SCALE_SIDE));
+				this.addSequential(new ElevateToScaleNeutral());
+				this.addSequential(new PlaceCube());	
+				
 			}
 			else
 			{
-				
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(185.5)); //distance from expected position to other plate
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new ElevateToSwitch());
+				this.addSequential(new PlaceCube());
 			}
 		}
 		else if(position == StartPosition.RIGHT)
@@ -89,16 +112,37 @@ public class AutoBoth extends AutonomousRoutine {
 				this.addSequential(new TankDriveStraight(SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(LEFT_TURN));
 				this.addSequential(new TankDriveStraight(SWITCH_SIDE));
+				this.addSequential(new ElevateToSwitch());
+				this.addSequential(new PlaceCube());	
+				this.addSequential(new TankDriveStraight(-SCALE_SIDE));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new IntakeCube());
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraight(-(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(264 - 8));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(RIGHT_TURN));
+				this.addSequential(new TankDriveStraight(SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral());
 				this.addSequential(new PlaceCube());	
-				this.addSequential(new TankDriveStraight(-SWITCH_SIDE));
-				this.addSequential(new TankGoToAngle(RIGHT_TURN));
 				
 				
 			}
 			else
 			{
-				
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(185.5)); //distance from expected position to other plate
+				this.addSequential(new TankGoToAngle(LEFT_TURN));
+				this.addSequential(new TankDriveStraight(PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new ElevateToSwitch());
+				this.addSequential(new PlaceCube());
 			}
 		}
 		else

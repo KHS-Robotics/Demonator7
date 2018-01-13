@@ -13,8 +13,8 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	 * have to update robot dimensions
 	 */
 	
-	protected final double ROBOT_X = 12;
-	protected final double ROBOT_Y = 20;
+	protected final double ROBOT_X = 23.5 / 2;
+	protected final double ROBOT_Y = 32.3 / 2;
 	protected final double BASELINE_DISTANCE = 120 - ROBOT_Y;
 	protected final double WALL_DISTANCE = 140 - ROBOT_Y;
 	protected final double SWITCH_DISTANCE = 168 - ROBOT_Y;
