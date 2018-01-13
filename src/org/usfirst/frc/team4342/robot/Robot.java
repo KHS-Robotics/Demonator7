@@ -75,28 +75,30 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		stopAutonomousRoutine();
+		
+		final OI oi = OI.getInstance();
 
 		final StartPosition position = startPositionChooser.getSelected();
 		switch(priorityChooser.getSelected()) {
 			case BASELINE:
-				autonomousRoutine = new AutoBaseline(position);
+				autonomousRoutine = new AutoBaseline(position, oi.TankDrive);
 			break;
 			
 			case SWITCH:
-				autonomousRoutine = new AutoSwitch(position, OI.getInstance().Elevator);
+				autonomousRoutine = new AutoSwitch(position, oi.TankDrive, oi.Elevator);
 			break;
 			
 			case SCALE:
-				autonomousRoutine = new AutoScale(position, OI.getInstance().Elevator);
+				autonomousRoutine = new AutoScale(position, oi.TankDrive, oi.Elevator);
 			break;
 				
 			case BOTH:
-				autonomousRoutine = new AutoBoth(position, OI.getInstance().Elevator);
+				autonomousRoutine = new AutoBoth(position, oi.TankDrive, oi.Elevator);
 			break;
 			
 			default:
 				Logger.warning("Auto priority could not be determined! Crossing auto line!");
-				autonomousRoutine = new AutoBaseline(position);
+				autonomousRoutine = new AutoBaseline(position, oi.TankDrive);
 		}
 		
 		startAutonomousRoutine();

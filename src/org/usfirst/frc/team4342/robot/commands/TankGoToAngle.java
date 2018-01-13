@@ -1,33 +1,32 @@
 package org.usfirst.frc.team4342.robot.commands;
 
+import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
+
 public class TankGoToAngle extends CommandBase {
+	private TankDrive drive;
+	private double yaw;
 	
-	public TankGoToAngle(double angle) {
+	public TankGoToAngle(TankDrive drive, double yaw) {
+		super(3);
 		
+		this.drive = drive;
+		this.yaw = yaw;
+		
+		this.requires(drive);
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-		
+		drive.setHeading(yaw);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return drive.onTarget() || this.isTimedOut();
 	}
 
 	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	protected void execute() {}
+	@Override
+	protected void end() {}
 }

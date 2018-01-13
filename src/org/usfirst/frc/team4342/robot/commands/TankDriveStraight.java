@@ -1,43 +1,38 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-public class TankDriveStraight extends CommandBase {
+import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-	public TankDriveStraight() {
-		
-	}
+import edu.wpi.first.wpilibj.Joystick;
+
+public class TankDriveStraight extends CommandBase {
+	private Joystick joystick;
+	private TankDrive drive;
 	
-	/**
-	 * distance should be measured in inches
-	 * 
-	 * @param distance
-	 */
+	private double yaw;
 	
-	public TankDriveStraight(double distance)
-	{
+	public TankDriveStraight(Joystick joystick, TankDrive drive) {
+		this.joystick = joystick;
+		this.drive = drive;
 		
+		this.requires(drive);
 	}
+
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		yaw = drive.getHeading();
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		
+		drive.goStraight(joystick.getY(), yaw);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	protected void end() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	protected void end() {}
+	
 }

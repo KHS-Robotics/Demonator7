@@ -10,7 +10,7 @@ import org.usfirst.frc.team4342.robot.commands.PlaceCube;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
 import org.usfirst.frc.team4342.robot.commands.SwerveDriveStraight;
-import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
+import org.usfirst.frc.team4342.robot.commands.TankDriveStraightDistance;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -137,7 +137,7 @@ public class OI {
 		elevateSwitch.whenPressed(new ElevateToSwitch(Elevator));
 		
 		JoystickButton tankDriveStraight = new JoystickButton(LeftDriveStick, 0);
-		tankDriveStraight.whenPressed(new TankDriveStraight());
+		
 		
 		JoystickButton swerveDriveStraight = new JoystickButton(LeftDriveStick, 0);
 		swerveDriveStraight.whenPressed(new SwerveDriveStraight());

@@ -6,6 +6,14 @@ import edu.wpi.first.wpilibj.command.Command;
  * Superclass of all commands
  */
 public abstract class CommandBase extends Command {
+	public CommandBase() {
+		super();
+	}
+	
+	public CommandBase(int timeout) {
+		super(timeout);
+	}
+	
 	/**
 	 * Calls {@link #end()} if {@link #cancel()} is called.
 	 */
