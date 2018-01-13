@@ -18,7 +18,8 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected final double BASELINE_DISTANCE = 120 - ROBOT_Y;
 	protected final double WALL_DISTANCE = 140 - ROBOT_Y;
 	protected final double SWITCH_DISTANCE = 168 - ROBOT_Y;
-	protected final double SWITCH_SIDE = 37.5 - ROBOT_X - ROBOT_Y; //check math
+	protected final double SWITCH_SIDE = 37.5 - ROBOT_Y; //check math
+	protected final double SCALE_SIDE = 23.57 - ROBOT_Y; //check math
 	protected final double PAST_SWITCH_DISTANCE = 281.47 - ROBOT_Y;
 	protected final double SCALE_DISTANCE = 324 - ROBOT_Y;
 	protected final double LEFT_TURN = 90;
