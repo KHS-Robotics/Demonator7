@@ -10,6 +10,20 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected final StartPosition position;
 	
 	/**
+	 * have to update robot dimensions
+	 */
+	
+	protected final double ROBOT_X = 12;
+	protected final double ROBOT_Y = 20;
+	protected final double BASELINE_DISTANCE = 120 - ROBOT_Y;
+	protected final double WALL_DISTANCE = 140 - ROBOT_Y;
+	protected final double SWITCH_DISTANCE = 168 - ROBOT_Y;
+	protected final double SWITCH_SIDE = 37.5 - ROBOT_X - ROBOT_Y; //check math
+	protected final double PAST_SWITCH_DISTANCE = 281.47 - ROBOT_Y;
+	protected final double SCALE_DISTANCE = 324 - ROBOT_Y;
+	protected final double LEFT_TURN = 90;
+	protected final double RIGHT_TURN = -90;
+	/**
 	 * Constructs an autonomous routine
 	 * @param position the starting position of the robot
 	 * @param priority

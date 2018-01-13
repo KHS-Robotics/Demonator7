@@ -2,6 +2,20 @@ package org.usfirst.frc.team4342.robot.commands;
 
 public class TankDriveStraight extends CommandBase {
 
+	public TankDriveStraight() {
+		
+	}
+	
+	/**
+	 * distance should be measured in inches
+	 * 
+	 * @param distance
+	 */
+	
+	public TankDriveStraight(double distance)
+	{
+		
+	}
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
