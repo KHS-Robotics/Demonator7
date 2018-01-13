@@ -1,6 +1,10 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-public class SwerveGoStraightDistance extends CommandBase {
+public class TankGoToAngle extends CommandBase {
+	
+	public TankGoToAngle(double angle) {
+		
+	}
 
 	@Override
 	protected void initialize() {
