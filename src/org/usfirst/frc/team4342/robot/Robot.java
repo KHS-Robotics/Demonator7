@@ -85,15 +85,15 @@ public class Robot extends TimedRobot {
 			break;
 			
 			case SWITCH:
-				autonomousRoutine = new AutoSwitch(position, oi.TankDrive, oi.Elevator);
+				autonomousRoutine = new AutoSwitch(position, oi.TankDrive, oi.Elevator, oi.Intake);
 			break;
 			
 			case SCALE:
-				autonomousRoutine = new AutoScale(position, oi.TankDrive, oi.Elevator);
+				autonomousRoutine = new AutoScale(position, oi.TankDrive, oi.Elevator, oi.Intake);
 			break;
 				
 			case BOTH:
-				autonomousRoutine = new AutoBoth(position, oi.TankDrive, oi.Elevator);
+				autonomousRoutine = new AutoBoth(position, oi.TankDrive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:

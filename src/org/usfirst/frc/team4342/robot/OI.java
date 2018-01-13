@@ -122,7 +122,7 @@ public class OI {
 		intakeButton.whenReleased(new StopIntake(Intake));
 		
 		JoystickButton placeButton = new JoystickButton(SwitchBox, 0);
-		placeButton.whenPressed(new ReleaseCube());
+		placeButton.whenPressed(new ReleaseCube(Intake));
 		
 		JoystickButton elevateHigh = new JoystickButton(SwitchBox, 0);
 		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));

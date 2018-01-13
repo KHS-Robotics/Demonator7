@@ -1,29 +1,35 @@
 package org.usfirst.frc.team4342.robot.commands;
 
+import org.usfirst.frc.team4342.robot.subsystems.Intake;
+
 public class ReleaseCube extends CommandBase {
+	
+	private Intake intake;
+	
+	public ReleaseCube(Intake intake)
+	{
+		super(2);
+		
+		this.intake = intake;
+		this.requires(intake);
+	}
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
-		
+		intake.release();
 	}
 
 	@Override
-	protected void execute() {
-		// TODO Auto-generated method stub
-		
-	}
+	protected void execute() {}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isTimedOut();
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
-		
+		intake.disable();
 	}
 
 }
