@@ -4,13 +4,13 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class TankDriveStraight extends CommandBase {
+public class TankDriveStraightWithJoystick extends CommandBase {
 	private Joystick joystick;
 	private TankDrive drive;
 	
 	private double yaw;
 	
-	public TankDriveStraight(Joystick joystick, TankDrive drive) {
+	public TankDriveStraightWithJoystick(Joystick joystick, TankDrive drive) {
 		this.joystick = joystick;
 		this.drive = drive;
 		

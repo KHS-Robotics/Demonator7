@@ -11,7 +11,7 @@ import org.usfirst.frc.team4342.robot.commands.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
 import org.usfirst.frc.team4342.robot.commands.StopTankDrive;
-import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
+import org.usfirst.frc.team4342.robot.commands.TankDriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
@@ -151,7 +151,7 @@ public class OI {
 		elevateCube.whenPressed(new ElevatePickupCube(Elevator));
 		
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
-		driveStraight.whenPressed(new TankDriveStraight(RightDriveStick, TankDrive));
+		driveStraight.whenPressed(new TankDriveStraightWithJoystick(RightDriveStick, TankDrive));
 		driveStraight.whenReleased(new StopTankDrive(TankDrive));
 		
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);

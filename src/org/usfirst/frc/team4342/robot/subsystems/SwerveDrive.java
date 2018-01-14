@@ -23,27 +23,6 @@ public class SwerveDrive extends SubsystemBase {
 	public final SwerveModule rl;
 	private final AHRS navx;
 	
-	public SwerveDrive(TalonSRX FrontRight, TalonSRX FrontLeft, TalonSRX RearRight, TalonSRX RearLeft, Encoder LeftDrive, Encoder RightDrive, AHRS  NavX){
-		
-		// TalonSRXs
-		TalonSRX FrontLeftPivot = new TalonSRX(0);
-		TalonSRX FrontRightPivot = new TalonSRX(0);
-		TalonSRX RearLeftPivot = new TalonSRX(0);
-		TalonSRX RearRightPivot = new TalonSRX(0);
-		
-		// Encoders
-		Encoder FrontLeftEnc = new Encoder(0,0);
-		Encoder FrontRightEnc = new Encoder(0,0);
-		Encoder RearLeftEnc = new Encoder(0,0);
-		Encoder RearRightEnc = new Encoder(0,0);
-		
-		fl = new SwerveModule(FrontLeft, FrontLeftPivot, FrontLeftEnc);
-		fr = new SwerveModule(FrontRight, FrontRightPivot, FrontRightEnc);
-		rr = new SwerveModule(RearRight, RearRightPivot, RearRightEnc);
-		rl = new SwerveModule(RearLeft, RearLeftPivot, RearLeftEnc);
-		navx = NavX;
-	}
-	
 	public SwerveDrive(SwerveModule fr, SwerveModule fl, SwerveModule rr, SwerveModule rl, AHRS navx) {
 		this.fr = fr;
 		this.fl = fl;
@@ -142,7 +121,7 @@ public class SwerveDrive extends SubsystemBase {
 		rl.stop();
 	}
 	
-	public class SwerveModule {
+	public static class SwerveModule {
 		private TalonSRX drive;
 		private PIDController pivotPID;
 		
@@ -178,7 +157,8 @@ public class SwerveDrive extends SubsystemBase {
 		
 		public void stop() {
 			drive.set(ControlMode.PercentOutput, 0);
-			pivotPID.disable();
+			if(pivotPID.isEnabled())
+				pivotPID.disable();
 		}
 	}
 }

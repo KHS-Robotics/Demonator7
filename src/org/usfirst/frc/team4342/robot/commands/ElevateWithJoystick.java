@@ -22,7 +22,6 @@ public class ElevateWithJoystick extends CommandBase {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -57,7 +56,7 @@ public class ElevateWithJoystick extends CommandBase {
 			return;
 		}
 		else if(IN_BOTTOM_WINDOW && OUTPUT_ABOVE_DEADBAND && OUTPUT < 0) {
-			elevator.set(-0.1);
+			elevator.set(-0.06);
 			idle = false;
 			
 			return;
