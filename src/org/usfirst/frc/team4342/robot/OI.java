@@ -71,7 +71,7 @@ public class OI {
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// Ultrasonics
-		CubeUltra = new Ultrasonic(RobotMap.LEFT_HEIGHT_OUT, RobotMap.LEFT_HEIGHT_IN);
+		CubeUltra = new Ultrasonic(RobotMap.CUBE_ULTRA_OUT, RobotMap.CUBE_ULTRA_IN);
 		CubeUltra.setAutomaticMode(true);
 		
 		// TalonSRXs

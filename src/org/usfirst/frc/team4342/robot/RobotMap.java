@@ -34,6 +34,6 @@ public class RobotMap {
 	
 	public static final int ELE_LS = 6;
 	
-	public static final int LEFT_HEIGHT_IN = 7;
-	public static final int LEFT_HEIGHT_OUT = 8;
+	public static final int CUBE_ULTRA_IN = 7;
+	public static final int CUBE_ULTRA_OUT = 8;
 }
