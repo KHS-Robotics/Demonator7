@@ -20,7 +20,7 @@ public class AutoScale extends AutonomousRoutine{
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -28,11 +28,11 @@ public class AutoScale extends AutonomousRoutine{
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 264));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 264));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -43,7 +43,7 @@ public class AutoScale extends AutonomousRoutine{
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -51,11 +51,11 @@ public class AutoScale extends AutonomousRoutine{
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 264));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 264));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}

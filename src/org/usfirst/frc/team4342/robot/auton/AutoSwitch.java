@@ -21,7 +21,7 @@ public class AutoSwitch extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -29,9 +29,9 @@ public class AutoSwitch extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 185.5)); //distance from expected position to other plate
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -43,7 +43,7 @@ public class AutoSwitch extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -51,8 +51,8 @@ public class AutoSwitch extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 185.5)); //distance from expected position to other plate
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -66,18 +66,18 @@ public class AutoSwitch extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, 36));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 84.75));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 84.75));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, WALL_DISTANCE - 36));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, WALL_DISTANCE - 36));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
 			else
 			{
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 84.75));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 84.75));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, WALL_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, WALL_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
