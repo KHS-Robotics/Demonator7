@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.DriveTankWithJoysticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -295,8 +296,8 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	@Override
 	protected void initDefaultCommand()
 	{
-//		OI oi = OI.getInstance();
-//		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.Drive));
+		OI oi = OI.getInstance();
+		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.TankDrive));
 	}
 	
 	/**

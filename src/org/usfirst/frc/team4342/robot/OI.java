@@ -60,7 +60,7 @@ public class OI {
 	public final DigitalInput EleLS;
 	
 	private OI() {
-		Logger.info("Constructing OI.....");
+		Logger.info("Constructing the Operator Interface (OI).....");
 		
 		// Joysticks
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
@@ -147,7 +147,7 @@ public class OI {
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);
 		goToZero.whenPressed(new TankGoToAngle(TankDrive, 0));
 		
-		JoystickButton goToLeft = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_RIGHT);
+		JoystickButton goToLeft = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_LEFT);
 		goToLeft.whenPressed(new TankGoToAngle(TankDrive, -90));
 		
 		JoystickButton goToRight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_RIGHT);
@@ -155,6 +155,5 @@ public class OI {
 		
 		JoystickButton go180 = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_180);
 		go180.whenPressed(new TankGoToAngle(TankDrive, 180));
-		
 	}
 }

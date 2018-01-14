@@ -1,5 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.OI;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -52,7 +54,8 @@ public class SwerveDrive extends SubsystemBase {
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO: Set default command to DriveSwerveWithJoystick
+//		OI oi = OI.getInstance();
+//		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.SwerveDrive));
 	}
 	
 	public void resetNavX() {

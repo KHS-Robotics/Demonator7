@@ -1,6 +1,9 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 
+import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.commands.ElevateWithJoystick;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -16,10 +19,12 @@ public class Elevator extends SubsystemBase
 	
 	private PIDController elevatePID;
 	private TalonSRX motor;
+	private Encoder encoder;
 	private DigitalInput ls;
 	
 	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) {
 		this.motor = motor;
+		this.encoder = encoder;
 		this.ls = ls;
 		
 		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
@@ -30,22 +35,36 @@ public class Elevator extends SubsystemBase
 	
 	public void set(double output)
 	{
-		if(elevatePID.isEnabled())
-			elevatePID.disable();
-		
+		disablePID();
 		motor.set(ControlMode.PercentOutput, output);
 	}
 	
-	public void setSetpoint(int distance)
+	public void setSetpoint(double distance)
 	{
 		elevatePID.enable();
 		elevatePID.setSetpoint(distance);
+	}
+	
+	public void disablePID()
+	{
+		if(elevatePID.isEnabled())
+			elevatePID.disable();
 	}
 	
 	public void stop()
 	{
 		if(elevatePID.isEnabled())
 			elevatePID.disable();
+	}
+	
+	public double getDistance()
+	{
+		return encoder.getDistance();
+	}
+	
+	public void reset() 
+	{
+		encoder.reset();
 	}
 	
 	public boolean isAtBottom()
@@ -56,6 +75,13 @@ public class Elevator extends SubsystemBase
 	public boolean isAtSetpoint()
 	{
 		return elevatePID.onTarget();
+	}
+	
+	@Override
+	protected void initDefaultCommand()
+	{
+		OI oi = OI.getInstance();
+		this.setDefaultCommand(new ElevateWithJoystick(oi.ElevatorStick, oi.Elevator));
 	}
 	
 	private class PIDOutputClass implements PIDOutput {
