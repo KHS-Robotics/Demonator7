@@ -32,8 +32,6 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	 * Creates a new <code>TankDrive</code> subsystem
 	 * @param fr the front right motor of the drive train
 	 * @param fl the front left motor of the drive train
-	 * @param mr the middle right motor of the drive train
-	 * @param ml the middle left motor of the drive train
 	 * @param rr the rear right motor of the drive train
 	 * @param rl the right left motor of the drive train
 	 * @param navx the NavX board
@@ -86,6 +84,8 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	 */
 	public void set(double left, double right)
 	{
+		disablePID();
+		
 		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
 		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		

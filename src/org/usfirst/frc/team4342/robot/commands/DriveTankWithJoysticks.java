@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class DriveTankWithJoysticks extends CommandBase {
 	private static final double JOYSTICK_DEADZONE = 0.06;
+	private static final double SENSITIVITY = 0.2;
 	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
@@ -37,8 +38,11 @@ public class DriveTankWithJoysticks extends CommandBase {
 
 		if(Math.abs(LEFT_Y) > JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > JOYSTICK_DEADZONE)
 		{	
-			drive.disablePID();
 			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
+		} 
+		else 
+		{
+			drive.stop();
 		}
 	}
 	
@@ -48,8 +52,7 @@ public class DriveTankWithJoysticks extends CommandBase {
 	@Override
 	protected void end()
 	{
-		drive.disablePID();
-		drive.set(0, 0);
+		drive.stop();
 	}
 	
 	@Override
@@ -70,14 +73,7 @@ public class DriveTankWithJoysticks extends CommandBase {
 		else if(input < -1)
 			input = -1;
 		
-		final double SENSITIVITY = 0.60;
-
-		double output = 0;
-		output = input >= 0 ? 
-				JOYSTICK_DEADZONE + (1 - JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input : 
-			   -JOYSTICK_DEADZONE + (1 - JOYSTICK_DEADZONE) * (SENSITIVITY*Math.pow(input, 3)) + (1 - SENSITIVITY)*input;
-		
-		return output;
+		return SENSITIVITY*Math.pow(input, 3) + input*(1 - SENSITIVITY);
 	}
 	
 	/** {@inheritDoc} */

@@ -3,12 +3,12 @@ package org.usfirst.frc.team4342.robot.commands;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 
 public class Elevate extends CommandBase {
-	
 	private Elevator elevator;
-	private int height;
+	private double height;
 
-	public Elevate(Elevator elevator, int height)
-	{
+	public Elevate(Elevator elevator, double height) {
+		super(5);
+		
 		this.elevator = elevator;
 		this.height = height;
 		
@@ -27,12 +27,11 @@ public class Elevate extends CommandBase {
 
 	@Override
 	protected boolean isFinished() {
-		return elevator.isAtSetpoint();
+		return elevator.isAtSetpoint() || this.isTimedOut();
 	}
 
 	@Override
 	protected void end() {
 		
 	}
-
 }

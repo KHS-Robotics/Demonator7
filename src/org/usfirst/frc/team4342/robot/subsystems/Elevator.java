@@ -53,8 +53,7 @@ public class Elevator extends SubsystemBase
 	
 	public void stop()
 	{
-		if(elevatePID.isEnabled())
-			elevatePID.disable();
+		set(0);
 	}
 	
 	public double getDistance()

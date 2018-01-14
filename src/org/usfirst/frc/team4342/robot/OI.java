@@ -8,9 +8,9 @@ import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.StartRelease;
-import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
+import org.usfirst.frc.team4342.robot.commands.StopTankDrive;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -64,8 +64,8 @@ public class OI {
 		// Joysticks
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
 		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
-		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		ElevatorStick = new Joystick(RobotMap.ELEVATOR_STICK);
+		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		
 		// NavX
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
@@ -119,21 +119,21 @@ public class OI {
 		climbButton.whenPressed(new StartClimber(Climber));
 		climbButton.whenReleased(new StopClimber(Climber));
 		
-		JoystickButton intakeButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
+		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
+		intakeSwitch.whenPressed(new StartIntake(Intake));
+		intakeSwitch.whenReleased(new StopIntake(Intake));
+		
+		JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
+		releaseSwitch.whenPressed(new StartRelease(Intake));
+		releaseSwitch.whenReleased(new StopIntake(Intake));
+		
+		JoystickButton intakeButton = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.INAKE);
 		intakeButton.whenPressed(new StartIntake(Intake));
 		intakeButton.whenReleased(new StopIntake(Intake));
 		
-		JoystickButton releaseButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
-		releaseButton.whenPressed(new ReleaseCube(Intake));
+		JoystickButton releaseButton = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.RELEASE);
+		releaseButton.whenPressed(new StartRelease(Intake));
 		releaseButton.whenReleased(new StopIntake(Intake));
-		
-		JoystickButton intakeWithStick = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.INAKE);
-		intakeWithStick.whenPressed(new StartIntake(Intake));
-		intakeWithStick.whenReleased(new StopIntake(Intake));
-		
-		JoystickButton releaseWithStick = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.RELEASE);
-		releaseWithStick.whenPressed(new StartRelease(Intake));
-		releaseWithStick.whenReleased(new StopIntake(Intake));
 		
 		JoystickButton elevateHigh = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_SCALE_HIGH);
 		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
@@ -152,6 +152,7 @@ public class OI {
 		
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
 		driveStraight.whenPressed(new TankDriveStraight(RightDriveStick, TankDrive));
+		driveStraight.whenReleased(new StopTankDrive(TankDrive));
 		
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);
 		goToZero.whenPressed(new TankGoToAngle(TankDrive, 0));

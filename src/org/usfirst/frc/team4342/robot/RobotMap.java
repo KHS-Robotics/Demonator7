@@ -13,9 +13,9 @@ public class RobotMap {
 	public static final byte NAVX_UPDATE_RATE_HZ = (byte) 50;
 	
 	public static final int LEFT_DRIVE_STICK = 0;
-	public static final int RIGHT_DRIVE_STICK = 0;
-	public static final int SWITCH_BOX = 0;
-	public static final int ELEVATOR_STICK = 0;
+	public static final int RIGHT_DRIVE_STICK = 1;
+	public static final int ELEVATOR_STICK = 2;
+	public static final int SWITCH_BOX = 3;
 	
 	public static final int LEFT_HEIGHT_IN = 0;
 	public static final int LEFT_HEIGHT_OUT = 0;
