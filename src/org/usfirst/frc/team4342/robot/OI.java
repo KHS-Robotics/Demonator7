@@ -11,16 +11,15 @@ import org.usfirst.frc.team4342.robot.commands.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
-import org.usfirst.frc.team4342.robot.commands.SwerveDriveStraight;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraight;
-import org.usfirst.frc.team4342.robot.commands.TankDriveStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
-import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 import org.usfirst.frc.team4342.robot.subsystems.Climber;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -51,7 +50,7 @@ public class OI {
 	public final TankDrive TankDrive;
 	public final Climber Climber;
 	
-	public final TalonSRX FrontLeft, FrontRight, MiddleLeft, MiddleRight, RearLeft, RearRight,
+	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight,
 						  IntakeMotor, ClimberMotor, EleMotor;
 	public final AHRS NavX;
 	public final Ultrasonic LeftHeight, RightHeight, LeftDistance, RightDistance;
@@ -72,10 +71,10 @@ public class OI {
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// Ultrasonics
-		LeftHeight = new Ultrasonic(RobotMap.LEFT_HEIGHT_IN, RobotMap.LEFT_HEIGHT_IN);
-		RightHeight = new Ultrasonic(RobotMap.RIGHT_HEIGHT_IN, RobotMap.RIGHT_HEIGHT_OUT);
-		LeftDistance = new Ultrasonic(RobotMap.LEFT_DISTANCE_IN,RobotMap.LEFT_DISTANCE_OUT);
-		RightDistance = new Ultrasonic(RobotMap.RIGHT_DISTANCE_IN, RobotMap.RIGHT_DISTANCE_OUT);
+		LeftHeight = new Ultrasonic(RobotMap.LEFT_HEIGHT_OUT, RobotMap.LEFT_HEIGHT_IN);
+		RightHeight = new Ultrasonic(RobotMap.RIGHT_HEIGHT_OUT, RobotMap.RIGHT_HEIGHT_IN);
+		LeftDistance = new Ultrasonic(RobotMap.LEFT_DISTANCE_OUT,RobotMap.LEFT_DISTANCE_IN);
+		RightDistance = new Ultrasonic(RobotMap.RIGHT_DISTANCE_OUT, RobotMap.RIGHT_DISTANCE_IN);
 		
 		LeftHeight.setAutomaticMode(true);
 		RightHeight.setAutomaticMode(true);
@@ -87,24 +86,34 @@ public class OI {
 		FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
 		RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
 		RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
-		MiddleLeft = new TalonSRX(RobotMap.MIDDLE_LEFT);
-		MiddleRight = new TalonSRX(RobotMap.MIDDLE_RIGHT);
 		IntakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
 		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
+		
+		IntakeMotor.setNeutralMode(NeutralMode.Coast);
+		ClimberMotor.setNeutralMode(NeutralMode.Brake);
+		EleMotor.setNeutralMode(NeutralMode.Brake);
 		
 		// Encoders
 		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
 		RightDrive = new Encoder(RobotMap.RIGHT_DRIVE_IN, RobotMap.RIGHT_DRIVE_OUT);
 		EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
 		
+		// TODO: Set distance per pulse so encoder values are in inches
+		// (Wheel Radius * PI * Num Input Teeth) / (Dist Per Pulse of Encoder * Num Encoder Gear Ratio? * Num Output Teeth)
+		LeftDrive.setDistancePerPulse(1);
+		RightDrive.setDistancePerPulse(1);
+		EleEnc.setDistancePerPulse(1);
+		
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
 
 		// Subsystems
 		Intake = new Intake(IntakeMotor);
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
-		TankDrive = new TankDrive(FrontRight, FrontLeft, MiddleRight, MiddleLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
+		TankDrive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
+		
+		TankDrive.setNeutralMode(NeutralMode.Coast);
 
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
 		climbButton.whenPressed(new StartClimber(Climber));

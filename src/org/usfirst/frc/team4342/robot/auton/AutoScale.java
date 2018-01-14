@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
-import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.TankDriveStraightDistance;
 import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;

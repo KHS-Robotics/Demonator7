@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.DriveTankWithJoysticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -17,7 +18,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
-	private TalonSRX fr, fl, rr, rl, mr , ml;
+	private TalonSRX fr, fl, rr, rl;
 	private AHRS navx;
 	private Encoder left, right;
 	private PIDController yawPID;
@@ -39,12 +40,10 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	 * @param left the left encoder
 	 * @param right the right encoder
 	 */
-	public TankDrive(TalonSRX fr, TalonSRX fl, TalonSRX mr, TalonSRX ml, TalonSRX rr, TalonSRX rl, AHRS navx, Encoder left, Encoder right)
+	public TankDrive(TalonSRX fr, TalonSRX fl, TalonSRX rr, TalonSRX rl, AHRS navx, Encoder left, Encoder right)
 	{
 		this.fr = fr;
 		this.fl = fl;
-		this.mr = mr;
-		this.ml = ml;
 		this.rr = rr;
 		this.rl = rl;
 		this.navx = navx;
@@ -71,6 +70,14 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		this.invertLeft = inverted;
 	}
 	
+	public void setNeutralMode(NeutralMode mode)
+	{
+		fr.setNeutralMode(mode);
+		fl.setNeutralMode(mode);
+		rr.setNeutralMode(mode);
+		rl.setNeutralMode(mode);
+	}
+	
 	/**
 	 * Sets the left and right sides of the drive train 
 	 * to the specified outputs
@@ -84,8 +91,6 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		
 		fr.set(ControlMode.PercentOutput, right);
 		fl.set(ControlMode.PercentOutput, left);
-		mr.set(ControlMode.PercentOutput, right);
-		ml.set(ControlMode.PercentOutput, left);
 		rr.set(ControlMode.PercentOutput, right);
 		rl.set(ControlMode.PercentOutput, left);
 	}

@@ -61,6 +61,17 @@ public class DemonDashboard
 					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
 					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());
 					
+					SmartDashboard.putNumber("Ultra-LH", oi.LeftHeight.getRangeInches());
+					SmartDashboard.putNumber("Ultra-RH", oi.RightHeight.getRangeInches());
+					SmartDashboard.putNumber("Ultra-LD", oi.LeftDistance.getRangeInches());
+					SmartDashboard.putNumber("Ultra-HD", oi.RightDistance.getRangeInches());
+					
+					SmartDashboard.putNumber("Enc-LD", oi.LeftDrive.getDistance());
+					SmartDashboard.putNumber("Enc-RD", oi.RightDrive.getDistance());
+					SmartDashboard.putNumber("Enc-ED", oi.EleEnc.getDistance());
+					
+					SmartDashboard.putBoolean("Elev-BLS", oi.EleLS.get());
+					
 					Thread.sleep(50);
 				}
 				catch(Exception ex)

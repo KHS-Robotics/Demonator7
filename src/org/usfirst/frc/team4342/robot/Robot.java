@@ -16,6 +16,8 @@ import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 /**
  * Main Robot Class
  * @author FRC Team 4342
@@ -59,6 +61,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		stopAutonomousRoutine();
+		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Brake);
+		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	/**
@@ -75,6 +79,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		stopAutonomousRoutine();
+		
+		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Brake);
+		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 		
 		final OI oi = OI.getInstance();
 
@@ -119,6 +126,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		stopAutonomousRoutine();
+		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Coast);
+		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
 		Scheduler.getInstance().run();
 	}
 	
