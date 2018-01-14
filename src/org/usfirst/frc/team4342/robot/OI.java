@@ -53,7 +53,7 @@ public class OI {
 	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight,
 						  IntakeMotor, ClimberMotor, EleMotor;
 	public final AHRS NavX;
-	public final Ultrasonic LeftHeight, RightHeight, LeftDistance, RightDistance;
+	public final Ultrasonic CubeUltra;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox, ElevatorStick;
 	public final DigitalInput EleLS;
@@ -71,15 +71,8 @@ public class OI {
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// Ultrasonics
-		LeftHeight = new Ultrasonic(RobotMap.LEFT_HEIGHT_OUT, RobotMap.LEFT_HEIGHT_IN);
-		RightHeight = new Ultrasonic(RobotMap.RIGHT_HEIGHT_OUT, RobotMap.RIGHT_HEIGHT_IN);
-		LeftDistance = new Ultrasonic(RobotMap.LEFT_DISTANCE_OUT,RobotMap.LEFT_DISTANCE_IN);
-		RightDistance = new Ultrasonic(RobotMap.RIGHT_DISTANCE_OUT, RobotMap.RIGHT_DISTANCE_IN);
-		
-		LeftHeight.setAutomaticMode(true);
-		RightHeight.setAutomaticMode(true);
-		LeftDistance.setAutomaticMode(true);
-		RightDistance.setAutomaticMode(true);
+		CubeUltra = new Ultrasonic(RobotMap.LEFT_HEIGHT_OUT, RobotMap.LEFT_HEIGHT_IN);
+		CubeUltra.setAutomaticMode(true);
 		
 		// TalonSRXs
 		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
@@ -109,7 +102,7 @@ public class OI {
 
 		// Subsystems
 		Intake = new Intake(IntakeMotor);
-		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS, CubeUltra);
 		TankDrive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
 		

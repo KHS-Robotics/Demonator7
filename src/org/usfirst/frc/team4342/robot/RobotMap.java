@@ -17,33 +17,23 @@ public class RobotMap {
 	public static final int ELEVATOR_STICK = 2;
 	public static final int SWITCH_BOX = 3;
 	
-	public static final int LEFT_HEIGHT_IN = 0;
-	public static final int LEFT_HEIGHT_OUT = 0;
-	public static final int RIGHT_HEIGHT_IN = 0;
-	public static final int RIGHT_HEIGHT_OUT = 0;
-	public static final int LEFT_DISTANCE_IN = 0;
-	public static final int LEFT_DISTANCE_OUT = 0;
-	public static final int RIGHT_DISTANCE_IN = 0;
-	public static final int RIGHT_DISTANCE_OUT = 0;
-	
 	public static final int FRONT_LEFT = 0;
-	public static final int FRONT_RIGHT = 0;
-	public static final int MIDDLE_LEFT = 0;
-	public static final int MIDDLE_RIGHT = 0;
-	public static final int REAR_LEFT = 0;
-	public static final int REAR_RIGHT = 0;
-	public static final int INTAKE_MOTOR = 0;
-	public static final int CLIMBER_MOTOR = 0;
-	public static final int ELE_MOTOR = 0;
+	public static final int FRONT_RIGHT = 15;
+	public static final int REAR_LEFT = 1;
+	public static final int REAR_RIGHT = 14;
+	public static final int INTAKE_MOTOR = 3;
+	public static final int CLIMBER_MOTOR = 13;
+	public static final int ELE_MOTOR = 2;
 	
-	public static final int LEFT_DRIVE_IN = 0;
-	public static final int LEFT_DRIVE_OUT = 0;
+	public static final int LEFT_DRIVE_IN = 2;
+	public static final int LEFT_DRIVE_OUT = 3;
 	public static final int RIGHT_DRIVE_IN = 0;
-	public static final int RIGHT_DRIVE_OUT = 0;
-	public static final int ELE_ENC_IN = 0;
-	public static final int ELE_ENC_OUT = 0;
+	public static final int RIGHT_DRIVE_OUT = 1;
+	public static final int ELE_ENC_IN = 4;
+	public static final int ELE_ENC_OUT = 5;
 	
-	public static final int ELE_LS = 0;
+	public static final int ELE_LS = 6;
 	
-	
+	public static final int LEFT_HEIGHT_IN = 7;
+	public static final int LEFT_HEIGHT_OUT = 8;
 }

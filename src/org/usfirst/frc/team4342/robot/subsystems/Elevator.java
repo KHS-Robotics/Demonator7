@@ -11,26 +11,33 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Elevator extends SubsystemBase
 {
-	
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
 	private PIDController elevatePID;
 	private TalonSRX motor;
 	private Encoder encoder;
 	private DigitalInput ls;
+	private Ultrasonic ultra;
 	
-	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) {
+	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls, Ultrasonic ultra) {
 		this.motor = motor;
 		this.encoder = encoder;
 		this.ls = ls;
+		this.ultra = ultra;
 		
 		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
 		elevatePID.setInputRange(0, 80);
 		elevatePID.setOutputRange(-1, 1);
 		elevatePID.setPercentTolerance(2);
+	}
+	
+	public boolean hasCube()
+	{
+		return ultra.getRangeInches() < 6;
 	}
 	
 	public void set(double output)
