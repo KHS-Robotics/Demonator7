@@ -11,8 +11,21 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-public class AutoBoth extends AutonomousRoutine {
-	
+/**
+ * Auto routine to place a cube on the switch and scale for the
+ * specified position
+ */
+public class AutoBoth extends AutonomousRoutine 
+{
+	/**
+	 * Auto routine to place a cube on the switch and scale for the
+	 * specified position
+	 * @param position the starting position
+	 * @param d the tank drive
+	 * @param e the elevator
+	 * @param i the intake
+	 * @see StartPosition
+	 */
 	public AutoBoth(StartPosition position, TankDrive d, Elevator e, Intake i) {
 		
 		super(position);

@@ -75,7 +75,6 @@ public class ElevateWithJoystick extends CommandBase {
 
 	@Override
 	protected void end() {
-		elevator.disablePID();
 		elevator.set(0);
 	}
 	

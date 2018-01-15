@@ -9,10 +9,24 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-public class AutoSwitch extends AutonomousRoutine {
-	
-	public AutoSwitch(StartPosition position, TankDrive d, Elevator e, Intake i) {
-		
+/**
+ * Auto routine to place a cube on the switch for the
+ * specified position
+ * @see StartPosition
+ */
+public class AutoSwitch extends AutonomousRoutine 
+{	
+	/**
+	 * Auto routine to place a cube on the switch for the
+	 * specified position
+	 * @param position the starting position
+	 * @param d the tank drive
+	 * @param e the elevator
+	 * @param i the intake
+	 * @see StartPosition
+	 */
+	public AutoSwitch(StartPosition position, TankDrive d, Elevator e, Intake i) 
+	{
 		super(position);
 		
 		if(position == StartPosition.LEFT)
