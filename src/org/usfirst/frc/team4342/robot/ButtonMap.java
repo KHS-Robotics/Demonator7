@@ -11,9 +11,9 @@ public class ButtonMap
 		public static class Right
 		{
 			public static final int GO_STRAIGHT = 1;
-			public static final int GO_TO_ZERO = 0;
-			public static final int GO_TO_LEFT = 5;
-			public static final int GO_TO_RIGHT = 4;
+			public static final int GO_TO_ZERO = 3;
+			public static final int GO_TO_LEFT = 4;
+			public static final int GO_TO_RIGHT = 5;
 			public static final int GO_180 = 2;
 		}
 	}

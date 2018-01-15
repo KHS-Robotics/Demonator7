@@ -33,7 +33,7 @@ public class ElevateWithJoystick extends CommandBase {
 		final boolean IN_TOP_WINDOW = elevator.getDistance() > 70;
 		
 		if(elevator.isAtBottom()) {
-			elevator.disablePID();
+			elevator.stop();
 			elevator.reset();
 			
 			if(OUTPUT_ABOVE_DEADBAND && OUTPUT < 0) {

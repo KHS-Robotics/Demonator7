@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase
 	
 	public void disable()
 	{
-		if(intaking || releasing)
+		if(!intaking && !releasing)
 			return;
 		intaking = releasing = false;
 		
