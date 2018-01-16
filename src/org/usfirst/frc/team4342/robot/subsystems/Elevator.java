@@ -33,6 +33,11 @@ public class Elevator extends SubsystemBase
 		elevatePID.setPercentTolerance(2);
 	}
 	
+	public void setPID(double P, double I, double D)
+	{
+		elevatePID.setPID(P, I, D);
+	}
+	
 	public void set(double output)
 	{
 		disablePID();

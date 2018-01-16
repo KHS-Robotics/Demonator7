@@ -15,6 +15,7 @@ import org.usfirst.frc.team4342.robot.auton.StartPosition;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
+import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
@@ -52,6 +53,14 @@ public class Robot extends TimedRobot {
 		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 		
+		SmartDashboard.putNumber("E-P" , 0.0);
+		SmartDashboard.putNumber("E-I" , 0.0);
+		SmartDashboard.putNumber("E-D" , 0.0);
+		
+		SmartDashboard.putNumber("D-P" , 0.0);
+		SmartDashboard.putNumber("D-I" , 0.0);
+		SmartDashboard.putNumber("D-D" , 0.0);
+		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
 	
@@ -71,6 +80,16 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		double EP = SmartDashboard.getNumber("E-P", 0.0);
+		double EI = SmartDashboard.getNumber("E-I", 0.0);
+		double ED = SmartDashboard.getNumber("E-D", 0.0);
+		OI.getInstance().Elevator.setPID(EP, EI, ED);
+		
+		double DP = SmartDashboard.getNumber("D-P", 0.0);
+		double DI = SmartDashboard.getNumber("D-I", 0.0);
+		double DD = SmartDashboard.getNumber("D-D", 0.0);
+		OI.getInstance().TankDrive.setPID(DP, DI, DD);
 	}
 	
 	/**

@@ -58,6 +58,11 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		disablePID();
 	}
 	
+	public void setPID(double P, double I, double D)
+	{
+		yawPID.setPID(P, I, D);
+	}
+	
 	public void setRightInverted(boolean inverted)
 	{
 		this.invertRight = inverted;
