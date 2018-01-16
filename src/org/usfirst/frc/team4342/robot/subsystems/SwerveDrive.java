@@ -149,7 +149,7 @@ public class SwerveDrive extends SubsystemBase {
 	/**
 	 * Stops all modules
 	 */
-	public void stopAll() {
+	public void stop() {
 		fr.stop();
 		fl.stop();
 		rr.stop();
