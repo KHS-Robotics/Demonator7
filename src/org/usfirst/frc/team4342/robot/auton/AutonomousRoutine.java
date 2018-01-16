@@ -15,9 +15,23 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	 * have to update robot dimensions
 	 */
 	protected double current = OI.getInstance().TankDrive.getHeading();
-	
-	protected final double ROBOT_X = 23.5 / 2;
-	protected final double ROBOT_Y = 32.3 / 2;
+
+	protected static final double ROBOT_X = 23.5 / 2;
+	protected static final double ROBOT_Y = 32.3 / 2;
+
+	// Center Switch
+	protected static final double CENTER_STRAIGHT_DISTANCE = (144 - (ROBOT_Y / 2)) / 2;
+	protected static final double CENTER_PANEL_ALIGN_DISTANCE = 72 - (ROBOT_X / 2);
+
+	// LEFT or RIGHT Switch
+	// Start Position and Switch location are the same
+	protected static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 168;
+	protected static final double LEFT_RIGHT_SWITCH_DISTANCE = 60 - (ROBOT_X / 2);
+	// Start Position and Switch location are opposite
+	protected static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 204;
+	protected static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 180 - (ROBOT_X/2);
+	protected static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 12;
+
 	protected final double BASELINE_DISTANCE = 120 - ROBOT_Y;
 	protected final double WALL_DISTANCE = 140 - ROBOT_Y;
 	protected final double SWITCH_DISTANCE = 168 - ROBOT_Y;
@@ -27,6 +41,7 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected final double SCALE_DISTANCE = 324 - ROBOT_Y;
 	protected final double LEFT_TURN = 90 + current;
 	protected final double RIGHT_TURN = -90 + current;
+
 	/**
 	 * Constructs an autonomous routine
 	 * @param position the starting position of the robot

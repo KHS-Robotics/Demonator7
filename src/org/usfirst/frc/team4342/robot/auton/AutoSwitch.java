@@ -33,19 +33,19 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			if(this.isSwitchLeft())
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 			else
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -55,47 +55,39 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			if(this.isSwitchRight())
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
 			else
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
 		}
 		else if(position == StartPosition.CENTER)
 		{
-			/**
-			 * 36 is to avoid the exchange, 84.75 distance to switch plate from center
-			 */
-			if(this.isSwitchLeft())
-			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 36));
-				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 84.75));
-				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, WALL_DISTANCE - 36));
-				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new ReleaseCube(i));
+			boolean clockwise;
+			if(this.isSwitchRight()) {
+				clockwise = true;
+			} else {
+				clockwise = false;
 			}
-			else
-			{
-				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 84.75));
-				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, WALL_DISTANCE));
-				this.addSequential(new ElevateToSwitch(e));
-				this.addSequential(new ReleaseCube(i));
-			}
+			
+			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_STRAIGHT_DISTANCE));
+			this.addSequential(new TurnTank(d, clockwise));
+			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_PANEL_ALIGN_DISTANCE));
+			this.addSequential(new TurnTank(d, !clockwise));
+			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_STRAIGHT_DISTANCE));
+			this.addSequential(new ElevateToSwitch(e));
+			this.addSequential(new ReleaseCube(i));
 		}
 		else
 		{
