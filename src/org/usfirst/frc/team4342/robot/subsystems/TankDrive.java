@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
+/**
+ * Tank Drive subsystem
+ */
 public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
@@ -63,16 +66,11 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		yawPID.setPID(P, I, D);
 	}
 	
-	public void setRightInverted(boolean inverted)
-	{
-		this.invertRight = inverted;
-	}
-	
-	public void setLeftInverted(boolean inverted)
-	{
-		this.invertLeft = inverted;
-	}
-	
+	/**
+	 * Sets the neutral mode for the drive train
+	 * @param mode the neutral mode
+	 * @see NeutralMode
+	 */
 	public void setNeutralMode(NeutralMode mode)
 	{
 		fr.setNeutralMode(mode);
@@ -100,6 +98,9 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		rl.set(ControlMode.PercentOutput, left);
 	}
 	
+	/**
+	 * Stops the drive train
+	 */
 	public void stop()
 	{
 		this.disablePID();

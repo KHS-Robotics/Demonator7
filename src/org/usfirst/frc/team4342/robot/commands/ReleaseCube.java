@@ -2,10 +2,16 @@ package org.usfirst.frc.team4342.robot.commands;
 
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 
-public class ReleaseCube extends CommandBase {
-	
+/**
+ * Command to release a cube
+ */
+public class ReleaseCube extends CommandBase 
+{
 	private Intake intake;
 	
+	/**
+	 * Command to release a cube
+	 */
 	public ReleaseCube(Intake intake)
 	{
 		super(2);

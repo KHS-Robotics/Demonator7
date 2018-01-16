@@ -6,11 +6,17 @@ import edu.wpi.first.wpilibj.command.Command;
  * Superclass of all commands
  */
 public abstract class CommandBase extends Command {
+	/**
+	 * {@inheritDoc}
+	 */
 	public CommandBase() {
 		super();
 	}
 	
-	public CommandBase(int timeout) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public CommandBase(double timeout) {
 		super(timeout);
 	}
 	

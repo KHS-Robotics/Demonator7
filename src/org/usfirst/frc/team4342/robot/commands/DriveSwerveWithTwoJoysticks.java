@@ -5,19 +5,22 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Drive Swerve With Joystick
+ * Drive Swerve With Two Joysticks
  */
-public class DriveSwerveWithJoystick extends CommandBase {
-	private Joystick joystick;
+public class DriveSwerveWithTwoJoysticks extends CommandBase {
+    private Joystick xy;
+    private Joystick z;
 	private SwerveDrive drive;
 	
 	/**
-	 * Drive Swerve With Joystick
-	 * @param joystick the joystick to control the swerve drive
+	 * Drive Swerve With Two Joysticks
+	 * @param xy the joystick to control the forward/backward and strafing
+     * @param z the joystick to control rotation
 	 * @param drive the swerve drive
 	 */
-	public DriveSwerveWithJoystick(Joystick joystick, SwerveDrive drive) {
-		this.joystick = joystick;
+	public DriveSwerveWithTwoJoysticks(Joystick xy, Joystick z, SwerveDrive drive) {
+        this.xy = xy;
+        this.z = z;
 		this.drive = drive;
 		
 		this.requires(drive);
@@ -31,12 +34,12 @@ public class DriveSwerveWithJoystick extends CommandBase {
 		drive.stop();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected void execute() {
-		drive.set(joystick.getX(), joystick.getY(), joystick.getTwist());
+		drive.set(xy.getX(), xy.getY(), z.getTwist());
 	}
 
 	/**
@@ -46,10 +49,10 @@ public class DriveSwerveWithJoystick extends CommandBase {
 	protected void end() {
 		drive.stop();
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+    
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected boolean isFinished() {
 		return false;

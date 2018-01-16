@@ -4,6 +4,9 @@ import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Command to use the tank drive with two joysticks
+ */
 public class DriveTankWithJoysticks extends CommandBase {
 	private static final double JOYSTICK_DEADZONE = 0.06;
 	private static final double SENSITIVITY = 0.2;
@@ -12,7 +15,7 @@ public class DriveTankWithJoysticks extends CommandBase {
 	private TankDrive drive;
 	
 	/**
-	 * Creates a new <code>DriveWithJoysticks</code> command.
+	 * Command to use the tank drive with two joysticks
 	 * @param leftJoystick the left stick to control the left side of the drive train
 	 * @param rightJoystick the right stick to control the right side of the drive train
 	 * @param drive the <code>TankDrive</code> subsystem to output to

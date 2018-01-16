@@ -11,8 +11,21 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 
-public class AutoBoth extends AutonomousRoutine {
-	
+/**
+ * Auto routine to place a cube on the switch and scale for the
+ * specified position
+ */
+public class AutoBoth extends AutonomousRoutine 
+{
+	/**
+	 * Auto routine to place a cube on the switch and scale for the
+	 * specified position
+	 * @param position the starting position
+	 * @param d the tank drive
+	 * @param e the elevator
+	 * @param i the intake
+	 * @see StartPosition
+	 */
 	public AutoBoth(StartPosition position, TankDrive d, Elevator e, Intake i) {
 		
 		super(position);
@@ -23,23 +36,23 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, -SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -SCALE_SIDE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new IntakeCube(i));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - 261.47));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, -(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -(PAST_SWITCH_DISTANCE - 261.47)));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, -8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -47,22 +60,22 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));	
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, -SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -SCALE_SIDE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
 				this.addSequential(new IntakeCube(i));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - 261.47));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, -(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -(PAST_SWITCH_DISTANCE - 261.47)));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 264 - 8));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 264 - 8));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 				
@@ -71,9 +84,9 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 185.5)); //distance from expected position to other plate
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -84,23 +97,23 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SCALE_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, -SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -SCALE_SIDE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
 				this.addSequential(new IntakeCube(i));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - 261.47));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, -(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -(PAST_SWITCH_DISTANCE - 261.47)));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, -8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 				
@@ -110,21 +123,21 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, SWITCH_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SWITCH_SIDE));
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));	
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, -SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -SCALE_SIDE));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 8)); //distance to first cube  ¯\_(ツ)_/¯
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 8)); //distance to first cube  ¯\_(ツ)_/¯
 				this.addSequential(new IntakeCube(i));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - 261.47));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, -(PAST_SWITCH_DISTANCE - 261.47)));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, -(PAST_SWITCH_DISTANCE - 261.47)));
 				this.addSequential(new TankGoToAngle(d, RIGHT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, 264 - 8));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, RIGHT_TURN, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 264 - 8));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 				
@@ -134,8 +147,8 @@ public class AutoBoth extends AutonomousRoutine {
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, PAST_SWITCH_DISTANCE));
 				this.addSequential(new TankGoToAngle(d, LEFT_TURN));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, 185.5)); //distance from expected position to other plate
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_TURN, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, 185.5)); //distance from expected position to other plate
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, current, PAST_SWITCH_DISTANCE - 261.47)); //261.47 is far wall of switch
 				this.addSequential(new ElevateToSwitch(e));
 				this.addSequential(new ReleaseCube(i));
 			}

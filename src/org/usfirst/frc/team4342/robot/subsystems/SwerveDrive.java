@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 
+/**
+ * Swerve Drive subsystem
+ */
 public class SwerveDrive extends SubsystemBase {
 	private static final double L = 32.3, W = 23.5; // vehicle’s wheelbase and trackwidth
 	private static final double R = Math.sqrt((L*L) + (W*W));
@@ -23,6 +26,14 @@ public class SwerveDrive extends SubsystemBase {
 	public final SwerveModule rl;
 	private final AHRS navx;
 	
+	/**
+	 * Creates a new <code>SwerveDrive</code> subsystem
+	 * @param fr the front right swerve module
+	 * @param fl the front left swerve module
+	 * @param rr the rear right swerve module
+	 * @param rl the rear left swerve module
+	 * @param navx the NavX
+	 */
 	public SwerveDrive(SwerveModule fr, SwerveModule fl, SwerveModule rr, SwerveModule rl, AHRS navx) {
 		this.fr = fr;
 		this.fl = fl;
@@ -31,20 +42,36 @@ public class SwerveDrive extends SubsystemBase {
 		this.navx = navx;
 	}
 	
+	/**
+	 * Sets the default command to <code>DriveSwerveWithJoystick</code>
+	 */
 	@Override
 	protected void initDefaultCommand() {
 //		OI oi = OI.getInstance();
 //		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.SwerveDrive));
 	}
 	
+	/**
+	 * Resets the NavX
+	 */
 	public void resetNavX() {
 		navx.reset();
 	}
 	
+	/**
+	 * Sets field oriented vs. robot oriented
+	 * @param flag true for field oriented, false for robot oriented
+	 */
 	public void setFieldOriented(boolean flag) {
 		fieldOriented = flag;
 	}
 	
+	/**
+	 * Sets the x, y and z for the drive train
+	 * @param x the x input (e.g., strafe)
+	 * @param y the y input (e.g., forward/backward)
+	 * @param z the z input (e.g., twist)
+	 */
 	public void set(double x, double y, double z) {
 		double fwd = -y;
 		double str = x;
@@ -102,6 +129,11 @@ public class SwerveDrive extends SubsystemBase {
 		rr.setPivot(rrPivot);
 	}
 	
+	/**
+	 * Sets all modues to the specified output and pivot angle
+	 * @param output the speed ranging from 0 to 1
+	 * @param pivot the angle ranging from -180 to 180 
+	 */
 	public void setAll(double output, double pivot) {
 		fr.setPivot(pivot);
 		fl.setPivot(pivot);
@@ -114,13 +146,19 @@ public class SwerveDrive extends SubsystemBase {
 		rl.setDrive(output);
 	}
 	
-	public void stopAll() {
+	/**
+	 * Stops all modules
+	 */
+	public void stop() {
 		fr.stop();
 		fl.stop();
 		rr.stop();
 		rl.stop();
 	}
 	
+	/**
+	 * Swerve Module
+	 */
 	public static class SwerveModule {
 		private TalonSRX drive;
 		private PIDController pivotPID;
@@ -137,6 +175,12 @@ public class SwerveDrive extends SubsystemBase {
 			}
 		}
 		
+		/**
+		 * Swerve Module
+		 * @param drive the drive motor for translation
+		 * @param pivot the pivot motor for rotation
+		 * @param encoder the encoder for the pivot motor
+		 */
 		public SwerveModule(TalonSRX drive, TalonSRX pivot, Encoder encoder) {
 			this.drive = drive;
 			
@@ -146,15 +190,26 @@ public class SwerveDrive extends SubsystemBase {
 			pivotPID.setContinuous();
 		}
 		
+		/**
+		 * Sets the drive motor
+		 * @param output the speed ranging from 0 to 1
+		 */
 		public void setDrive(double output) {
 			drive.set(ControlMode.PercentOutput, output);
 		}
 		
+		/**
+		 * Sets the pivot angle
+		 * @param angle the pivot angle ranging from -180 to 180
+		 */
 		public void setPivot(double angle) {
 			pivotPID.enable();
 			pivotPID.setSetpoint(angle);
 		}
 		
+		/**
+		 * Stops the swerve module
+		 */
 		public void stop() {
 			drive.set(ControlMode.PercentOutput, 0);
 			if(pivotPID.isEnabled())
