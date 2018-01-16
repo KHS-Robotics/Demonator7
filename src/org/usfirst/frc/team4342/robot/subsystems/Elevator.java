@@ -44,14 +44,12 @@ public class Elevator extends SubsystemBase
 		elevatePID.setOutputRange(-1, 1);
 		elevatePID.setPercentTolerance(2);
 	}
-	
-<<<<<<< HEAD
+
 	public void setPID(double P, double I, double D)
 	{
 		elevatePID.setPID(P, I, D);
 	}
 	
-=======
 	/**
 	 * Gets if there is a cube in the intake
 	 * @return true if cube in intake, false otherwise
@@ -66,7 +64,6 @@ public class Elevator extends SubsystemBase
 	 * @param output the desired output ranging from -1 to 1 (negative
 	 * for down, positive for up)
 	 */
->>>>>>> branch 'master' of https://github.com/KHS-Robotics/Demonator7.git
 	public void set(double output)
 	{
 		disablePID();
