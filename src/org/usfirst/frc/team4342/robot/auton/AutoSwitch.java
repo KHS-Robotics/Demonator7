@@ -74,12 +74,7 @@ public class AutoSwitch extends AutonomousRoutine
 		}
 		else if(position == StartPosition.CENTER)
 		{
-			boolean clockwise;
-			if(this.isSwitchRight()) {
-				clockwise = true;
-			} else {
-				clockwise = false;
-			}
+			final boolean clockwise = this.isSwitchRight();
 			
 			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 			this.addSequential(new TurnTank(d, clockwise));
@@ -95,5 +90,4 @@ public class AutoSwitch extends AutonomousRoutine
 			this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, BASELINE_DISTANCE));
 		}
 	}
-
 }
