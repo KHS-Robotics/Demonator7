@@ -80,16 +80,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		
-		double EP = SmartDashboard.getNumber("E-P", 0.0);
-		double EI = SmartDashboard.getNumber("E-I", 0.0);
-		double ED = SmartDashboard.getNumber("E-D", 0.0);
-		OI.getInstance().Elevator.setPID(EP, EI, ED);
-		
-		double DP = SmartDashboard.getNumber("D-P", 0.0);
-		double DI = SmartDashboard.getNumber("D-I", 0.0);
-		double DD = SmartDashboard.getNumber("D-D", 0.0);
-		OI.getInstance().TankDrive.setPID(DP, DI, DD);
 	}
 	
 	/**
@@ -148,6 +138,27 @@ public class Robot extends TimedRobot {
 		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Coast);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
 		Scheduler.getInstance().run();
+	}
+	
+	private int temp;
+	@Override
+	public void disabledPeriodic() {
+		// Temporary for tuning PID values
+		if(temp % 50 == 0) {
+			double EP = SmartDashboard.getNumber("E-P", 0.0);
+			double EI = SmartDashboard.getNumber("E-I", 0.0);
+			double ED = SmartDashboard.getNumber("E-D", 0.0);
+			OI.getInstance().Elevator.setPID(EP, EI, ED);
+			
+			double DP = SmartDashboard.getNumber("D-P", 0.0);
+			double DI = SmartDashboard.getNumber("D-I", 0.0);
+			double DD = SmartDashboard.getNumber("D-D", 0.0);
+			OI.getInstance().TankDrive.setPID(DP, DI, DD);
+
+			temp = 0;
+		}
+
+		temp++;
 	}
 	
 	/**
