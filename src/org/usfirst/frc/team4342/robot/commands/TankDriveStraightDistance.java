@@ -55,7 +55,6 @@ public class TankDriveStraightDistance extends CommandBase {
 
 	@Override
 	protected void end() {
-		drive.disablePID();
 		drive.set(0, 0);
 	}
 

@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.Joystick;
  * Command to use the tank drive with two joysticks
  */
 public class DriveTankWithJoysticks extends CommandBase {
-	private static final double JOYSTICK_DEADZONE = 0.06;
-	private static final double SENSITIVITY = 0.2;
+	private static final double JOYSTICK_DEADZONE = 0.05;
+	// [0,1], 0 for no sensitivity control (linear) and 
+	// 1 for full sensitivity control (cubic)
+	private static final double SENSITIVITY = 0.15;
 	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
@@ -65,7 +67,8 @@ public class DriveTankWithJoysticks extends CommandBase {
 	}
 	
 	/**
-	 * Internal function to adjust output for sensitivity control
+	 * Internal function to adjust output for sensitivity control.
+	 * https://www.chiefdelphi.com/forums/showthread.php?p=921992
 	 * @param input the desired input before adjustment from -1.0 to 1.0
 	 * @return the adjusted output
 	 */

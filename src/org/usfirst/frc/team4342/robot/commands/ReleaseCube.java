@@ -3,14 +3,17 @@ package org.usfirst.frc.team4342.robot.commands;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 
 /**
- * Command to release a cube
+ * Command to release a cube in autonomous. This command
+ * will enable the release for 2 seconds.
  */
 public class ReleaseCube extends CommandBase 
 {
 	private Intake intake;
 	
 	/**
-	 * Command to release a cube
+	 * Command to release a cube in autonomous. This command
+	 * will enable the release for 2 seconds.
+	 * @param intake the intake
 	 */
 	public ReleaseCube(Intake intake)
 	{

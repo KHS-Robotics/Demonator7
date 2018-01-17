@@ -6,7 +6,7 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
  * Elevate Command to set the elevator to a specified height
  */
 public class Elevate extends CommandBase {
-	private Elevator elevator;
+	protected final Elevator elevator;
 	private double height;
 
 	/**

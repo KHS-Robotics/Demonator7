@@ -13,4 +13,12 @@ public class ElevatePickupCube extends Elevate {
 	public ElevatePickupCube(Elevator elevator) {
 		super(elevator, 0);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean isFinished() {
+		return super.isFinished() || elevator.isAtBottom();
+	}
 }
