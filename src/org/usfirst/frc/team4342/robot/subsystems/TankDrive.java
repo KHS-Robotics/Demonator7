@@ -223,7 +223,7 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	
 	/**
 	 * Gets if the internal PID controller is on target with its setpoint
-	 * within a tolerance of three degrees
+	 * within a tolerance of two degrees
 	 * @return true if the internal PID controller is at its setpoint, false otherwise
 	 */
 	public boolean onTarget()
