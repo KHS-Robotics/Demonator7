@@ -32,6 +32,15 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 180 - (ROBOT_X/2);
 	protected static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 18;
 
+	// Left or Right Scale when Position = Scale Side
+	protected static final double MOVE_STRAIGHT_SCALE_DISTANCE = 324;
+	protected static final double MOVE_TO_SCALE_DISTANCE = 42 - ROBOT_X;
+
+	// Left or Right Scale when Position != Scale Side
+	protected static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 210;
+	protected static final double ALIGN_TO_SCALE_DISTANCE = 222;
+	protected static final double AJUST_TO_SCALE_DISTANCE = 114;
+
 	protected final double BASELINE_DISTANCE = 120 - ROBOT_Y;
 	protected final double WALL_DISTANCE = 140 - ROBOT_Y;
 	protected final double SWITCH_DISTANCE = 168 - ROBOT_Y;

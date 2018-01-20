@@ -32,21 +32,20 @@ public class AutoScale extends AutonomousRoutine
 		{
 			if(this.isScaleLeft())
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_TO_SCALE_DISTANCE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 			else
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 264));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -55,23 +54,22 @@ public class AutoScale extends AutonomousRoutine
 		{
 			if(this.isScaleRight())
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_SIDE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_TO_SCALE_DISTANCE));
 				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 			else
 			{
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, 264));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_DISTANCE - PAST_SWITCH_DISTANCE));
+				this.addSequential(new TankDriveStraightDistance(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new TankDriveStraightDistance(d, 0.5, SCALE_SIDE));
 				this.addSequential(new ElevateToScaleNeutral(e));
-				this.addSequential(new ReleaseCube(i));	
+				this.addSequential(new ReleaseCube(i));
 			}
 		}
 		else
