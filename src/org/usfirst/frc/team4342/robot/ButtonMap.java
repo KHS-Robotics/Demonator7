@@ -29,14 +29,15 @@ public class ButtonMap
 	 */
 	public static class SwitchBox
 	{
-		public static final int INTAKE = 5;
-		public static final int RELEASE = 4;
-		public static final int CLIMB = 6;
+		public static final int INTAKE = 1;
+		public static final int RELEASE = 2;
+		public static final int CLIMB = 7;
 		public static final int RESET = 10;
-		public static final int ELEVATE_SCALE_HIGH = 9;
-		public static final int ELEVATE_SCLALE_NEUTRAL = 8;
-		public static final int ELEVATE_SCALE_LOW = 7;
-		public static final int ELEVATE_SWITCH = 11;
-		public static final int ELEVATE_PICKUP_CUBE = 1;
+		public static final int ELEVATE_SCALE_HIGH = 99;
+		public static final int ELEVATE_SCLALE_NEUTRAL = 11;
+		public static final int ELEVATE_SCALE_LOW = 99;
+		public static final int ELEVATE_SWITCH = 4;
+		public static final int ELEVATE_PICKUP_CUBE = 5;
+		public static final int OVERIDE = 6;
 	}
 }

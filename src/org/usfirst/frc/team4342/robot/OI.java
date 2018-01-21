@@ -104,6 +104,7 @@ public class OI {
 		LeftDrive.setDistancePerPulse(1);
 		RightDrive.setDistancePerPulse(1);
 		EleEnc.setDistancePerPulse(1);
+		SwitchBox.setTwistChannel(3);
 		
 		// Limit Switch on the bottom of the elevator
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
@@ -117,9 +118,11 @@ public class OI {
 		TankDrive.setNeutralMode(NeutralMode.Coast);
 
 		// Climbing button to enable the winch
+		// Switch is opposite
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
-		climbButton.whenPressed(new StartClimber(Climber));
 		climbButton.whenReleased(new StopClimber(Climber));
+		climbButton.whenPressed(new StartClimber(Climber));
+		
 		
 		// Switch to enable the intake for a cube
 		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
