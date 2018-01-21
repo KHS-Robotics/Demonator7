@@ -130,7 +130,7 @@ public class Elevator extends SubsystemBase
 	protected void initDefaultCommand()
 	{
 		OI oi = OI.getInstance();
-		this.setDefaultCommand(new ElevateWithJoystick(oi.ElevatorStick, oi.Elevator));
+		this.setDefaultCommand(new ElevateWithJoystick(oi.SwitchBox, oi.Elevator));
 	}
 
 	/**

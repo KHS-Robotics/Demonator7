@@ -27,7 +27,7 @@ public class ElevateWithJoystick extends CommandBase {
 
 	@Override
 	protected void execute() {
-		final double OUTPUT = -joystick.getY();
+		final double OUTPUT = -joystick.getTwist();
 		final boolean OUTPUT_ABOVE_DEADBAND = checkJoystickDeadband(OUTPUT);
 		final boolean IN_BOTTOM_WINDOW = elevator.getDistance() < 5;
 		final boolean IN_TOP_WINDOW = elevator.getDistance() > 70;

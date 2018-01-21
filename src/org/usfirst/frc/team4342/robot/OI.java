@@ -60,7 +60,7 @@ public class OI {
 	public final AHRS NavX;
 	public final Ultrasonic CubeUltra;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
-	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox, ElevatorStick;
+	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
 	public final DigitalInput EleLS;
 	
 	private OI() {
@@ -72,7 +72,6 @@ public class OI {
 		// the switch box
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
 		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
-		ElevatorStick = new Joystick(RobotMap.ELEVATOR_STICK);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		
 		// NavX
@@ -132,34 +131,24 @@ public class OI {
 		releaseSwitch.whenPressed(new StartRelease(Intake));
 		releaseSwitch.whenReleased(new StopIntake(Intake));
 		
-		// Button to enable the intake for a cube
-		JoystickButton intakeButton = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.INAKE);
-		intakeButton.whenPressed(new StartIntake(Intake));
-		intakeButton.whenReleased(new StopIntake(Intake));
-		
-		// Button to enable reverse intake to release a cube
-		JoystickButton releaseButton = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.RELEASE);
-		releaseButton.whenPressed(new StartRelease(Intake));
-		releaseButton.whenReleased(new StopIntake(Intake));
-		
 		// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
-		JoystickButton elevateHigh = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_SCALE_HIGH);
+		JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
 		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
 		
 		// Button to set the elevator to the scale platform height when it's at its neutral point (no one has ownership)
-		JoystickButton elevateNeutral = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_SCLALE_NEUTRAL);
+		JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
 		elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
 		
 		// Button to set the elevator to the scale when it's at its lowest point (we have ownership)
-		JoystickButton elevateLow = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_SCALE_LOW);
+		JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
 		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
 		
 		// Button to set the elevator to the switch height
-		JoystickButton elevateSwitch = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_SWITCH);
+		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
 		elevateSwitch.whenPressed(new ElevateToSwitch(Elevator));
 		
 		// Button to set the elevator to its lowest point to pick up a cube
-		JoystickButton elevateCube = new JoystickButton(ElevatorStick, ButtonMap.ElevatorStick.ELEVATE_PICKUP_CUBE);
+		JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
 		elevateCube.whenPressed(new ElevatePickupCube(Elevator));
 		
 		// Button on the right drive stick to maintain the robot's current heading

@@ -29,23 +29,14 @@ public class ButtonMap
 	 */
 	public static class SwitchBox
 	{
-		public static final int INTAKE = 1;
-		public static final int RELEASE = 2;
-		public static final int CLIMB = 10;
-		public static final int RESET = 9;
-	}
-	
-	/**
-	 * Joystick to control the Elevator and Accumulator
-	 */
-	public class ElevatorStick
-	{
-		public static final int INAKE = 3;
+		public static final int INTAKE = 5;
 		public static final int RELEASE = 4;
+		public static final int CLIMB = 6;
+		public static final int RESET = 10;
 		public static final int ELEVATE_SCALE_HIGH = 9;
-		public static final int ELEVATE_SCLALE_NEUTRAL = 7;
-		public static final int ELEVATE_SCALE_LOW = 10;
-		public static final int ELEVATE_SWITCH = 12;
-		public static final int ELEVATE_PICKUP_CUBE = 11;
+		public static final int ELEVATE_SCLALE_NEUTRAL = 8;
+		public static final int ELEVATE_SCALE_LOW = 7;
+		public static final int ELEVATE_SWITCH = 11;
+		public static final int ELEVATE_PICKUP_CUBE = 1;
 	}
 }
