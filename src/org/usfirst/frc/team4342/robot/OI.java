@@ -92,7 +92,7 @@ public class OI {
 		
 		IntakeMotor.setNeutralMode(NeutralMode.Coast);
 		ClimberMotor.setNeutralMode(NeutralMode.Brake);
-		EleMotor.setNeutralMode(NeutralMode.Brake);
+		EleMotor.setNeutralMode(NeutralMode.Coast);
 		
 		// Encoders for Drive Train and Elevator
 		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);

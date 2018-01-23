@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -14,9 +15,20 @@ import edu.wpi.first.wpilibj.PIDOutput;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends SubsystemBase {
-	private static final double L = 32.3, W = 23.5; // vehicle’s wheelbase and trackwidth
-	private static final double R = Math.sqrt((L*L) + (W*W));
-	private static final double P = 0.0, I = 0.0, D = 0.0;
+	private static class Constants {
+		// Dimensions
+		static final double L = 32.3, W = 23.5; // vehicle’s wheelbase and trackwidth
+		static final double R = Math.sqrt((L*L) + (W*W));
+		static final double L_OVER_R = L / R, W_OVER_R = W / R;
+
+		// Pivot PID values
+		static final double P = 0.0, I = 0.0, D = 0.0;
+
+		// Voltage to Angle convertion
+		static final double MIN_VOLTAGE = 0.0;
+		static final double MAX_VOLTAGE = 5.0;
+		static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
+	}
 	
 	private boolean fieldOriented;
 	
@@ -84,22 +96,22 @@ public class SwerveDrive extends SubsystemBase {
 		}
 		
 		
-		final double A = str - (rcw*(L/R));
-		final double B = str + (rcw*(L/R));
-		final double C = fwd - (rcw*(W/R));
-		final double D = fwd + (rcw*(W/R));
+		final double A = str - (rcw*Constants.L_OVER_R);
+		final double B = str + (rcw*Constants.L_OVER_R);
+		final double C = fwd - (rcw*Constants.W_OVER_R);
+		final double D = fwd + (rcw*Constants.W_OVER_R);
 		
-		double frSpeed = Math.sqrt((B*B) + (C*C));
-		final double frPivot = Math.toDegrees(Math.atan2(B, C));
+		double frSpeed = calcMagnitude(B, C);
+		final double frPivot = calcAngle(B, C);
 		
-		double flSpeed = Math.sqrt((B*B) + (D*D));
-		final double flPivot = Math.toDegrees(Math.atan2(B, D));
+		double flSpeed = calcMagnitude(B, D);
+		final double flPivot = calcAngle(B, D);
 		
-		double rlSpeed = Math.sqrt((A*A) + (D*D));
-		final double rlPivot = Math.toDegrees(Math.atan2(A, D));
+		double rlSpeed = calcMagnitude(A, D);
+		final double rlPivot = calcAngle(A, D);
 		
-		double rrSpeed = Math.sqrt((A*A) + (C*C));
-		final double rrPivot = Math.toDegrees(Math.atan2(A, C));
+		double rrSpeed = calcMagnitude(A, C);
+		final double rrPivot = calcAngle(A, C);
 		
 		double max = frSpeed;
 		if(flSpeed > max)
@@ -115,39 +127,67 @@ public class SwerveDrive extends SubsystemBase {
 			rlSpeed /= max;
 			rrSpeed /= max;
 		}
+
+		fr.setPivot(frPivot);
+		fl.setPivot(flPivot);
+		rl.setPivot(rlPivot);
+		rr.setPivot(rrPivot);
 		
 		fr.setDrive(frSpeed);
-		fr.setPivot(frPivot);
-		
 		fl.setDrive(flSpeed);
-		fl.setPivot(flPivot);
-		
 		rl.setDrive(rlSpeed);
-		rl.setPivot(rlPivot);
-		
 		rr.setDrive(rrSpeed);
-		rr.setPivot(rrPivot);
 	}
 	
 	/**
 	 * Sets all modues to the specified output and pivot angle
 	 * @param output the speed ranging from 0 to 1
-	 * @param pivot the angle ranging from -180 to 180 
+	 * @param angle the angle ranging from 0 to 360
 	 */
-	public void setAll(double output, double pivot) {
-		fr.setPivot(pivot);
-		fl.setPivot(pivot);
-		rr.setPivot(pivot);
-		rl.setPivot(pivot);
+	public void setAll(double output, double angle) {
+		fr.setPivot(angle);
+		fl.setPivot(angle);
+		rr.setPivot(angle);
+		rl.setPivot(angle);
 		
 		fr.setDrive(output);
 		fl.setDrive(output);
 		rr.setDrive(output);
 		rl.setDrive(output);
 	}
+
+	/**
+	 * Sets the drive output for all modules
+	 * @param output the speed ranging from -1 to 1
+	 */
+	public void setDrive(double output) {
+		fr.setDrive(output);
+		fl.setDrive(output);
+		rr.setDrive(output);
+		rl.setDrive(output);
+	}
+
+	/**
+	 * Sets the pivot angle for all modules
+	 * @param angle the pivot angle
+	 */
+	public void setPivot(double angle) {
+		fr.setPivot(angle);
+		fl.setPivot(angle);
+		rr.setPivot(angle);
+		rl.setPivot(angle);
+	}
+
+	/**
+	 * Gets if all pivot motors are at their setpoint
+	 * @return true if all pivot motors are at their setpoint, false otherwise
+	 */
+	public boolean pivotAtSetpoint() {
+		return fr.pivotAtSetpoint() && fl.pivotAtSetpoint() && rr.pivotAtSetpoint() && fl.pivotAtSetpoint();
+	}
 	
 	/**
-	 * Stops all modules
+	 * Stops drive motor on all modules
 	 */
 	public void stop() {
 		fr.stop();
@@ -155,13 +195,97 @@ public class SwerveDrive extends SubsystemBase {
 		rr.stop();
 		rl.stop();
 	}
+
+	/**
+	 * Gets the current front right drive distance
+	 * @return the current front right drive distance
+	 */
+	public double getFRDistance() {
+		return fr.getDistance();
+	}
+
+	/**
+	 * Gets the current front left drive distance
+	 * @return the current front left drive distance
+	 */
+	public double getFLDistance() {
+		return fl.getDistance();
+	}
+
+	/**
+	 * Gets the current rear right drive distance
+	 * @return the current rear right drive distance
+	 */
+	public double getRRDistance() {
+		return rr.getDistance();
+	}
+
+	/**
+	 * Gets the current rear left drive distance
+	 * @return the current rear left drive distance
+	 */
+	public double getRLDistance() {
+		return rl.getDistance();
+	}
+
+	/**
+	 * Calculates the remaining distance the robot needs to drive before
+	 * reaching the desired distance
+	 * @param distance the desired distance (in inches)
+	 * @param initalFR the initial front right encoder distance (in inches, basically a snapshot of {@link #getDistance()})
+	 * @param initalFL the initial front left encoder distance (in inches, basically a snapshot of {@link #getDistance()})
+	 * @param initalRR the initial rear right encoder distance (in inches, basically a snapshot of {@link #getDistance()})
+	 * @param initalRL the initial rear left encoder distance (in inches, basically a snapshot of {@link #getDistance()})
+	 * @return the remaining distance the robot needs to drive
+	 */
+	public double remainingDistance(double distance, double initalFR, double initalFL, double initalRR, double initalRL) {
+		final double frDist = Math.abs(fr.getDistance());
+		final double flDist = Math.abs(fl.getDistance());
+		final double rrDist = Math.abs(rr.getDistance());
+		final double rlDist = Math.abs(rl.getDistance());
+
+		final double dFR = Math.abs(frDist - initalFR);
+		final double dFL = Math.abs(flDist - initalFL);
+		final double dRR = Math.abs(rrDist - initalRR);
+		final double dRL = Math.abs(rlDist - initalRL);
+
+		final double AVERAGE = (dFR + dFL + dRR + dRL) / 4;
+		final double REMAINING = distance - AVERAGE;
+
+		return REMAINING;
+	}
+
+	/**
+	 * Calculates the magnitude of two components, x and y
+	 * @param x the x component
+	 * @param y the y component
+	 * @return the magnitude of the resulting vector
+	 */
+	private static double calcMagnitude(double x, double y) {
+		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+	}
+
+	/**
+	 * Calculates the angle of two components, x and y
+	 * @param x the x component
+	 * @param y the y component
+	 * @return the angle of the resulting vector
+	 */
+	private static double calcAngle(double x, double y) {
+		return Math.toDegrees(Math.atan2(x, y)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
+	}
 	
 	/**
 	 * Swerve Module
 	 */
 	public static class SwerveModule {
-		private TalonSRX drive;
 		private PIDController pivotPID;
+		private double offset, targetAngle;
+		private boolean flipDrive;
+
+		private TalonSRX drive, pivot;
+		private Encoder driveEnc;
+		private AnalogInput pivotEnc;
 		
 		private class PIDOutputClass implements PIDOutput {
 			private TalonSRX motor;
@@ -178,33 +302,92 @@ public class SwerveDrive extends SubsystemBase {
 		/**
 		 * Swerve Module
 		 * @param drive the drive motor for translation
+		 * @param driveEnc the encoder for the drive motor
 		 * @param pivot the pivot motor for rotation
-		 * @param encoder the encoder for the pivot motor
+		 * @param pivotEnc the analog input for the pivot motor
 		 */
-		public SwerveModule(TalonSRX drive, TalonSRX pivot, Encoder encoder) {
+		public SwerveModule(TalonSRX drive, Encoder driveEnc, TalonSRX pivot, AnalogInput pivotEnc) {
 			this.drive = drive;
+			this.driveEnc = driveEnc;
+			this.pivot = pivot;
+			this.pivotEnc = pivotEnc;
 			
-			pivotPID = new PIDController(P, I, D, encoder, new PIDOutputClass(pivot));
-			pivotPID.setInputRange(-180, 180);
+			pivotPID = new PIDController(
+				Constants.P, 
+				Constants.I, 
+				Constants.D, 
+				pivotEnc, 
+				new PIDOutputClass(pivot)
+			);
+			
+			pivotPID.setInputRange(0, 5);
 			pivotPID.setOutputRange(-1, 1);
+			pivotPID.setAbsoluteTolerance(0.2);
 			pivotPID.setContinuous();
+		}
+
+		/**
+		 * Sets the offset for the pivot
+		 * @param offset the offset for the pivot
+		 */
+		public void setOffset(double offset) {
+			this.offset = offset;
 		}
 		
 		/**
-		 * Sets the drive motor
+		 * Sets the speed for the drive motor
 		 * @param output the speed ranging from 0 to 1
 		 */
 		public void setDrive(double output) {
+			output = flipDrive ? -output : output;
 			drive.set(ControlMode.PercentOutput, output);
 		}
 		
 		/**
 		 * Sets the pivot angle
-		 * @param angle the pivot angle ranging from -180 to 180
+		 * @param angle the pivot angle ranging from 0 to 360
 		 */
 		public void setPivot(double angle) {
+			angle %= 360;
+			double testAngle = angle - 180;
+			double dA1 = Math.abs(toAngle(pivotEnc.getAverageVoltage(), offset) - angle);
+			double dA2 = Math.abs(toAngle(pivotEnc.getAverageVoltage(), offset) - testAngle);
+
+			if(dA1 > dA2) {
+				flipDrive = true;
+				angle = testAngle;
+			} else {
+				flipDrive = false;
+			}
+
+			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();
-			pivotPID.setSetpoint(angle);
+		}
+
+		/**
+		 * Gets the pivot angle in degrees
+		 * @return the pivot angle in degrees
+		 */
+		public double getAngle() {
+			double angle = toAngle(pivotEnc.getAverageVoltage(), offset);
+			double normalized = angle % 360;
+			return normalized;
+		}
+
+		/**
+		 * Gets the drive distance
+		 * @return the drive distance
+		 */
+		public double getDistance() {
+			return driveEnc.getDistance();
+		}
+
+		/**
+		 * Gets if the pivot motor is at its setpoint
+		 * @return true if the pivot motor is at its setpoint, false otherwise
+		 */
+		public boolean pivotAtSetpoint() {
+			return pivotPID.onTarget();
 		}
 		
 		/**
@@ -214,6 +397,25 @@ public class SwerveDrive extends SubsystemBase {
 			drive.set(ControlMode.PercentOutput, 0);
 			if(pivotPID.isEnabled())
 				pivotPID.disable();
+		}
+
+		/**
+		 * Coverts a voltage from the analog input to an angle
+		 * @param voltage the voltage
+		 * @param offset the offset
+		 * @return the angle of the analog input (e.g., pivot angle)
+		 */
+		private static double toAngle(double voltage, double offset) {
+			return ((360.0 * (voltage - Constants.MIN_VOLTAGE) / Constants.DELTA_VOLTAGE) + 360.0 - offset);
+		}
+
+		/**
+		 * Converts an angle to voltage for the analog input
+		 * @param angle the angle in degrees
+		 */
+		private static double toVoltage(double angle) {
+			angle %= 360;
+			return (angle / 72.0);
 		}
 	}
 }

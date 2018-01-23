@@ -43,13 +43,8 @@ public class TurnTank extends TankGoToAngle {
 
     @Override
     protected void initialize() {
-        double setpoint;
-        if(clockwise) {
-            setpoint = drive.getHeading() + offset;
-        } else {
-            setpoint = drive.getHeading() - offset;
-        }
-
+        double setpoint = drive.getHeading();
+        setpoint = clockwise ? setpoint + offset : setpoint - offset;
         this.setSetpoint(setpoint);
         
         super.initialize();
