@@ -322,7 +322,7 @@ public class SwerveDrive extends SubsystemBase {
 			
 			pivotPID.setInputRange(0, 5);
 			pivotPID.setOutputRange(-1, 1);
-			pivotPID.setAbsoluteTolerance(0.2);
+			pivotPID.setAbsoluteTolerance(0.025);
 			pivotPID.setContinuous();
 		}
 
