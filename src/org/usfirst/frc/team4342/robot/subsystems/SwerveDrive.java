@@ -280,7 +280,7 @@ public class SwerveDrive extends SubsystemBase {
 	 */
 	public static class SwerveModule {
 		private PIDController pivotPID;
-		private double offset, targetAngle;
+		private double offset;
 		private boolean flipDrive;
 
 		private TalonSRX drive, pivot;
@@ -320,7 +320,7 @@ public class SwerveDrive extends SubsystemBase {
 				new PIDOutputClass(pivot)
 			);
 			
-			pivotPID.setInputRange(0, 5);
+			pivotPID.setInputRange(Constants.MIN_VOLTAGE, Constants.MAX_VOLTAGE);
 			pivotPID.setOutputRange(-1, 1);
 			pivotPID.setAbsoluteTolerance(0.025);
 			pivotPID.setContinuous();
@@ -349,13 +349,13 @@ public class SwerveDrive extends SubsystemBase {
 		 */
 		public void setPivot(double angle) {
 			angle %= 360;
-			double testAngle = angle - 180;
-			double dA1 = Math.abs(toAngle(pivotEnc.getAverageVoltage(), offset) - angle);
-			double dA2 = Math.abs(toAngle(pivotEnc.getAverageVoltage(), offset) - testAngle);
+			double testAngle = angle + 180;
+			double dA1 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - angle);
+			double dA2 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - testAngle);
 
 			if(dA1 > dA2) {
 				flipDrive = true;
-				angle = testAngle;
+				angle = testAngle; // take shorter path, flip drive motor
 			} else {
 				flipDrive = false;
 			}
@@ -369,7 +369,7 @@ public class SwerveDrive extends SubsystemBase {
 		 * @return the pivot angle in degrees
 		 */
 		public double getAngle() {
-			double angle = toAngle(pivotEnc.getAverageVoltage(), offset);
+			double angle = toAngle(pivotEnc.getAverageVoltage());
 			double normalized = angle % 360;
 			return normalized;
 		}
@@ -405,17 +405,19 @@ public class SwerveDrive extends SubsystemBase {
 		 * @param offset the offset
 		 * @return the angle of the analog input (e.g., pivot angle)
 		 */
-		private static double toAngle(double voltage, double offset) {
+		private double toAngle(double voltage) {
 			return ((360.0 * (voltage - Constants.MIN_VOLTAGE) / Constants.DELTA_VOLTAGE) + 360.0 - offset);
 		}
 
 		/**
 		 * Converts an angle to voltage for the analog input
 		 * @param angle the angle in degrees
+		 * @return the voltage of the analog input based on the angle
 		 */
-		private static double toVoltage(double angle) {
+		private double toVoltage(double angle) {
 			angle %= 360;
-			return (angle / 72.0);
+			angle += 360;
+			return (Constants.MIN_VOLTAGE + (Constants.DELTA_VOLTAGE*(offset + angle - 360))/360.0);
 		}
 	}
 }
