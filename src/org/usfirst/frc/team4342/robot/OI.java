@@ -120,9 +120,8 @@ public class OI {
 		// Climbing button to enable the winch
 		// Switch is opposite
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
-		climbButton.whenReleased(new StopClimber(Climber));
-		climbButton.whenPressed(new StartClimber(Climber));
-		
+		climbButton.whenPressed(new StopClimber(Climber));
+		climbButton.whenReleased(new StartClimber(Climber));
 		
 		// Switch to enable the intake for a cube
 		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
@@ -147,12 +146,14 @@ public class OI {
 		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
 		
 		// Button to set the elevator to the switch height
+		// Switch is opposite
 		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
-		elevateSwitch.whenPressed(new ElevateToSwitch(Elevator));
+		elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
 		
 		// Button to set the elevator to its lowest point to pick up a cube
+		// Switch is opposite
 		JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
-		elevateCube.whenPressed(new ElevatePickupCube(Elevator));
+		elevateCube.whenReleased(new ElevatePickupCube(Elevator));
 		
 		// Button on the right drive stick to maintain the robot's current heading
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);

@@ -79,7 +79,9 @@ public class SwerveDrive extends SubsystemBase {
 	}
 	
 	/**
-	 * Sets the x, y and z for the drive train
+	 * Sets the x, y and z for the drive train. For information
+	 * on the math, see Either's Derivation of swerve formulas
+	 * using Inverse Kinematics: https://www.chiefdelphi.com/media/papers/download/3027
 	 * @param x the x input (e.g., strafe)
 	 * @param y the y input (e.g., forward/backward)
 	 * @param z the z input (e.g., twist)
@@ -96,22 +98,22 @@ public class SwerveDrive extends SubsystemBase {
 		}
 		
 		
-		final double A = str - (rcw*Constants.L_OVER_R);
-		final double B = str + (rcw*Constants.L_OVER_R);
-		final double C = fwd - (rcw*Constants.W_OVER_R);
-		final double D = fwd + (rcw*Constants.W_OVER_R);
+		final double xNeg = str - (rcw*Constants.L_OVER_R);
+		final double xPos = str + (rcw*Constants.L_OVER_R);
+		final double yNeg = fwd - (rcw*Constants.W_OVER_R);
+		final double yPos = fwd + (rcw*Constants.W_OVER_R);
 		
-		double frSpeed = calcMagnitude(B, C);
-		final double frPivot = calcAngle(B, C);
+		double frSpeed = calcMagnitude(xPos, yNeg);
+		final double frPivot = calcAngle(xPos, yNeg);
 		
-		double flSpeed = calcMagnitude(B, D);
-		final double flPivot = calcAngle(B, D);
+		double flSpeed = calcMagnitude(xPos, yPos);
+		final double flPivot = calcAngle(xPos, yPos);
 		
-		double rlSpeed = calcMagnitude(A, D);
-		final double rlPivot = calcAngle(A, D);
+		double rlSpeed = calcMagnitude(xNeg, yPos);
+		final double rlPivot = calcAngle(xNeg, yPos);
 		
-		double rrSpeed = calcMagnitude(A, C);
-		final double rrPivot = calcAngle(A, C);
+		double rrSpeed = calcMagnitude(xNeg, yNeg);
+		final double rrPivot = calcAngle(xNeg, yNeg);
 		
 		double max = frSpeed;
 		if(flSpeed > max)
