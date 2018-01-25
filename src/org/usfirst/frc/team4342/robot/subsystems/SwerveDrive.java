@@ -24,7 +24,7 @@ public class SwerveDrive extends SubsystemBase {
 		// Pivot PID values
 		static final double P = 0.0, I = 0.0, D = 0.0;
 
-		// Voltage to Angle convertion
+		// For PID and Voltage to Angle conversion
 		static final double MIN_VOLTAGE = 0.0;
 		static final double MAX_VOLTAGE = 5.0;
 		static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
@@ -32,10 +32,10 @@ public class SwerveDrive extends SubsystemBase {
 	
 	private boolean fieldOriented;
 	
-	public final SwerveModule fr;
-	public final SwerveModule fl;
-	public final SwerveModule rr;
-	public final SwerveModule rl;
+	private final SwerveModule fr;
+	private final SwerveModule fl;
+	private final SwerveModule rr;
+	private final SwerveModule rl;
 	private final AHRS navx;
 	
 	/**
@@ -234,10 +234,10 @@ public class SwerveDrive extends SubsystemBase {
 	 * Calculates the remaining distance the robot needs to drive before
 	 * reaching the desired distance
 	 * @param distance the desired distance (in inches)
-	 * @param initalFR the initial front right encoder distance (in inches, basically a snapshot of {@link #getDistance()})
-	 * @param initalFL the initial front left encoder distance (in inches, basically a snapshot of {@link #getDistance()})
-	 * @param initalRR the initial rear right encoder distance (in inches, basically a snapshot of {@link #getDistance()})
-	 * @param initalRL the initial rear left encoder distance (in inches, basically a snapshot of {@link #getDistance()})
+	 * @param initalFR the initial front right encoder distance (in inches, basically a snapshot of {@link #getFRDistance()})
+	 * @param initalFL the initial front left encoder distance (in inches, basically a snapshot of {@link #getFLDistance()})
+	 * @param initalRR the initial rear right encoder distance (in inches, basically a snapshot of {@link #getRRDistance()})
+	 * @param initalRL the initial rear left encoder distance (in inches, basically a snapshot of {@link #getRLDistance()})
 	 * @return the remaining distance the robot needs to drive
 	 */
 	public double remainingDistance(double distance, double initalFR, double initalFL, double initalRR, double initalRL) {
@@ -355,12 +355,11 @@ public class SwerveDrive extends SubsystemBase {
 			double dA1 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - angle);
 			double dA2 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - testAngle);
 
-			if(dA1 > dA2) {
-				flipDrive = true;
-				angle = testAngle; // take shorter path, flip drive motor
-			} else {
-				flipDrive = false;
-			}
+			// Check which angle has shorter arc
+			// length and use the shorter angle
+			flipDrive = dA1 > dA2;
+			if(flipDrive)
+				angle = testAngle;
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();
@@ -418,7 +417,7 @@ public class SwerveDrive extends SubsystemBase {
 		 */
 		private double toVoltage(double angle) {
 			angle %= 360;
-			angle += 360;
+			angle += 360; // add 360 to ensure formula gives a value from 0 to 5
 			return (Constants.MIN_VOLTAGE + (Constants.DELTA_VOLTAGE*(offset + angle - 360))/360.0);
 		}
 	}
