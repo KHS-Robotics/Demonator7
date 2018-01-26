@@ -81,7 +81,7 @@ public class SwerveDrive extends SubsystemBase {
 	/**
 	 * Sets the x, y and z for the drive train. For information
 	 * on the math, see Either's Derivation of swerve formulas
-	 * using Inverse Kinematics: https://www.chiefdelphi.com/media/papers/download/3027
+	 * using Inverse Kinematics: http://www.chiefdelphi.com/media/papers/download/3028
 	 * @param x the x input (e.g., strafe)
 	 * @param y the y input (e.g., forward/backward)
 	 * @param z the z input (e.g., twist)
