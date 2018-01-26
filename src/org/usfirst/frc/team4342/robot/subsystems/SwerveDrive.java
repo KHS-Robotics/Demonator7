@@ -258,23 +258,23 @@ public class SwerveDrive extends SubsystemBase {
 	}
 
 	/**
-	 * Calculates the magnitude of two components, x and y
-	 * @param x the x component
-	 * @param y the y component
-	 * @return the magnitude of the resulting vector
+	 * Cartesian to Polar calculation for the magnitude, r
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return the magnitude of polar coordinate
 	 */
 	private static double calcMagnitude(double x, double y) {
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}
 
 	/**
-	 * Calculates the angle of two components, x and y
-	 * @param x the x component
-	 * @param y the y component
-	 * @return the angle of the resulting vector
+	 * Cartesian to Polar calculation for the angle, theta
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return the angle of the polar coordinate
 	 */
 	private static double calcAngle(double x, double y) {
-		return Math.toDegrees(Math.atan2(x, y)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
+		return Math.toDegrees(Math.atan2(y, x)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
 	}
 	
 	/**
@@ -353,12 +353,13 @@ public class SwerveDrive extends SubsystemBase {
 			angle %= 360;
 
 			// Check if complementary angle is closer
-			double possibleShorterAngle = angle + 180;
 			double dAngle = angle - getAngle();
 			flipDrive = dAngle >= 90 && dAngle <= 270;
 
+			// if it is closer then use
+			// complementary (e.g., add 180)
 			if(flipDrive)
-				angle = possibleShorterAngle;
+				angle += 180;
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();
