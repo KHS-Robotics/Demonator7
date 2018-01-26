@@ -351,9 +351,11 @@ public class SwerveDrive extends SubsystemBase {
 		 */
 		public void setPivot(double angle) {
 			angle %= 360;
+			double current = getAngle();
 			double testAngle = angle + 180;
-			double dA1 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - angle);
-			double dA2 = Math.abs(toAngle(pivotEnc.getAverageVoltage()) - testAngle);
+
+			double dA1 = Math.abs(current - angle);
+			double dA2 = Math.abs(current - testAngle);
 
 			// Check which angle has shorter arc
 			// length and use the shorter angle
