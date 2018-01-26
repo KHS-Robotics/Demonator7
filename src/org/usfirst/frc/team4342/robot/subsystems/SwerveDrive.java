@@ -351,17 +351,14 @@ public class SwerveDrive extends SubsystemBase {
 		 */
 		public void setPivot(double angle) {
 			angle %= 360;
-			double current = getAngle();
-			double testAngle = angle + 180;
 
-			double dA1 = Math.abs(current - angle);
-			double dA2 = Math.abs(current - testAngle);
+			// Check if complementary angle is closer
+			double possibleShorterAngle = angle + 180;
+			double dAngle = angle - getAngle();
+			flipDrive = dAngle >= 90 && dAngle <= 270;
 
-			// Check which angle has shorter arc
-			// length and use the shorter angle
-			flipDrive = dA1 > dA2;
 			if(flipDrive)
-				angle = testAngle;
+				angle = possibleShorterAngle;
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();
