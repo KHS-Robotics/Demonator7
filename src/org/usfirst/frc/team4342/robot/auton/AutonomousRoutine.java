@@ -10,12 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public abstract class AutonomousRoutine extends CommandGroup {
 	protected final StartPosition position;
-	
-	/**
-	 * have to update robot dimensions
-	 */
-	protected double current = OI.getInstance().TankDrive.getHeading();
 
+	// TODO: Update robot dimensions
 	protected static final double ROBOT_X = 23.5 / 2;
 	protected static final double ROBOT_Y = 32.3 / 2;
 
@@ -48,8 +44,6 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected final double SCALE_SIDE = 23.57 - ROBOT_Y; //check math
 	protected final double PAST_SWITCH_DISTANCE = 281.47 - ROBOT_Y;
 	protected final double SCALE_DISTANCE = 324 - ROBOT_Y;
-	protected final double LEFT_TURN = 90 + current;
-	protected final double RIGHT_TURN = -90 + current;
 
 	/**
 	 * Constructs an autonomous routine

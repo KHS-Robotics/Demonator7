@@ -75,7 +75,7 @@ public class AutoScale extends AutonomousRoutine
 		else
 		{
 			Logger.warning("No Position for Auto: Crossing Baseline");
-			this.addSequential(new TankDriveStraightDistance(d, 0.5, 0, BASELINE_DISTANCE));
+			this.addSequential(new AutoBaseline(position, d));
 		}
 	}
 
