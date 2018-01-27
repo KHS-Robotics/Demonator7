@@ -34,8 +34,8 @@ public class AutoScale extends AutonomousRoutine
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 			else
@@ -44,9 +44,9 @@ public class AutoScale extends AutonomousRoutine
 				this.addSequential(new TurnTank(d));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 		}
@@ -56,8 +56,8 @@ public class AutoScale extends AutonomousRoutine
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));	
 			}
 			else
@@ -66,9 +66,9 @@ public class AutoScale extends AutonomousRoutine
 				this.addSequential(new TurnTank(d, false));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addSequential(new ElevateToScaleNeutral(e));
 				this.addSequential(new ReleaseCube(i));
 			}
 		}

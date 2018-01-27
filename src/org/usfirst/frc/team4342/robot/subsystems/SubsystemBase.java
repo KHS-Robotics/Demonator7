@@ -9,6 +9,7 @@ public abstract class SubsystemBase extends Subsystem {
 	/**
 	 * Sets the default command to <code>null</code>
 	 */
+	@Override
 	protected void initDefaultCommand() {
 		this.setDefaultCommand(null);
 	}

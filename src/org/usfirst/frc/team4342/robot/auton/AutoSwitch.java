@@ -33,9 +33,9 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			if(this.isSwitchLeft())
 			{
-				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d));
+				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -43,9 +43,9 @@ public class AutoSwitch extends AutonomousRoutine
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 				this.addSequential(new TurnTank(d));
-				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d));
+				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -55,9 +55,9 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			if(this.isSwitchRight())
 			{
-				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
+				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -65,9 +65,9 @@ public class AutoSwitch extends AutonomousRoutine
 			{
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
-				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 				this.addSequential(new TurnTank(d, false));
+				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new TankDriveStraightDistance(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}
@@ -76,11 +76,11 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			final boolean clockwise = this.isSwitchRight();
 			
-			this.addParallel(new ElevateToSwitch(e));
 			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 			this.addSequential(new TurnTank(d, clockwise));
 			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_PANEL_ALIGN_DISTANCE));
 			this.addSequential(new TurnTank(d, !clockwise));
+			this.addParallel(new ElevateToSwitch(e));
 			this.addSequential(new TankDriveStraightDistance(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 			this.addSequential(new ReleaseCube(i));
 		}
