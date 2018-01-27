@@ -104,16 +104,30 @@ public class SwerveDrive extends SubsystemBase {
 		final double yPos = fwd + (rcw*Constants.W_OVER_R);
 		
 		double frSpeed = calcMagnitude(xPos, yNeg);
-		final double frPivot = calcAngle(xPos, yNeg);
+		double frPivot = calcAngle(xPos, yNeg);
 		
 		double flSpeed = calcMagnitude(xPos, yPos);
-		final double flPivot = calcAngle(xPos, yPos);
+		double flPivot = calcAngle(xPos, yPos);
+
+		// Make sure we don't use the arctan value
+		// with x=0
+		if(xPos == 0) {
+			frPivot = fr.getAngle();
+			flPivot = fl.getAngle();
+		}
 		
 		double rlSpeed = calcMagnitude(xNeg, yPos);
-		final double rlPivot = calcAngle(xNeg, yPos);
+		double rlPivot = calcAngle(xNeg, yPos);
 		
 		double rrSpeed = calcMagnitude(xNeg, yNeg);
-		final double rrPivot = calcAngle(xNeg, yNeg);
+		double rrPivot = calcAngle(xNeg, yNeg);
+
+		// Make sure we don't use the arctan value
+		// with x=0
+		if(xNeg == 0) {
+			rrPivot = rr.getAngle();
+			rlPivot = rl.getAngle();
+		}
 		
 		double max = frSpeed;
 		if(flSpeed > max)
