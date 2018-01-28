@@ -59,7 +59,6 @@ public class OI {
 	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight,
 						  IntakeMotor, ClimberMotor, EleMotor;
 	public final AHRS NavX;
-	public final Ultrasonic CubeUltra;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
 	public final DigitalInput EleLS;
@@ -77,10 +76,6 @@ public class OI {
 		
 		// NavX
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
-		
-		// Ultrasonics
-		CubeUltra = new Ultrasonic(RobotMap.CUBE_ULTRA_OUT, RobotMap.CUBE_ULTRA_IN);
-		CubeUltra.setAutomaticMode(true);
 		
 		// TalonSRXs for DriveTrain, Intake, Climber and Elevator
 		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
@@ -112,7 +107,7 @@ public class OI {
 
 		// Subsystems
 		Intake = new Intake(IntakeMotor);
-		Elevator = new Elevator(EleMotor, EleEnc, EleLS, CubeUltra);
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
 		

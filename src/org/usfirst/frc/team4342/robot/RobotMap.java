@@ -32,7 +32,4 @@ public class RobotMap {
 	public static final int ELE_ENC_OUT = 5;
 	
 	public static final int ELE_LS = 6;
-	
-	public static final int CUBE_ULTRA_IN = 7;
-	public static final int CUBE_ULTRA_OUT = 8;
 }

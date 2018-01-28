@@ -24,20 +24,17 @@ public class Elevator extends SubsystemBase
 	private TalonSRX motor;
 	private Encoder encoder;
 	private DigitalInput ls;
-	private Ultrasonic ultra;
 	
 	/**
 	 * Creates a new <code>Elevator</code> subsystem
 	 * @param motor the motor to move the elevator
 	 * @param encoder the encoder to keep track of the elevator's height
 	 * @param ls the limit switch at the bottom of the elevator
-	 * @param ultra the ultrasonic sensor to detect cubes within our intake
 	 */
-	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls, Ultrasonic ultra) {
+	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) {
 		this.motor = motor;
 		this.encoder = encoder;
 		this.ls = ls;
-		this.ultra = ultra;
 		
 		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
 		elevatePID.setInputRange(0, 80);
@@ -48,15 +45,6 @@ public class Elevator extends SubsystemBase
 	public void setPID(double P, double I, double D)
 	{
 		elevatePID.setPID(P, I, D);
-	}
-	
-	/**
-	 * Gets if there is a cube in the intake
-	 * @return true if cube in intake, false otherwise
-	 */
-	public boolean hasCube()
-	{
-		return ultra.getRangeInches() < 6;
 	}
 	
 	/**

@@ -32,9 +32,9 @@ public class AutoScale extends AutonomousRoutine
 		{
 			if(this.isScaleLeft())
 			{
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d));
-				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -42,9 +42,9 @@ public class AutoScale extends AutonomousRoutine
 			{
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d, false));
-				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d, false));
 				this.addSequential(new ReleaseCube(i));	
@@ -54,9 +54,9 @@ public class AutoScale extends AutonomousRoutine
 		{
 			if(this.isScaleRight())
 			{
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d, false));
-				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
 				this.addSequential(new ReleaseCube(i));	
 			}
@@ -64,9 +64,9 @@ public class AutoScale extends AutonomousRoutine
 			{
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d, false));
+				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d));
-				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 				this.addSequential(new DriveTurn(d));
 				this.addSequential(new ReleaseCube(i));
@@ -74,7 +74,7 @@ public class AutoScale extends AutonomousRoutine
 		}
 		else
 		{
-			Logger.warning("No Position for Auto: Crossing Baseline");
+			Logger.warning("No Position for Scale Auto! Crossing Baseline...");
 			this.addSequential(new AutoBaseline(position, d));
 		}
 	}

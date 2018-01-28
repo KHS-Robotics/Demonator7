@@ -157,7 +157,7 @@ public class AutoBoth extends AutonomousRoutine
 		}
 		else
 		{
-			Logger.warning("No Position for Auto: Crossing Baseline");
+			Logger.warning("No Position for Both Auto! Crossing Baseline...");
 			this.addSequential(new AutoBaseline(position, d));
 		}
 	}

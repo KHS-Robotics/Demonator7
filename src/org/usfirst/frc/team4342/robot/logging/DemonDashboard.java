@@ -63,7 +63,6 @@ public class DemonDashboard
 					
 					SmartDashboard.putNumber("Enc-ED", oi.Elevator.getDistance());
 					SmartDashboard.putBoolean("Elev-AtBottom", oi.Elevator.isAtBottom());
-					SmartDashboard.putBoolean("Elev-HasCube", oi.Elevator.hasCube());
 					
 					SmartDashboard.putNumber("Drive-LD", oi.Drive.getLeftDistance());
 					SmartDashboard.putNumber("Drive-RD", oi.Drive.getRightDistance());
