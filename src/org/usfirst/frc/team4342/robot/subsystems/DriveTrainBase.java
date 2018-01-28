@@ -39,6 +39,8 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 
     /**
      * Go Straight
+     * @param direction the direction ranging from -1 to 1
+     * @param yaw the heading to maintain from -180.0 to 180.0
      */
     public abstract void goStraight(double direction, double yaw);
 
@@ -163,7 +165,7 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 	 * @param yaw the unnormalized yaw
 	 * @return the normalized yaw ranging from -180.0 to 180.0
 	 */
-	protected static double normalizeYaw(double yaw) {
+	private static double normalizeYaw(double yaw) {
 		while(yaw >= 180)
 			yaw -= 360;
 		while(yaw <= -180)

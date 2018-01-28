@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * Drive Swerve With Xbox Controller
  */
 public class DriveSwerveWithXbox extends CommandBase {
+    private static final double DEADBAND = 0.02;
+
+    private boolean idle;
+    
     private XboxController controller;
     private SwerveDrive drive;
 
@@ -37,11 +41,26 @@ public class DriveSwerveWithXbox extends CommandBase {
      */
     @Override
     protected void execute() {
-        drive.set(
-            controller.getX(Hand.kLeft), 
-            controller.getY(Hand.kLeft), 
-            controller.getX(Hand.kRight)
-        );
+        double xInput = controller.getX(Hand.kLeft);
+		double yInput = controller.getY(Hand.kLeft);
+		double zInput = controller.getX(Hand.kRight);
+
+        boolean x = Math.abs(xInput) > DEADBAND;
+		boolean y = Math.abs(yInput) > DEADBAND;
+        boolean z = Math.abs(zInput) > DEADBAND;
+        
+        xInput = x ? xInput : 0;
+		yInput = y ? yInput : 0;
+		zInput = z ? zInput : 0;
+
+        if(x || y || z) {
+            drive.set(xInput, yInput, zInput);
+            idle = false;
+        }
+        else if(!idle) {
+            drive.stop();
+            idle = true;
+        }
     }
 
     /**

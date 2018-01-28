@@ -32,7 +32,7 @@ public class DriveStraightWithJoystick extends CommandBase {
 
 	@Override
 	protected void execute() {
-		drive.goStraight(joystick.getY(), yaw);
+		drive.goStraight(-joystick.getY(), yaw);
 	}
 
 	@Override

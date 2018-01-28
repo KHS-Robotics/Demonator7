@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.Joystick;
  * Drive Swerve With Two Joysticks
  */
 public class DriveSwerveWithTwoJoysticks extends CommandBase {
+	private static final double DEADBAND = 0.02;
+
+	private boolean idle;
+
     private Joystick xy;
     private Joystick z;
 	private SwerveDrive drive;
@@ -39,7 +43,26 @@ public class DriveSwerveWithTwoJoysticks extends CommandBase {
      */
 	@Override
 	protected void execute() {
-		drive.set(xy.getX(), xy.getY(), z.getTwist());
+		double xInput = xy.getX();
+		double yInput = xy.getY();
+		double zInput = z.getTwist();
+
+		boolean x = Math.abs(xInput) > DEADBAND;
+		boolean y = Math.abs(yInput) > DEADBAND;
+		boolean Z = Math.abs(zInput) > DEADBAND;
+
+		xInput = x ? xInput : 0;
+		yInput = y ? yInput : 0;
+		zInput = Z ? zInput : 0;
+
+		if(x || y || Z) {
+			drive.set(xy.getX(), xy.getY(), z.getTwist());
+			idle = false;
+		}
+		else if(!idle) {
+			drive.stop();
+			idle = true;
+		}
 	}
 
 	/**

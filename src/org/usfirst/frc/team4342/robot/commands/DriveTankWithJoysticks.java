@@ -12,6 +12,8 @@ public class DriveTankWithJoysticks extends CommandBase {
 	// [0,1], 0 for no sensitivity control (linear) and 
 	// 1 for full sensitivity control (cubic)
 	private static final double SENSITIVITY = 0.15;
+
+	private boolean idle;
 	
 	private Joystick leftJoystick, rightJoystick;
 	private TankDrive drive;
@@ -44,10 +46,12 @@ public class DriveTankWithJoysticks extends CommandBase {
 		if(Math.abs(LEFT_Y) > JOYSTICK_DEADZONE || Math.abs(RIGHT_Y) > JOYSTICK_DEADZONE)
 		{	
 			drive.set(adjust(LEFT_Y), adjust(RIGHT_Y));
+			idle = false;
 		} 
-		else 
+		else if(!idle)
 		{
 			drive.stop();
+			idle = true;
 		}
 	}
 	
