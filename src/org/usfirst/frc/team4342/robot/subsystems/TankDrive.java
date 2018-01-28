@@ -9,27 +9,19 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 
 /**
  * Tank Drive subsystem
  */
-public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
+public class TankDrive extends DriveTrainBase
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
 	private TalonSRX fr, fl, rr, rl;
-	private AHRS navx;
 	private Encoder left, right;
-	private PIDController yawPID;
 	
 	private boolean invertRight, invertLeft;
 	private double direction;
-	private double offset;
-	private PIDSourceType pidSourceType;
 	
 	/**
 	 * Creates a new <code>TankDrive</code> subsystem
@@ -43,27 +35,63 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	 */
 	public TankDrive(TalonSRX fr, TalonSRX fl, TalonSRX rr, TalonSRX rl, AHRS navx, Encoder left, Encoder right)
 	{
+		super(navx);
+
 		this.fr = fr;
 		this.fl = fl;
 		this.rr = rr;
 		this.rl = rl;
-		this.navx = navx;
 		this.left = left;
 		this.right = right;
-		
-		setPIDSourceType(PIDSourceType.kDisplacement);
-		
-		yawPID = new PIDController(P, I, D, this, this);
-		yawPID.setInputRange(-180.0, 180.0);
-		yawPID.setOutputRange(-1.0, 1.0);
-		yawPID.setContinuous();
-		yawPID.setAbsoluteTolerance(2);
-		disablePID();
+
+		setPID(P, I, D);
 	}
-	
-	public void setPID(double P, double I, double D)
+
+	/**
+	 * <p>Sets the default command to <code>DriveTankWithJoysticks</code></p>
+	 * 
+	 * {@inheritDoc}
+	 * @see DriveTankWithJoysticks
+	 */
+	@Override
+	protected void initDefaultCommand()
 	{
-		yawPID.setPID(P, I, D);
+		OI oi = OI.getInstance();
+		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.TankDrive));
+	}
+
+	/**
+	 * Overridden method to specify how the PIDController should output
+	 * to the drive train
+	 */
+	@Override
+	public void pidWrite(double output)
+	{
+		double left = direction + output;
+		double right = direction - output;
+		
+		this.set(left, right);
+	}
+
+	/**
+	 * Orients the robot to a certain yaw and then goes straight
+	 * @param direction the speed to go straight ranging from -1.0 to 1.0
+	 * @param yaw the yaw to orient and hold
+	 */
+	@Override
+	public void goStraight(double direction, double yaw)
+	{
+		this.setHeading(normalizeYaw(yaw));
+		this.setDirection(direction);
+		enablePID();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void resetNavX() {
+		super.resetNavX();
 	}
 	
 	/**
@@ -99,8 +127,9 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	}
 	
 	/**
-	 * Stops the drive train
+	 * {@inheritDoc}
 	 */
+	@Override
 	public void stop()
 	{
 		this.disablePID();
@@ -133,74 +162,6 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		left.reset();
 		right.reset();
 	}
-	
-	/**
-	 * Resets the NavX, should only be used when testing
-	 */
-	public void resetNavX()
-	{
-		navx.reset();
-	}
-	
-	/**
-	 * Gets the current heading of the robot
-	 * @return the current heading of the robot ranging from -180.0 to 180.0 degrees
-	 */
-	public double getHeading()
-	{
-		return normalizeYaw(navx.getYaw() + offset);
-	}
-	
-	/**
-	 * Sets the internal PID conroller's setpoint to the specified yaw and enables PID
-	 * @param yaw the yaw to orient the robot to
-	 */
-	public void setHeading(double yaw)
-	{
-		yawPID.setSetpoint(normalizeYaw(yaw));
-		enablePID();
-	}
-	
-	/**
-	 * Enables the internal PID controller
-	 */
-	public void enablePID()
-	{
-		yawPID.enable();
-	}
-	
-	/**
-	 * Disables the internal PID controller if it's enabled
-	 */
-	public void disablePID()
-	{
-		if(yawPID.isEnabled())
-		{
-			yawPID.disable();
-			direction = 0;
-		}
-	}
-	
-	/**
-	 * Returns if the internal PID controller is enabled
-	 * @return true if the internal PID controller is enabled, false otherwise
-	 */
-	public boolean pidEnabled()
-	{
-		return yawPID.isEnabled();
-	}
-	
-	/**
-	 * Orients the robot to a certain yaw and then goes straight
-	 * @param direction the speed to go straight ranging from -1.0 to 1.0
-	 * @param yaw the yaw to orient and hold
-	 */
-	public void goStraight(double direction, double yaw)
-	{
-		this.setHeading(normalizeYaw(yaw));
-		this.setDirection(direction);
-		enablePID();
-	}
 
 	/**
 	 * Sets the output of the drive train to go forwards or backwards
@@ -211,81 +172,29 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 	{
 		this.direction = direction;
 	}
-	
+
 	/**
-	 * Sets the yaw offset to return the proper values from the NavX
-	 * @param offset the offset ranging from -180.0 to 180.0
-	 */
-	public void setYawOffset(double offset)
-	{
-		this.offset = offset;
-	}
-	
-	/**
-	 * Gets if the internal PID controller is on target with its setpoint
-	 * within a tolerance of two degrees
-	 * @return true if the internal PID controller is at its setpoint, false otherwise
-	 */
-	public boolean onTarget()
-	{
-		return yawPID.onTarget();
-	}
-	
-	/**
-	 * Sets the internal PID controller's PIDSourceType
+	 * Gets the right and left distance
+	 * @return an array of two elements, with the
+	 * first element being the right distance and
+	 * the second element being the left distance
 	 */
 	@Override
-	public void setPIDSourceType(PIDSourceType pidSource)
-	{
-		pidSourceType = pidSource;
+	public double[] getAllDistances() {
+		return new double[] {
+			Math.abs(getRightDistance()),
+			Math.abs(getLeftDistance())
+		};
 	}
-	
+
 	/**
-	 * Gets the internal PID Controller's current PIDSourceType
-	 * @return the internal PID Controller's current PIDSourceType
+	 * {@inheritDoc}
 	 */
 	@Override
-	public PIDSourceType getPIDSourceType()
-	{
-		return pidSourceType;
-	}
-	
-	/**
-	 * Gets the heading of the robot
-	 * @return the current yaw of the robot
-	 */
-	@Override
-	public double pidGet()
-	{
-		if(pidSourceType == PIDSourceType.kRate)
-			return navx.getRate();
-		else
-			return this.getHeading();
-	}
-	
-	/**
-	 * Overridden method to specify how the PIDController should output
-	 * to the drive train
-	 */
-	@Override
-	public void pidWrite(double output)
-	{
-		double left = direction + output;
-		double right = direction - output;
-		
-		this.set(left, right);
-	}
-	
-	/**
-	 * Calculates the remaining distance the robot needs to drive before
-	 * reaching the desired distance
-	 * @param distance the desired distance (in inches)
-	 * @param initialLeft the initial left encoder distance (in inches, basically a snapshot of {@link #getLeftDistance()})
-	 * @param initialRight the initial right encoder distance (in inches, basically a snapshot of {@link #getRightDistance()})
-	 * @return the remaining distance the robot needs to drive
-	 */
-	public double remainingDistance(double distance, double initialLeft, double initialRight)
-	{
+	public double remainingDistance(double distance, double[] distances) {
+		final double initialRight = distances[0];
+		final double initialLeft = distances[1];
+
 		final double CURRENT_RIGHT_VAL = Math.abs(getRightDistance());
 		final double CURRENT_LEFT_VAL = Math.abs(getLeftDistance());
 		final double DELTA_RIGHT = Math.abs(CURRENT_RIGHT_VAL - initialRight);
@@ -296,19 +205,6 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		final double REMAINING = distance - AVERAGE;
 		
 		return REMAINING;
-	}
-	
-	/**
-	 * <p>Sets the default command to <code>DriveTankWithJoysticks</code></p>
-	 * 
-	 * {@inheritDoc}
-	 * @see DriveTankWithJoysticks
-	 */
-	@Override
-	protected void initDefaultCommand()
-	{
-		OI oi = OI.getInstance();
-		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.TankDrive));
 	}
 	
 	/**
@@ -323,20 +219,5 @@ public class TankDrive extends SubsystemBase implements PIDSource, PIDOutput
 		else if(output < -1)
 			return -1.0;
 		return output;
-	}
-	
-	/**
-	 * Internal function to normalize yaw
-	 * @param yaw the unnormalized yaw
-	 * @return the normalized yaw ranging from -180.0 o 180.0
-	 */
-	private static double normalizeYaw(double yaw)
-	{
-		while(yaw >= 180)
-			yaw -= 360;
-		while(yaw <= -180)
-			yaw += 360;
-		
-		return yaw;
 	}
 }

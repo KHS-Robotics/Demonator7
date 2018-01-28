@@ -1,20 +1,20 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
+import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 /**
  * Command to change the robot's heading
  */
-public class TankGoToAngle extends CommandBase {
-	protected final TankDrive drive;
-	private double yaw;
+public class DriveGoToAngle extends CommandBase {
+	protected final DriveTrainBase drive;
+	protected double yaw;
 	
 	/**
 	 * Command to change the robot's heading
 	 * @param drive the drive
 	 * @param yaw the yaw (-180 to 180)
 	 */
-	public TankGoToAngle(TankDrive drive, double yaw) {
+	public DriveGoToAngle(DriveTrainBase drive, double yaw) {
 		super(3);
 		
 		this.drive = drive;
@@ -31,14 +31,6 @@ public class TankGoToAngle extends CommandBase {
 	@Override
 	protected boolean isFinished() {
 		return drive.onTarget() || this.isTimedOut();
-	}
-
-	protected void setSetpoint(double yaw) {
-		this.yaw = yaw;
-	}
-
-	protected double getSetpoint() {
-		return yaw;
 	}
 
 	@Override

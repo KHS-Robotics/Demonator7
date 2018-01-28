@@ -1,11 +1,11 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
+import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 /**
  * Command to turn the robot a specified number of degrees
  */
-public class TurnTank extends TankGoToAngle {
+public class DriveTurn extends DriveGoToAngle {
     private double offset;
     private boolean clockwise;
 
@@ -16,7 +16,7 @@ public class TurnTank extends TankGoToAngle {
      * @param clockwise true to turn clockwise (right), false to
      * turn counterclockwise (left)
      */
-    public TurnTank(TankDrive drive, double offset, boolean clockwise) {
+    public DriveTurn(DriveTrainBase drive, double offset, boolean clockwise) {
         super(drive, 0);
 
         this.offset = offset;
@@ -29,7 +29,7 @@ public class TurnTank extends TankGoToAngle {
      * @param clockwise true to turn clockwise (right), false to
      * turn counterclockwise (left)
      */
-    public TurnTank(TankDrive drive, boolean clockwise) {
+    public DriveTurn(DriveTrainBase drive, boolean clockwise) {
         this(drive, 90, clockwise);
     }
 
@@ -37,7 +37,7 @@ public class TurnTank extends TankGoToAngle {
      * Command to turn the robot 90 degrees right
      * @param drive the drive
      */
-    public TurnTank(TankDrive drive) {
+    public DriveTurn(DriveTrainBase drive) {
         this(drive, 90, true);
     }
 
@@ -45,7 +45,7 @@ public class TurnTank extends TankGoToAngle {
     protected void initialize() {
         double setpoint = drive.getHeading();
         setpoint = clockwise ? setpoint + offset : setpoint - offset;
-        this.setSetpoint(setpoint);
+        this.yaw = setpoint;
         
         super.initialize();
     }

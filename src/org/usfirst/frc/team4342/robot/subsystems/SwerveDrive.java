@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.PIDOutput;
 /**
  * Swerve Drive subsystem
  */
-public class SwerveDrive extends SubsystemBase {
+public class SwerveDrive extends DriveTrainBase {
 	private static class Constants {
 		// Dimensions
 		static final double L = 32.3, W = 23.5; // vehicle’s wheelbase and trackwidth
@@ -23,6 +23,7 @@ public class SwerveDrive extends SubsystemBase {
 
 		// Pivot PID values
 		static final double P = 0.0, I = 0.0, D = 0.0;
+		static final double TOLERANCE = 2.0; // degrees
 
 		// For PID and Voltage to Angle conversion
 		static final double MIN_VOLTAGE = 0.0;
@@ -36,7 +37,6 @@ public class SwerveDrive extends SubsystemBase {
 	private final SwerveModule fl;
 	private final SwerveModule rr;
 	private final SwerveModule rl;
-	private final AHRS navx;
 	
 	/**
 	 * Creates a new <code>SwerveDrive</code> subsystem
@@ -47,11 +47,14 @@ public class SwerveDrive extends SubsystemBase {
 	 * @param navx the NavX
 	 */
 	public SwerveDrive(SwerveModule fr, SwerveModule fl, SwerveModule rr, SwerveModule rl, AHRS navx) {
+		super(navx);
+
 		this.fr = fr;
 		this.fl = fl;
 		this.rr = rr;
 		this.rl = rl;
-		this.navx = navx;
+
+		setPID(Constants.P, Constants.I, Constants.D);
 	}
 	
 	/**
@@ -62,12 +65,21 @@ public class SwerveDrive extends SubsystemBase {
 //		OI oi = OI.getInstance();
 //		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.SwerveDrive));
 	}
-	
+
 	/**
-	 * Resets the NavX
+	 * {@inheritDoc}
 	 */
-	public void resetNavX() {
-		navx.reset();
+	@Override
+	public void pidWrite(double output) {
+		this.set(0, 0, output);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void goStraight(double direction, double yaw) {
+		this.setAll(direction, 180);
 	}
 	
 	/**
@@ -92,8 +104,9 @@ public class SwerveDrive extends SubsystemBase {
 		final double rcw = z;
 		
 		if(fieldOriented) {
-			final double TEMP = fwd*Math.cos(navx.getAngle()) + str*Math.sin(navx.getAngle());
-			str = -fwd*Math.sin(navx.getAngle()) + str*Math.cos(navx.getAngle());
+			final double currentAngle = this.getAngle();
+			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
+			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
 			fwd = TEMP;
 		}
 		
@@ -245,16 +258,30 @@ public class SwerveDrive extends SubsystemBase {
 	}
 
 	/**
-	 * Calculates the remaining distance the robot needs to drive before
-	 * reaching the desired distance
-	 * @param distance the desired distance (in inches)
-	 * @param initalFR the initial front right encoder distance (in inches, basically a snapshot of {@link #getFRDistance()})
-	 * @param initalFL the initial front left encoder distance (in inches, basically a snapshot of {@link #getFLDistance()})
-	 * @param initalRR the initial rear right encoder distance (in inches, basically a snapshot of {@link #getRRDistance()})
-	 * @param initalRL the initial rear left encoder distance (in inches, basically a snapshot of {@link #getRLDistance()})
-	 * @return the remaining distance the robot needs to drive
+	 * Gets all drive distances
+	 * @return an array of four elements, in the
+	 * following order: fr, fl, rr, rl
 	 */
-	public double remainingDistance(double distance, double initalFR, double initalFL, double initalRR, double initalRL) {
+	@Override
+	public double[] getAllDistances() {
+		return new double[] {
+			Math.abs(fr.getDistance()),
+			Math.abs(fl.getDistance()),
+			Math.abs(rr.getDistance()),
+			Math.abs(rl.getDistance())
+		};
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public double remainingDistance(double distance, double[] distances) {
+		final double initalFR = distances[0];
+		final double initalFL = distances[1];
+		final double initalRR = distances[2];
+		final double initalRL = distances[3];
+
 		final double frDist = Math.abs(fr.getDistance());
 		final double flDist = Math.abs(fl.getDistance());
 		final double rrDist = Math.abs(rr.getDistance());
@@ -338,7 +365,7 @@ public class SwerveDrive extends SubsystemBase {
 			
 			pivotPID.setInputRange(Constants.MIN_VOLTAGE, Constants.MAX_VOLTAGE);
 			pivotPID.setOutputRange(-1, 1);
-			pivotPID.setAbsoluteTolerance(0.025);
+			pivotPID.setAbsoluteTolerance(toVoltage(Constants.TOLERANCE));
 			pivotPID.setContinuous();
 		}
 

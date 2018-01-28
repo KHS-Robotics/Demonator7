@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.StartClimber;
+import org.usfirst.frc.team4342.robot.commands.DriveGoToAngle;
+import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
@@ -9,11 +11,9 @@ import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.StopClimber;
+import org.usfirst.frc.team4342.robot.commands.StopDrive;
 import org.usfirst.frc.team4342.robot.commands.StopElevator;
 import org.usfirst.frc.team4342.robot.commands.StopIntake;
-import org.usfirst.frc.team4342.robot.commands.StopTankDrive;
-import org.usfirst.frc.team4342.robot.commands.TankDriveStraightWithJoystick;
-import org.usfirst.frc.team4342.robot.commands.TankGoToAngle;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -163,23 +163,23 @@ public class OI {
 		
 		// Button on the right drive stick to maintain the robot's current heading
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
-		driveStraight.whenPressed(new TankDriveStraightWithJoystick(RightDriveStick, TankDrive));
-		driveStraight.whenReleased(new StopTankDrive(TankDrive));
+		driveStraight.whenPressed(new DriveStraightWithJoystick(RightDriveStick, TankDrive));
+		driveStraight.whenReleased(new StopDrive(TankDrive));
 		
 		// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);
-		goToZero.whenPressed(new TankGoToAngle(TankDrive, 0));
+		goToZero.whenPressed(new DriveGoToAngle(TankDrive, 0));
 		
 		// Button on the right drive stick to go to -90 degree heading (facing towards left side of the field)
 		JoystickButton goToLeft = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_LEFT);
-		goToLeft.whenPressed(new TankGoToAngle(TankDrive, -90));
+		goToLeft.whenPressed(new DriveGoToAngle(TankDrive, -90));
 		
 		// Button on the right drive stick to go to 90 degree heading (facing towards right side of the field)
 		JoystickButton goToRight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_RIGHT);
-		goToRight.whenPressed(new TankGoToAngle(TankDrive, 90));
+		goToRight.whenPressed(new DriveGoToAngle(TankDrive, 90));
 		
 		// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
 		JoystickButton go180 = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_180);
-		go180.whenPressed(new TankGoToAngle(TankDrive, 180));
+		go180.whenPressed(new DriveGoToAngle(TankDrive, 180));
 	}
 }

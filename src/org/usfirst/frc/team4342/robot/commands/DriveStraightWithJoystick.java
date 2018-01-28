@@ -1,15 +1,15 @@
 package org.usfirst.frc.team4342.robot.commands;
 
-import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
+import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * Command to drive straight with a joystick
  */
-public class TankDriveStraightWithJoystick extends CommandBase {
+public class DriveStraightWithJoystick extends CommandBase {
 	private Joystick joystick;
-	private TankDrive drive;
+	private DriveTrainBase drive;
 	
 	private double yaw;
 	
@@ -18,7 +18,7 @@ public class TankDriveStraightWithJoystick extends CommandBase {
 	 * @param joystick the joystick
 	 * @param drive the drive
 	 */
-	public TankDriveStraightWithJoystick(Joystick joystick, TankDrive drive) {
+	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
 		this.joystick = joystick;
 		this.drive = drive;
 		
@@ -42,5 +42,4 @@ public class TankDriveStraightWithJoystick extends CommandBase {
 
 	@Override
 	protected void end() {}
-	
 }
