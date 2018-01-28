@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -16,6 +17,8 @@ import edu.wpi.first.wpilibj.PIDOutput;
  */
 public class SwerveDrive extends DriveTrainBase {
 	private static class Constants {
+		static boolean DEBUG = true;
+
 		// Dimensions
 		static final double L = 32.3, W = 23.5; // vehicle’s wheelbase and trackwidth
 		static final double R = Math.sqrt((L*L) + (W*W));
@@ -71,6 +74,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void pidWrite(double output) {
+		if(Constants.DEBUG)
+			Logger.debug("Swerve Drive pidWrite output=" + output);
+
 		this.set(0, 0, output);
 	}
 
@@ -79,6 +85,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void goStraight(double direction, double yaw) {
+		if(Constants.DEBUG)
+			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw);
+
 		this.setAll(direction, 180);
 	}
 	
@@ -87,6 +96,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param flag true for field oriented, false for robot oriented
 	 */
 	public void setFieldOriented(boolean flag) {
+		if(Constants.DEBUG)
+			Logger.debug("SwerveDrive setFieldOriented flag=" + flag);
+
 		fieldOriented = flag;
 	}
 	
@@ -121,13 +133,6 @@ public class SwerveDrive extends DriveTrainBase {
 		
 		double flSpeed = calcMagnitude(xPos, yPos);
 		double flPivot = calcAngle(xPos, yPos);
-
-		// Make sure we don't use the arctan value
-		// with x=0
-		if(xPos == 0) {
-			flPivot = fl.getAngle();
-			frPivot = fr.getAngle();
-		}
 		
 		double rlSpeed = calcMagnitude(xNeg, yPos);
 		double rlPivot = calcAngle(xNeg, yPos);
@@ -137,9 +142,14 @@ public class SwerveDrive extends DriveTrainBase {
 
 		// Make sure we don't use the arctan value
 		// with x=0
-		if(xNeg == 0) {
+		if(xNeg == 0 && Math.abs(fwd) < 0.001) {
+			frPivot = fr.getAngle();
+			flPivot = fl.getAngle();
 			rrPivot = rr.getAngle();
 			rlPivot = rl.getAngle();
+		}
+		else if(xNeg == 0) {
+			frPivot = flPivot = rrPivot = rlPivot = 180;
 		}
 		
 		double max = frSpeed;
@@ -166,6 +176,12 @@ public class SwerveDrive extends DriveTrainBase {
 		fl.setDrive(flSpeed);
 		rl.setDrive(rlSpeed);
 		rr.setDrive(rrSpeed);
+
+		if(Constants.DEBUG) {
+			Logger.debug("SwerveDrive set x=" + x + " y=" + y + " z=" + z);
+			Logger.debug("FL speed=" + flSpeed + " pivot=" + flPivot + " :: FR speed=" + frSpeed + " pivot=" + frPivot);
+			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rlSpeed + " pivot=" + rlPivot);
+		}
 	}
 	
 	/**
@@ -174,6 +190,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param angle the angle ranging from 0 to 360
 	 */
 	public void setAll(double output, double angle) {
+		if(Constants.DEBUG)
+			Logger.debug("SwerveDrive setAll output=" + output + " angle=" + angle);
+
 		fr.setPivot(angle);
 		fl.setPivot(angle);
 		rr.setPivot(angle);
@@ -190,6 +209,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param output the speed ranging from -1 to 1
 	 */
 	public void setDrive(double output) {
+		if(Constants.DEBUG)
+			Logger.debug("SwerveDrive serDrive output=" + output);
+
 		fr.setDrive(output);
 		fl.setDrive(output);
 		rr.setDrive(output);
@@ -201,6 +223,9 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param angle the pivot angle
 	 */
 	public void setPivot(double angle) {
+		if(Constants.DEBUG)
+			Logger.debug("SwerveDrive setPivot angle=" + angle);
+			
 		fr.setPivot(angle);
 		fl.setPivot(angle);
 		rr.setPivot(angle);
@@ -401,6 +426,9 @@ public class SwerveDrive extends DriveTrainBase {
 			// complementary (e.g., add 180)
 			if(flipDrive)
 				angle += 180;
+
+			if(Constants.DEBUG)
+				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle);
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();

@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void teleopInit() {
+		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
 		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
@@ -86,6 +87,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Logger.info("Entering autonomous...");
 		stopAutonomousRoutine();
 		
 		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
@@ -93,28 +95,37 @@ public class Robot extends TimedRobot {
 		
 		final OI oi = OI.getInstance();
 
+		String routine;
 		final StartPosition position = startPositionChooser.getSelected();
 		switch(priorityChooser.getSelected()) {
 			case BASELINE:
+				routine = "AutoBaseline";
 				autonomousRoutine = new AutoBaseline(position, oi.Drive);
 			break;
 			
 			case SWITCH:
+				routine = "AutoSwitch";
 				autonomousRoutine = new AutoSwitch(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			case SCALE:
+				routine = "AutoScale";
 				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 				
 			case BOTH:
+				routine = "AutoBoth";
 				autonomousRoutine = new AutoBoth(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:
+				routine = null;
 				Logger.warning("Auto priority could not be determined! Crossing auto line!");
 				autonomousRoutine = new AutoBaseline(position, oi.Drive);
 		}
+
+		if(routine != null)
+			Logger.info("Selected \"" + routine + "\" auto routine for " + position.toString().toLowerCase());
 		
 		startAutonomousRoutine();
 	}
@@ -133,6 +144,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
 		OI.getInstance().Drive.setNeutralMode(NeutralMode.Coast);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
@@ -165,6 +177,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testInit() {
+		Logger.info("Entering test...");
 		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
 	}
@@ -173,15 +186,19 @@ public class Robot extends TimedRobot {
 	 * Starts the autonomous routine
 	 */
 	private void startAutonomousRoutine() {
-		if(autonomousRoutine != null && !autonomousRoutine.isRunning())
+		if(autonomousRoutine != null && !autonomousRoutine.isRunning()) {
+			Logger.info("Starting autonomous routine...");
 			autonomousRoutine.start();
+		}
 	}
 	
 	/**
 	 * Stops the autonomous routine
 	 */
 	private void stopAutonomousRoutine() {
-		if(autonomousRoutine != null)
+		if(autonomousRoutine != null) {
+			Logger.info("Stopping autonomous routine...");
 			autonomousRoutine.cancel();
+		}
 	}
 }

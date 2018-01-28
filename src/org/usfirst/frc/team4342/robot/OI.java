@@ -64,7 +64,7 @@ public class OI {
 	public final DigitalInput EleLS;
 	
 	private OI() {
-		Logger.info("Constructing the Operator Interface (OI).....");
+		Logger.info("Constructing the Operator Interface.....");
 		
 		// Joysticks and Switch Box
 		// TODO: Switch to only using the switch box 
