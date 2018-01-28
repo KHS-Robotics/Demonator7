@@ -1,6 +1,5 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PIDController;

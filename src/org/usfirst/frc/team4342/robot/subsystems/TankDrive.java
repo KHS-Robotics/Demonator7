@@ -57,7 +57,7 @@ public class TankDrive extends DriveTrainBase
 	protected void initDefaultCommand()
 	{
 		OI oi = OI.getInstance();
-		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.TankDrive));
+		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.Drive));
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class OI {
 	// Subsystems
 	public final Intake Intake;
 	public final Elevator Elevator;
-	public final TankDrive TankDrive;
+	public final TankDrive Drive;
 	public final Climber Climber;
 	
 	// Motors, sensors, and joysticks
@@ -113,10 +113,10 @@ public class OI {
 		// Subsystems
 		Intake = new Intake(IntakeMotor);
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS, CubeUltra);
-		TankDrive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
+		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
 		
-		TankDrive.setNeutralMode(NeutralMode.Coast);
+		Drive.setNeutralMode(NeutralMode.Coast);
 
 		// Climbing button to enable the winch
 		// Switch is opposite
@@ -163,23 +163,23 @@ public class OI {
 		
 		// Button on the right drive stick to maintain the robot's current heading
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
-		driveStraight.whenPressed(new DriveStraightWithJoystick(RightDriveStick, TankDrive));
-		driveStraight.whenReleased(new StopDrive(TankDrive));
+		driveStraight.whenPressed(new DriveStraightWithJoystick(RightDriveStick, Drive));
+		driveStraight.whenReleased(new StopDrive(Drive));
 		
 		// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);
-		goToZero.whenPressed(new DriveGoToAngle(TankDrive, 0));
+		goToZero.whenPressed(new DriveGoToAngle(Drive, 0));
 		
 		// Button on the right drive stick to go to -90 degree heading (facing towards left side of the field)
 		JoystickButton goToLeft = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_LEFT);
-		goToLeft.whenPressed(new DriveGoToAngle(TankDrive, -90));
+		goToLeft.whenPressed(new DriveGoToAngle(Drive, -90));
 		
 		// Button on the right drive stick to go to 90 degree heading (facing towards right side of the field)
 		JoystickButton goToRight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_RIGHT);
-		goToRight.whenPressed(new DriveGoToAngle(TankDrive, 90));
+		goToRight.whenPressed(new DriveGoToAngle(Drive, 90));
 		
 		// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
 		JoystickButton go180 = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_180);
-		go180.whenPressed(new DriveGoToAngle(TankDrive, 180));
+		go180.whenPressed(new DriveGoToAngle(Drive, 180));
 	}
 }

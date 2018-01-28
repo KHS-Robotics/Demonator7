@@ -65,9 +65,9 @@ public class DemonDashboard
 					SmartDashboard.putBoolean("Elev-AtBottom", oi.Elevator.isAtBottom());
 					SmartDashboard.putBoolean("Elev-HasCube", oi.Elevator.hasCube());
 					
-					SmartDashboard.putNumber("Drive-LD", oi.TankDrive.getLeftDistance());
-					SmartDashboard.putNumber("Drive-RD", oi.TankDrive.getRightDistance());
-					SmartDashboard.putNumber("Drive-Heading", oi.TankDrive.getHeading());
+					SmartDashboard.putNumber("Drive-LD", oi.Drive.getLeftDistance());
+					SmartDashboard.putNumber("Drive-RD", oi.Drive.getRightDistance());
+					SmartDashboard.putNumber("Drive-Heading", oi.Drive.getHeading());
 					
 					Thread.sleep(50);
 				}

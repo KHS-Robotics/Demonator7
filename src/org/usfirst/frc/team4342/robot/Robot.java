@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		stopAutonomousRoutine();
-		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Brake);
+		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		stopAutonomousRoutine();
 		
-		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Brake);
+		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 		
 		final OI oi = OI.getInstance();
@@ -96,24 +96,24 @@ public class Robot extends TimedRobot {
 		final StartPosition position = startPositionChooser.getSelected();
 		switch(priorityChooser.getSelected()) {
 			case BASELINE:
-				autonomousRoutine = new AutoBaseline(position, oi.TankDrive);
+				autonomousRoutine = new AutoBaseline(position, oi.Drive);
 			break;
 			
 			case SWITCH:
-				autonomousRoutine = new AutoSwitch(position, oi.TankDrive, oi.Elevator, oi.Intake);
+				autonomousRoutine = new AutoSwitch(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			case SCALE:
-				autonomousRoutine = new AutoScale(position, oi.TankDrive, oi.Elevator, oi.Intake);
+				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 				
 			case BOTH:
-				autonomousRoutine = new AutoBoth(position, oi.TankDrive, oi.Elevator, oi.Intake);
+				autonomousRoutine = new AutoBoth(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:
 				Logger.warning("Auto priority could not be determined! Crossing auto line!");
-				autonomousRoutine = new AutoBaseline(position, oi.TankDrive);
+				autonomousRoutine = new AutoBaseline(position, oi.Drive);
 		}
 		
 		startAutonomousRoutine();
@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		stopAutonomousRoutine();
-		OI.getInstance().TankDrive.setNeutralMode(NeutralMode.Coast);
+		OI.getInstance().Drive.setNeutralMode(NeutralMode.Coast);
 		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
 		Scheduler.getInstance().run();
 	}
@@ -152,7 +152,7 @@ public class Robot extends TimedRobot {
 			double DP = SmartDashboard.getNumber("D-P", 0.0);
 			double DI = SmartDashboard.getNumber("D-I", 0.0);
 			double DD = SmartDashboard.getNumber("D-D", 0.0);
-			OI.getInstance().TankDrive.setPID(DP, DI, DD);
+			OI.getInstance().Drive.setPID(DP, DI, DD);
 
 			temp = 0;
 		}
