@@ -125,8 +125,8 @@ public class SwerveDrive extends DriveTrainBase {
 		// Make sure we don't use the arctan value
 		// with x=0
 		if(xPos == 0) {
-			frPivot = fr.getAngle();
 			flPivot = fl.getAngle();
+			frPivot = fr.getAngle();
 		}
 		
 		double rlSpeed = calcMagnitude(xNeg, yPos);

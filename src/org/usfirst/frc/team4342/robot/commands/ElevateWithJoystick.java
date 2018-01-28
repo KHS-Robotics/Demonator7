@@ -75,7 +75,7 @@ public class ElevateWithJoystick extends CommandBase {
 
 	@Override
 	protected void end() {
-		elevator.set(0);
+		elevator.stop();
 	}
 	
 	private static boolean checkJoystickDeadband(double a) {

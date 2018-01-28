@@ -44,11 +44,16 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 
     /**
      * Gets the remaining distance based on the average of all encoder distances
+     * @param distance the desired distance
+     * @param distances the distances of each encoder in a respective 
+     * order decided by the implementation of {@link #getAllDistances()}
+     * @return the remaining distance
      */
     public abstract double remainingDistance(double distance, double[] distances);
 
     /**
-     * Gets all distances of each encoder on the drive train
+     * Gets all distances of each encoder on the drive train. This method
+     * intended to used by {@link #remainingDistance(double, double[])}.
      */
     public abstract double[] getAllDistances();
 

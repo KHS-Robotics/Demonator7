@@ -90,7 +90,8 @@ public class TankDrive extends DriveTrainBase
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void resetNavX() {
+	public void resetNavX() 
+	{
 		super.resetNavX();
 	}
 	
@@ -132,8 +133,7 @@ public class TankDrive extends DriveTrainBase
 	@Override
 	public void stop()
 	{
-		this.disablePID();
-		this.set(0, 0);
+		set(0, 0);
 	}
 
 	/**
