@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * Intake subsystem to intake and release cubes
@@ -10,13 +9,13 @@ public class Intake extends SubsystemBase
 {
 	private boolean intaking;
 	private boolean releasing;
-	private TalonSRX motor;
+	private Spark motor;
 	
 	/**
 	 * Creates a new <code>Intake</code> subsystem
 	 * @param motor the intake motor
 	 */
-	public Intake(TalonSRX motor)
+	public Intake(Spark motor)
 	{
 		this.motor = motor;
 	}
@@ -31,7 +30,7 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motor.set(ControlMode.PercentOutput, 1);
+		motor.set(1);
 	}
 	
 	/**
@@ -44,7 +43,7 @@ public class Intake extends SubsystemBase
 		intaking = false;
 		releasing = true;
 		
-		motor.set(ControlMode.PercentOutput, -1);
+		motor.set(-1);
 	}
 	
 	/**
@@ -56,6 +55,6 @@ public class Intake extends SubsystemBase
 			return;
 		intaking = releasing = false;
 		
-		motor.set(ControlMode.PercentOutput, 0);
+		motor.set(0);
 	}
 }

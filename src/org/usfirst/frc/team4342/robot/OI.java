@@ -27,7 +27,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
@@ -55,40 +55,38 @@ public class OI {
 	public final TankDrive Drive;
 	public final Climber Climber;
 	
-	// Motors, sensors, and joysticks
-	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight,
-						  IntakeMotor, ClimberMotor, EleMotor;
+	// Joysticks, motors, and sensors
+	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
+	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight, ClimberMotor, EleMotor;
+	public final Spark IntakeMotor;
 	public final AHRS NavX;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
-	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
 	public final DigitalInput EleLS;
 	
 	private OI() {
 		Logger.info("Constructing the Operator Interface.....");
 		
 		// Joysticks and Switch Box
-		// TODO: Switch to only using the switch box 
-		// for elevator and intake once Leo is finished modifying
-		// the switch box
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
 		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		
-		// NavX
+		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
-		// TalonSRXs for DriveTrain, Intake, Climber and Elevator
+		// TalonSRXs for DriveTrain, Climber and Elevator
 		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
 		FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
 		RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
 		RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
-		IntakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
 		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
-		
-		IntakeMotor.setNeutralMode(NeutralMode.Coast);
+
 		ClimberMotor.setNeutralMode(NeutralMode.Brake);
 		EleMotor.setNeutralMode(NeutralMode.Coast);
+
+		// Intake motor
+		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 		
 		// Encoders for Drive Train and Elevator
 		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
