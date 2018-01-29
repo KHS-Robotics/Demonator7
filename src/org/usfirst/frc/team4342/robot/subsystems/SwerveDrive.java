@@ -34,6 +34,7 @@ public class SwerveDrive extends DriveTrainBase {
 		static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	}
 	
+	private double direction;
 	private boolean fieldOriented;
 	
 	private final SwerveModule fr;
@@ -66,7 +67,7 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	protected void initDefaultCommand() {
 //		OI oi = OI.getInstance();
-//		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.SwerveDrive));
+//		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.Drive));
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class SwerveDrive extends DriveTrainBase {
 		if(Constants.DEBUG)
 			Logger.debug("Swerve Drive pidWrite output=" + output);
 
-		this.set(0, 0, output);
+		this.set(0, direction, output);
 	}
 
 	/**
@@ -88,7 +89,8 @@ public class SwerveDrive extends DriveTrainBase {
 		if(Constants.DEBUG)
 			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw);
 
-		this.setAll(direction, 180);
+		this.direction = direction;
+		this.setHeading(yaw);
 	}
 	
 	/**
@@ -248,6 +250,8 @@ public class SwerveDrive extends DriveTrainBase {
 		fl.stop();
 		rr.stop();
 		rl.stop();
+
+		direction = 0;
 	}
 
 	/**
