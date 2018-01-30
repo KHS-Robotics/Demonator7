@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.logging;
 
 import org.usfirst.frc.team4342.robot.OI;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -50,13 +51,12 @@ public class DemonDashboard
 		public void run()
 		{
 			SmartDashboard.putBoolean("DemonDashboard", true);
+			SmartDashboard.putBoolean("DemonDashboard-Crash", false);
 			
 			while(running)
 			{
 				try
 				{
-					// Get values from oi object here
-
 					// NavX
 					SmartDashboard.putNumber("NavX-Angle", oi.NavX.getAngle());
 					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
@@ -70,14 +70,18 @@ public class DemonDashboard
 					
 					// Drive
 					SmartDashboard.putNumber("Drive-Heading", oi.Drive.getHeading());
-					SmartDashboard.putNumberArray("Drive-Dists", oi.Drive.getAllDistances());
-					SmartDashboard.putBoolean("Drive-AtSetpoint", oi.Drive.onTarget());
+					SmartDashboard.putNumberArray("Drive-AllDists", oi.Drive.getAllDistances());
+					SmartDashboard.putBoolean("Drive-OnTarget", oi.Drive.onTarget());
 					
+					// Power Distribution Panel
+					SmartDashboard.putData("PDP", oi.PDP);
+
 					Thread.sleep(50);
 				}
 				catch(Exception ex)
 				{
 					Logger.error("DemonDashboard crashed!", ex);
+					SmartDashboard.putBoolean("DemonDashboard-Crash", true);
 					DemonDashboard.stop();
 				}
 			}

@@ -16,8 +16,6 @@ import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 /**
  * Main Robot Class
  * @author FRC Team 4342

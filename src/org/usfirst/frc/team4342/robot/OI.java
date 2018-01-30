@@ -27,6 +27,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -48,6 +49,9 @@ public class OI {
 		
 		return instance;
 	}
+
+	// PowerDistributionPanel
+	public final PowerDistributionPanel PDP;
 	
 	// Subsystems
 	public final Intake Intake;
@@ -65,6 +69,9 @@ public class OI {
 	
 	private OI() {
 		Logger.info("Constructing the Operator Interface.....");
+
+		// Power Distribution Panel
+		PDP = new PowerDistributionPanel();
 		
 		// Joysticks and Switch Box
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);

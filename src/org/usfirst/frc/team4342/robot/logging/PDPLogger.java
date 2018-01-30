@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+import org.usfirst.frc.team4342.robot.OI;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -20,7 +22,6 @@ public class PDPLogger
 	private static final int LOGGING_SECONDS = 300;
 	
 	private static Timer timer;
-	private static PowerDistributionPanel pdp;
 	private static boolean started;
 	
 	/**
@@ -35,7 +36,6 @@ public class PDPLogger
 		Logger.info("Starting PDP Logger... logging to \"" + CSV_PATH + "\"");
 		
 		timer = new Timer();
-		pdp = new PowerDistributionPanel();
 		
 		new PDPLoggingThread().start();
 		timer.start();
@@ -48,10 +48,6 @@ public class PDPLogger
 	{
 		timer.stop();
 		timer = null;
-		
-		pdp.free();
-		pdp = null;
-		
 		started = false;
 	}
 
@@ -94,6 +90,8 @@ public class PDPLogger
 				
 				writer.write(RETURN_FEED);
 	
+				PowerDistributionPanel pdp = OI.getInstance().PDP;
+				
 				while((int)timer.get() < LOGGING_SECONDS && !errored) 
 				{
 			        for(int channel = 0; channel < NUM_CHANNELS; channel++) 
