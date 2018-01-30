@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Intake subsystem to intake and release cubes
@@ -9,13 +9,13 @@ public class Intake extends SubsystemBase
 {
 	private boolean intaking;
 	private boolean releasing;
-	private Spark motor;
+	private Talon motor;
 	
 	/**
 	 * Creates a new <code>Intake</code> subsystem
 	 * @param motor the intake motor
 	 */
-	public Intake(Spark motor)
+	public Intake(Talon motor)
 	{
 		this.motor = motor;
 	}

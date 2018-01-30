@@ -237,7 +237,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * Gets if all pivot motors are at their setpoint
 	 * @return true if all pivot motors are at their setpoint, false otherwise
 	 */
-	public boolean pivotAtSetpoint() {
+	public boolean pivotsAtSetpoint() {
 		return fr.pivotAtSetpoint() && fl.pivotAtSetpoint() && rr.pivotAtSetpoint() && fl.pivotAtSetpoint();
 	}
 	
@@ -322,10 +322,11 @@ public class SwerveDrive extends DriveTrainBase {
 		private double offset;
 		private boolean flipDrive;
 
-		private TalonSRX drive, pivot;
+		private TalonSRX drive;
 		private Encoder driveEnc;
 		private AnalogInput pivotEnc;
 		
+		// TalonSRX doesn't implement PIDOutput :(
 		private class PIDOutputClass implements PIDOutput {
 			private TalonSRX motor;
 			public PIDOutputClass(TalonSRX motor) {
@@ -348,7 +349,6 @@ public class SwerveDrive extends DriveTrainBase {
 		public SwerveModule(TalonSRX drive, Encoder driveEnc, TalonSRX pivot, AnalogInput pivotEnc) {
 			this.drive = drive;
 			this.driveEnc = driveEnc;
-			this.pivot = pivot;
 			this.pivotEnc = pivotEnc;
 			
 			pivotPID = new PIDController(
@@ -377,7 +377,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * Sets the speed for the drive motor
 		 * @param output the speed ranging from 0 to 1
 		 */
-		public void setDrive(double output) {
+		protected void setDrive(double output) {
 			output = flipDrive ? -output : output;
 			drive.set(ControlMode.PercentOutput, output);
 		}
@@ -386,7 +386,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * Sets the pivot angle
 		 * @param angle the pivot angle ranging from 0 to 360
 		 */
-		public void setPivot(double angle) {
+		protected void setPivot(double angle) {
 			angle %= 360;
 
 			// Check if complementary angle is closer
@@ -442,7 +442,7 @@ public class SwerveDrive extends DriveTrainBase {
 		/**
 		 * Stops the swerve module
 		 */
-		public void stop() {
+		protected void stop() {
 			drive.set(ControlMode.PercentOutput, 0);
 			if(pivotPID.isEnabled())
 				pivotPID.disable();

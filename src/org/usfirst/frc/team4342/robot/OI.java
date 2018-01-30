@@ -27,7 +27,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -58,9 +57,8 @@ public class OI {
 	
 	// Joysticks, motors, and sensors
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
-	public final Talon FrontLeft, FrontRight, RearLeft, RearRight;
+	public final Talon FrontLeft, FrontRight, RearLeft, RearRight, IntakeMotor;
 	public final TalonSRX ClimberMotor, EleMotor;
-	public final Spark IntakeMotor;
 	public final AHRS NavX;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final DigitalInput EleLS;
@@ -90,7 +88,7 @@ public class OI {
 		EleMotor.setNeutralMode(NeutralMode.Brake);
 
 		// Intake motor
-		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+		IntakeMotor = new Talon(RobotMap.INTAKE_MOTOR);
 		
 		// Encoders for Drive Train and Elevator
 		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
