@@ -37,10 +37,10 @@ public class SwerveDrive extends DriveTrainBase {
 	private double direction;
 	private boolean fieldOriented;
 	
-	private final SwerveModule fr;
-	private final SwerveModule fl;
-	private final SwerveModule rr;
-	private final SwerveModule rl;
+	public final SwerveModule fr;
+	public final SwerveModule fl;
+	public final SwerveModule rr;
+	public final SwerveModule rl;
 	
 	/**
 	 * Creates a new <code>SwerveDrive</code> subsystem
@@ -118,12 +118,11 @@ public class SwerveDrive extends DriveTrainBase {
 		final double rcw = z;
 		
 		if(fieldOriented) {
-			final double currentAngle = this.getAngle();
+			final double currentAngle = Math.toRadians(this.getAngle()); // make sure to use radians
 			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
 			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
 			fwd = TEMP;
 		}
-		
 		
 		final double xNeg = str - (rcw*Constants.L_OVER_R);
 		final double xPos = str + (rcw*Constants.L_OVER_R);
@@ -144,7 +143,7 @@ public class SwerveDrive extends DriveTrainBase {
 
 		// Make sure we don't use the arctan value
 		// with x=0
-		if(xNeg == 0 && Math.abs(fwd) < 0.001) {
+		if((xNeg == 0 && Math.abs(fwd) < 0.001) || (x == 0 && y == 0 && z == 0)) {
 			frPivot = fr.getAngle();
 			flPivot = fl.getAngle();
 			rrPivot = rr.getAngle();
@@ -182,7 +181,7 @@ public class SwerveDrive extends DriveTrainBase {
 		if(Constants.DEBUG) {
 			Logger.debug("SwerveDrive set x=" + x + " y=" + y + " z=" + z);
 			Logger.debug("FL speed=" + flSpeed + " pivot=" + flPivot + " :: FR speed=" + frSpeed + " pivot=" + frPivot);
-			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rlSpeed + " pivot=" + rlPivot);
+			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rrSpeed + " pivot=" + rrPivot);
 		}
 	}
 	
@@ -255,38 +254,6 @@ public class SwerveDrive extends DriveTrainBase {
 	}
 
 	/**
-	 * Gets the current front right drive distance
-	 * @return the current front right drive distance
-	 */
-	public double getFRDistance() {
-		return fr.getDistance();
-	}
-
-	/**
-	 * Gets the current front left drive distance
-	 * @return the current front left drive distance
-	 */
-	public double getFLDistance() {
-		return fl.getDistance();
-	}
-
-	/**
-	 * Gets the current rear right drive distance
-	 * @return the current rear right drive distance
-	 */
-	public double getRRDistance() {
-		return rr.getDistance();
-	}
-
-	/**
-	 * Gets the current rear left drive distance
-	 * @return the current rear left drive distance
-	 */
-	public double getRLDistance() {
-		return rl.getDistance();
-	}
-
-	/**
 	 * Gets all drive distances
 	 * @return an array of four elements, in the
 	 * following order: fr, fl, rr, rl
@@ -344,7 +311,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @return the angle of the polar coordinate
 	 */
 	private static double calcAngle(double x, double y) {
-		return Math.toDegrees(Math.atan2(y, x)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
+		return Math.toDegrees(Math.atan2(x, -y)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
 	}
 	
 	/**
@@ -443,9 +410,17 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @return the pivot angle in degrees
 		 */
 		public double getAngle() {
-			double angle = toAngle(pivotEnc.getAverageVoltage());
+			double angle = toAngle(getVoltage());
 			double normalized = angle % 360;
 			return normalized;
+		}
+
+		/**
+		 * Gets the voltage of the of the analog input for the pivot
+		 * @return the voltage of the of the analog input for the pivot
+		 */
+		public double getVoltage() {
+			return pivotEnc.getAverageVoltage();
 		}
 
 		/**

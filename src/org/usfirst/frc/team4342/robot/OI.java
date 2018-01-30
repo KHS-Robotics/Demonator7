@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
@@ -57,7 +58,8 @@ public class OI {
 	
 	// Joysticks, motors, and sensors
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
-	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight, ClimberMotor, EleMotor;
+	public final Talon FrontLeft, FrontRight, RearLeft, RearRight;
+	public final TalonSRX ClimberMotor, EleMotor;
 	public final Spark IntakeMotor;
 	public final AHRS NavX;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
@@ -74,16 +76,18 @@ public class OI {
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
-		// TalonSRXs for DriveTrain, Climber and Elevator
-		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
-		FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
-		RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
-		RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
+		// Drive motors
+		FrontLeft = new Talon(RobotMap.FRONT_LEFT);
+		FrontRight = new Talon(RobotMap.FRONT_RIGHT);
+		RearLeft = new Talon(RobotMap.REAR_LEFT);
+		RearRight = new Talon(RobotMap.REAR_RIGHT);
+
+		// Climber and Elevator motors
 		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 
 		ClimberMotor.setNeutralMode(NeutralMode.Brake);
-		EleMotor.setNeutralMode(NeutralMode.Coast);
+		EleMotor.setNeutralMode(NeutralMode.Brake);
 
 		// Intake motor
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
@@ -108,8 +112,6 @@ public class OI {
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
-		
-		Drive.setNeutralMode(NeutralMode.Coast);
 
 		// Climbing button to enable the winch
 		// Switch is opposite

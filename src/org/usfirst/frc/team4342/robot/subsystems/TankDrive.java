@@ -3,12 +3,10 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.DriveTankWithJoysticks;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * Tank Drive subsystem
@@ -17,7 +15,7 @@ public class TankDrive extends DriveTrainBase
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
-	private TalonSRX fr, fl, rr, rl;
+	private Talon fr, fl, rr, rl;
 	private Encoder left, right;
 	
 	private boolean invertRight, invertLeft;
@@ -33,7 +31,7 @@ public class TankDrive extends DriveTrainBase
 	 * @param left the left encoder
 	 * @param right the right encoder
 	 */
-	public TankDrive(TalonSRX fr, TalonSRX fl, TalonSRX rr, TalonSRX rl, AHRS navx, Encoder left, Encoder right)
+	public TankDrive(Talon fr, Talon fl, Talon rr, Talon rl, AHRS navx, Encoder left, Encoder right)
 	{
 		super(navx);
 
@@ -96,19 +94,6 @@ public class TankDrive extends DriveTrainBase
 	}
 	
 	/**
-	 * Sets the neutral mode for the drive train
-	 * @param mode the neutral mode
-	 * @see NeutralMode
-	 */
-	public void setNeutralMode(NeutralMode mode)
-	{
-		fr.setNeutralMode(mode);
-		fl.setNeutralMode(mode);
-		rr.setNeutralMode(mode);
-		rl.setNeutralMode(mode);
-	}
-	
-	/**
 	 * Sets the left and right sides of the drive train 
 	 * to the specified outputs
 	 * @param left the output for the left side
@@ -121,10 +106,10 @@ public class TankDrive extends DriveTrainBase
 		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
 		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		
-		fr.set(ControlMode.PercentOutput, right);
-		fl.set(ControlMode.PercentOutput, left);
-		rr.set(ControlMode.PercentOutput, right);
-		rl.set(ControlMode.PercentOutput, left);
+		fr.set(right);
+		fl.set(left);
+		rr.set(right);
+		rl.set(left);
 	}
 	
 	/**
@@ -134,24 +119,6 @@ public class TankDrive extends DriveTrainBase
 	public void stop()
 	{
 		set(0, 0);
-	}
-
-	/**
-	 * Gets the right drive encoder's distance
-	 * @return the right drive encoder's distance
-	 */
-	public double getRightDistance()
-	{
-		return right.getDistance();
-	}
-	
-	/**
-	 * Gets the left drive encoder's distance
-	 * @return the left drive encoder's distance
-	 */
-	public double getLeftDistance()
-	{
-		return left.getDistance();
 	}
 	
 	/**
@@ -182,8 +149,8 @@ public class TankDrive extends DriveTrainBase
 	@Override
 	public double[] getAllDistances() {
 		return new double[] {
-			Math.abs(getRightDistance()),
-			Math.abs(getLeftDistance())
+			Math.abs(right.getDistance()),
+			Math.abs(left.getDistance())
 		};
 	}
 
@@ -195,8 +162,8 @@ public class TankDrive extends DriveTrainBase
 		final double initialRight = distances[0];
 		final double initialLeft = distances[1];
 
-		final double CURRENT_RIGHT_VAL = Math.abs(getRightDistance());
-		final double CURRENT_LEFT_VAL = Math.abs(getLeftDistance());
+		final double CURRENT_RIGHT_VAL = Math.abs(right.getDistance());
+		final double CURRENT_LEFT_VAL = Math.abs(left.getDistance());
 		final double DELTA_RIGHT = Math.abs(CURRENT_RIGHT_VAL - initialRight);
 		final double DELTA_LEFT = Math.abs(CURRENT_LEFT_VAL - initialLeft);
 		

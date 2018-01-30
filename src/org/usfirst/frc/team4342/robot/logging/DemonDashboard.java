@@ -56,17 +56,22 @@ public class DemonDashboard
 				try
 				{
 					// Get values from oi object here
+
+					// NavX
 					SmartDashboard.putNumber("NavX-Angle", oi.NavX.getAngle());
 					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
 					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
 					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());
 					
-					SmartDashboard.putNumber("Enc-ED", oi.Elevator.getDistance());
+					// Elevator
+					SmartDashboard.putNumber("Elev-ED", oi.Elevator.getDistance());
 					SmartDashboard.putBoolean("Elev-AtBottom", oi.Elevator.isAtBottom());
+					SmartDashboard.putBoolean("Elev-AtSetpoint", oi.Elevator.isAtSetpoint());
 					
-					SmartDashboard.putNumber("Drive-LD", oi.Drive.getLeftDistance());
-					SmartDashboard.putNumber("Drive-RD", oi.Drive.getRightDistance());
+					// Drive
 					SmartDashboard.putNumber("Drive-Heading", oi.Drive.getHeading());
+					SmartDashboard.putNumberArray("Drive-Dists", oi.Drive.getAllDistances());
+					SmartDashboard.putBoolean("Drive-AtSetpoint", oi.Drive.onTarget());
 					
 					Thread.sleep(50);
 				}

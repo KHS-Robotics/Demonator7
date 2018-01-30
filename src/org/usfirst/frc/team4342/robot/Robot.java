@@ -70,8 +70,6 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	/**
@@ -89,9 +87,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Logger.info("Entering autonomous...");
 		stopAutonomousRoutine();
-		
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 		
 		final OI oi = OI.getInstance();
 
@@ -146,8 +141,6 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Coast);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
 		Scheduler.getInstance().run();
 	}
 	
