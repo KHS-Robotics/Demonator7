@@ -36,5 +36,7 @@ public class DriveGoToAngle extends CommandBase {
 	@Override
 	protected void execute() {}
 	@Override
-	protected void end() {}
+	protected void end() {
+		drive.stop();
+	}
 }

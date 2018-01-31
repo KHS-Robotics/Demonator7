@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * Tank Drive subsystem
@@ -17,7 +18,7 @@ public class TankDrive extends DriveTrainBase
 {
 	private static final double P = 0.0, I = 0.0, D = 0.0;
 	
-	private TalonSRX fr, fl, rr, rl;
+	private Spark fr, fl, rr, rl;
 	private Encoder left, right;
 	
 	private boolean invertRight, invertLeft;
@@ -25,22 +26,22 @@ public class TankDrive extends DriveTrainBase
 	
 	/**
 	 * Creates a new <code>TankDrive</code> subsystem
-	 * @param fr the front right motor of the drive train
-	 * @param fl the front left motor of the drive train
-	 * @param rr the rear right motor of the drive train
-	 * @param rl the right left motor of the drive train
+	 * @param frontRight the front right motor of the drive train
+	 * @param frontLeft the front left motor of the drive train
+	 * @param rearRight the rear right motor of the drive train
+	 * @param rearLeft the right left motor of the drive train
 	 * @param navx the NavX board
 	 * @param left the left encoder
 	 * @param right the right encoder
 	 */
-	public TankDrive(TalonSRX fr, TalonSRX fl, TalonSRX rr, TalonSRX rl, AHRS navx, Encoder left, Encoder right)
+	public TankDrive(Spark frontRight, Spark frontLeft, Spark rearRight, Spark rearLeft, AHRS navx, Encoder left, Encoder right)
 	{
 		super(navx);
 
-		this.fr = fr;
-		this.fl = fl;
-		this.rr = rr;
-		this.rl = rl;
+		this.fr = frontRight;
+		this.fl = frontLeft;
+		this.rr = rearRight;
+		this.rl = rearLeft;
 		this.left = left;
 		this.right = right;
 
@@ -102,10 +103,12 @@ public class TankDrive extends DriveTrainBase
 	 */
 	public void setNeutralMode(NeutralMode mode)
 	{
+		/*
 		fr.setNeutralMode(mode);
 		fl.setNeutralMode(mode);
 		rr.setNeutralMode(mode);
 		rl.setNeutralMode(mode);
+		*/
 	}
 	
 	/**
@@ -121,10 +124,16 @@ public class TankDrive extends DriveTrainBase
 		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
 		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		
+		/*
 		fr.set(ControlMode.PercentOutput, right);
 		fl.set(ControlMode.PercentOutput, left);
 		rr.set(ControlMode.PercentOutput, right);
-		rl.set(ControlMode.PercentOutput, left);
+		rl.set(ControlMode.PercentOutput, left); */
+		
+		fr.set(-right);
+		fl.set(left);
+		rr.set(-right);
+		rl.set(left);
 	}
 	
 	/**

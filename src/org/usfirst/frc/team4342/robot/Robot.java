@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,9 @@ import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
+import org.usfirst.frc.team4342.robot.commands.DriveGoToAngle;
+import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.StopDrive;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
@@ -59,6 +63,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("D-P" , 0.0);
 		SmartDashboard.putNumber("D-I" , 0.0);
 		SmartDashboard.putNumber("D-D" , 0.0);
+		
+		SmartDashboard.putNumber("GoToAngle", 0.0);
 		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
@@ -155,7 +161,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		// Temporary for tuning PID values
-		if(temp % 50 == 0) {
+		//if(temp % 50 == 0) {
 			double EP = SmartDashboard.getNumber("E-P", 0.0);
 			double EI = SmartDashboard.getNumber("E-I", 0.0);
 			double ED = SmartDashboard.getNumber("E-D", 0.0);
@@ -166,10 +172,10 @@ public class Robot extends TimedRobot {
 			double DD = SmartDashboard.getNumber("D-D", 0.0);
 			OI.getInstance().Drive.setPID(DP, DI, DD);
 
-			temp = 0;
-		}
+			//temp = 0;
+		//}
 
-		temp++;
+		//temp++;
 	}
 	
 	/**
@@ -180,6 +186,8 @@ public class Robot extends TimedRobot {
 		Logger.info("Entering test...");
 		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
+		
+		
 	}
 	
 	/**

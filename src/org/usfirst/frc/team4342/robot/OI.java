@@ -57,8 +57,8 @@ public class OI {
 	
 	// Joysticks, motors, and sensors
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
-	public final TalonSRX FrontLeft, FrontRight, RearLeft, RearRight, ClimberMotor, EleMotor;
-	public final Spark IntakeMotor;
+	public final TalonSRX ClimberMotor, EleMotor;
+	public final Spark IntakeMotor, FrontLeft, FrontRight, RearLeft, RearRight;
 	public final AHRS NavX;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final DigitalInput EleLS;
@@ -75,12 +75,17 @@ public class OI {
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
 		// TalonSRXs for DriveTrain, Climber and Elevator
-		FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
-		FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
-		RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
-		RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
+		//FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
+		//FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
+		//RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
+		//RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
 		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
+		
+		FrontLeft = new Spark(RobotMap.FRONT_LEFT);
+		FrontRight = new Spark(RobotMap.FRONT_RIGHT);
+		RearLeft = new Spark(RobotMap.REAR_LEFT);
+		RearRight = new Spark(RobotMap.REAR_RIGHT);
 
 		ClimberMotor.setNeutralMode(NeutralMode.Brake);
 		EleMotor.setNeutralMode(NeutralMode.Coast);

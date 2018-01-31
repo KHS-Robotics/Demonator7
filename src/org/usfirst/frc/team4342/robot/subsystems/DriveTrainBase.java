@@ -14,7 +14,7 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     private final PIDController yawPID;
 
     private double offset;
-    private PIDSourceType pidSourceType;
+    private PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
 
     private final AHRS navx;
     
