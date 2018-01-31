@@ -29,14 +29,15 @@ public class DriveGoToAngle extends CommandBase {
 	}
 
 	@Override
+	protected void end() {
+		drive.stop();
+	}
+
+	@Override
 	protected boolean isFinished() {
 		return drive.onTarget() || this.isTimedOut();
 	}
 
 	@Override
 	protected void execute() {}
-	@Override
-	protected void end() {
-		drive.stop();
-	}
 }

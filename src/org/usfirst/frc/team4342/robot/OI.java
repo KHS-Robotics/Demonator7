@@ -27,6 +27,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -48,6 +49,9 @@ public class OI {
 		
 		return instance;
 	}
+
+	// PowerDistributionPanel
+	public final PowerDistributionPanel PDP;
 	
 	// Subsystems
 	public final Intake Intake;
@@ -65,6 +69,9 @@ public class OI {
 	
 	private OI() {
 		Logger.info("Constructing the Operator Interface.....");
+
+		// Power Distribution Panel
+		PDP = new PowerDistributionPanel();
 		
 		// Joysticks and Switch Box
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
@@ -74,11 +81,7 @@ public class OI {
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
-		// TalonSRXs for DriveTrain, Climber and Elevator
-		//FrontLeft = new TalonSRX(RobotMap.FRONT_LEFT);
-		//FrontRight = new TalonSRX(RobotMap.FRONT_RIGHT);
-		//RearLeft = new TalonSRX(RobotMap.REAR_LEFT);
-		//RearRight = new TalonSRX(RobotMap.REAR_RIGHT);
+		// Motors for DriveTrain, Climber and Elevator
 		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 		
@@ -88,7 +91,7 @@ public class OI {
 		RearRight = new Spark(RobotMap.REAR_RIGHT);
 
 		ClimberMotor.setNeutralMode(NeutralMode.Brake);
-		EleMotor.setNeutralMode(NeutralMode.Coast);
+		EleMotor.setNeutralMode(NeutralMode.Brake);
 
 		// Intake motor
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
@@ -113,8 +116,6 @@ public class OI {
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
 		Climber = new Climber(ClimberMotor);
-		
-		Drive.setNeutralMode(NeutralMode.Coast);
 
 		// Climbing button to enable the winch
 		// Switch is opposite

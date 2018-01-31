@@ -50,29 +50,37 @@ public class DemonDashboard
 		public void run()
 		{
 			SmartDashboard.putBoolean("DemonDashboard", true);
+			SmartDashboard.putBoolean("DemonDashboard-Crash", false);
 			
 			while(running)
 			{
 				try
 				{
-					// Get values from oi object here
+					// NavX
 					SmartDashboard.putNumber("NavX-Angle", oi.NavX.getAngle());
 					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
 					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
 					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());
 					
-					SmartDashboard.putNumber("Enc-ED", oi.Elevator.getDistance());
+					// Elevator
+					SmartDashboard.putNumber("Elev-ED", oi.Elevator.getDistance());
 					SmartDashboard.putBoolean("Elev-AtBottom", oi.Elevator.isAtBottom());
+					SmartDashboard.putBoolean("Elev-AtSetpoint", oi.Elevator.isAtSetpoint());
 					
-					SmartDashboard.putNumber("Drive-LD", oi.Drive.getLeftDistance());
-					SmartDashboard.putNumber("Drive-RD", oi.Drive.getRightDistance());
+					// Drive
 					SmartDashboard.putNumber("Drive-Heading", oi.Drive.getHeading());
+					SmartDashboard.putNumberArray("Drive-AllDists", oi.Drive.getAllDistances());
+					SmartDashboard.putBoolean("Drive-OnTarget", oi.Drive.onTarget());
 					
+					// Power Distribution Panel
+					SmartDashboard.putData("PDP", oi.PDP);
+
 					Thread.sleep(50);
 				}
 				catch(Exception ex)
 				{
 					Logger.error("DemonDashboard crashed!", ex);
+					SmartDashboard.putBoolean("DemonDashboard-Crash", true);
 					DemonDashboard.stop();
 				}
 			}

@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,14 +12,9 @@ import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
-import org.usfirst.frc.team4342.robot.commands.DriveGoToAngle;
-import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
-import org.usfirst.frc.team4342.robot.commands.StopDrive;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * Main Robot Class
@@ -76,8 +70,6 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 	}
 
 	/**
@@ -95,9 +87,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Logger.info("Entering autonomous...");
 		stopAutonomousRoutine();
-		
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Brake);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Brake);
 		
 		final OI oi = OI.getInstance();
 
@@ -152,30 +141,21 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
-		OI.getInstance().Drive.setNeutralMode(NeutralMode.Coast);
-		OI.getInstance().EleMotor.setNeutralMode(NeutralMode.Coast);
 		Scheduler.getInstance().run();
 	}
-	
-	private int temp;
+
 	@Override
 	public void disabledPeriodic() {
 		// Temporary for tuning PID values
-		//if(temp % 50 == 0) {
-			double EP = SmartDashboard.getNumber("E-P", 0.0);
-			double EI = SmartDashboard.getNumber("E-I", 0.0);
-			double ED = SmartDashboard.getNumber("E-D", 0.0);
-			OI.getInstance().Elevator.setPID(EP, EI, ED);
-			
-			double DP = SmartDashboard.getNumber("D-P", 0.0);
-			double DI = SmartDashboard.getNumber("D-I", 0.0);
-			double DD = SmartDashboard.getNumber("D-D", 0.0);
-			OI.getInstance().Drive.setPID(DP, DI, DD);
-
-			//temp = 0;
-		//}
-
-		//temp++;
+		double EP = SmartDashboard.getNumber("E-P", 0.0);
+		double EI = SmartDashboard.getNumber("E-I", 0.0);
+		double ED = SmartDashboard.getNumber("E-D", 0.0);
+		OI.getInstance().Elevator.setPID(EP, EI, ED);
+		
+		double DP = SmartDashboard.getNumber("D-P", 0.0);
+		double DI = SmartDashboard.getNumber("D-I", 0.0);
+		double DD = SmartDashboard.getNumber("D-D", 0.0);
+		OI.getInstance().Drive.setPID(DP, DI, DD);
 	}
 	
 	/**
@@ -186,8 +166,6 @@ public class Robot extends TimedRobot {
 		Logger.info("Entering test...");
 		stopAutonomousRoutine();
 		Scheduler.getInstance().run();
-		
-		
 	}
 	
 	/**

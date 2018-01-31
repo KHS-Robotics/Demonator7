@@ -31,10 +31,6 @@ public class DriveStraight extends CommandBase {
     protected void initialize() {
         yaw = drive.getHeading();
         distances = drive.getAllDistances();
-    }
-
-    @Override
-    protected void execute() {
         drive.goStraight(speed, yaw);
     }
 
@@ -47,4 +43,7 @@ public class DriveStraight extends CommandBase {
     protected boolean isFinished() {
         return drive.remainingDistance(distance, distances) <= 0;
     }
+
+    @Override
+    protected void execute() {}
 }

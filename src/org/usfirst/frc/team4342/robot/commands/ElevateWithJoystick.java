@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class ElevateWithJoystick extends CommandBase {
 	private static final double DEADBAND = 0.03;
 	
-	private boolean idle;
+	private boolean idle, initializedIdle;
 	private double idleSetpoint;
 	
 	private Joystick joystick;
@@ -27,44 +27,38 @@ public class ElevateWithJoystick extends CommandBase {
 
 	@Override
 	protected void execute() {
-		final double OUTPUT = joystick.getTwist();
-		final boolean OUTPUT_ABOVE_DEADBAND = checkJoystickDeadband(OUTPUT);
+		final double INPUT = joystick.getTwist();
 		final boolean IN_BOTTOM_WINDOW = elevator.getDistance() < 5;
 		final boolean IN_TOP_WINDOW = elevator.getDistance() > 70;
+		idle = checkJoystickDeadband(INPUT);
 		
 		if(elevator.isAtBottom()) {
 			elevator.stop();
 			elevator.reset();
 			
-			if(OUTPUT_ABOVE_DEADBAND && OUTPUT < 0) {
+			if(!idle && INPUT < 0) {
 				return;
 			}
 		}
 		
-		if(!elevator.isAtBottom() && !OUTPUT_ABOVE_DEADBAND && !idle) {
+		if(!elevator.isAtBottom() && idle && !initializedIdle) {
 			idleSetpoint = elevator.getDistance();
 			elevator.setSetpoint(idleSetpoint);
-			idle = true;
-			
+			initializedIdle = true;
 			return;
-		}
-		
-		if(IN_TOP_WINDOW && OUTPUT_ABOVE_DEADBAND && OUTPUT > 0) {
-			elevator.set(0.1);
-			idle = false;
-			
-			return;
-		}
-		else if(IN_BOTTOM_WINDOW && OUTPUT_ABOVE_DEADBAND && OUTPUT < 0) {
-			elevator.set(-0.06);
-			idle = false;
-			
-			return;
-		}
-		
-		if(OUTPUT_ABOVE_DEADBAND) {
-			elevator.set(OUTPUT);
-			idle = false;
+		} 
+		else if(!idle) {
+			double input = 0.0;
+
+			if(IN_TOP_WINDOW && INPUT > 0)
+				input = 0.12;
+			else if(IN_BOTTOM_WINDOW && INPUT < 0)
+				input = -0.06;
+			else
+				input = INPUT;
+
+			elevator.set(input);
+			initializedIdle = false;
 		}
 	}
 
@@ -79,6 +73,6 @@ public class ElevateWithJoystick extends CommandBase {
 	}
 	
 	private static boolean checkJoystickDeadband(double a) {
-		return Math.abs(a) > DEADBAND;
+		return Math.abs(a) < DEADBAND;
 	}
 }
