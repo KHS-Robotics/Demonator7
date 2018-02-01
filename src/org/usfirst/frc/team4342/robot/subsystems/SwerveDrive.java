@@ -311,7 +311,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @return the angle of the polar coordinate
 	 */
 	private static double calcAngle(double x, double y) {
-		return Math.toDegrees(Math.atan2(x, -y)) + 180; // add 180 b/c straight ahead is 2.5v = 180 deg
+		return Math.toDegrees(Math.atan2(x, -y)) + 180;
 	}
 	
 	/**
@@ -390,7 +390,7 @@ public class SwerveDrive extends DriveTrainBase {
 			angle %= 360;
 
 			// Check if complementary angle is closer
-			double dAngle = angle - getAngle();
+			double dAngle = Math.abs(angle - this.getAngle());
 			flipDrive = dAngle >= 90 && dAngle <= 270;
 
 			// if it is closer then use
@@ -410,9 +410,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @return the pivot angle in degrees
 		 */
 		public double getAngle() {
-			double angle = toAngle(getVoltage());
-			double normalized = angle % 360;
-			return normalized;
+			return toAngle(getVoltage());
 		}
 
 		/**
@@ -455,7 +453,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @return the angle of the analog input (e.g., pivot angle)
 		 */
 		private double toAngle(double voltage) {
-			return ((360.0 * (voltage - Constants.MIN_VOLTAGE) / Constants.DELTA_VOLTAGE) + 360.0 - offset);
+			return ((360.0 * (voltage - Constants.MIN_VOLTAGE) / Constants.DELTA_VOLTAGE) + 360.0 - offset) % 360;
 		}
 
 		/**
