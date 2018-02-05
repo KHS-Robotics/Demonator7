@@ -30,7 +30,6 @@ public class Intake extends SubsystemBase
 		super.initSendable(builder);
 
 		builder.setSmartDashboardType("Intake");
-		builder.setSafeState(this::disable);
 		builder.addBooleanProperty("Intaking", () -> intaking, null);
 		builder.addBooleanProperty("Releasing", () -> releasing, null);
 	}
@@ -64,7 +63,8 @@ public class Intake extends SubsystemBase
 	/**
 	 * Disables the intake motor
 	 */
-	public void disable()
+	@Override
+	public void stop()
 	{
 		if(!intaking && !releasing)
 			return;

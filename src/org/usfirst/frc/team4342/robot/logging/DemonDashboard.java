@@ -59,7 +59,7 @@ public class DemonDashboard
 				{
 					SmartDashboard.putNumber("Drive-GetHeading", oi.Drive.getHeading());
 
-					SmartDashboard.putData(Scheduler.getInstance());
+					SmartDashboard.putData("Scheduler", Scheduler.getInstance());
 
 					SmartDashboard.putData("Drive", oi.Drive);
 					SmartDashboard.putData("Elevator", oi.Elevator);

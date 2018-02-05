@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public abstract class SubsystemBase extends Subsystem {
 	/**
+     * Stops all motors associated with the subsystem
+     */
+	public abstract void stop();
+
+	/**
 	 * Sets the default command to <code>null</code>
 	 */
 	@Override
@@ -21,5 +26,6 @@ public abstract class SubsystemBase extends Subsystem {
 	@Override
 	public void initSendable(SendableBuilder builder) {
 		super.initSendable(builder);
+		builder.setSafeState(this::stop);
 	}
 }

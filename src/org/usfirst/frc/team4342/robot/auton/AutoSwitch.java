@@ -99,7 +99,7 @@ public class AutoSwitch extends AutonomousRoutine
 		}
 		else
 		{
-			Logger.warning("No Position for Switch Auto! Crossing Baseline...");
+			Logger.warning("No position provided for AutoSwitch! Crossing Baseline...");
 			this.addSequential(new AutoBaseline(position, d));
 		}
 	}

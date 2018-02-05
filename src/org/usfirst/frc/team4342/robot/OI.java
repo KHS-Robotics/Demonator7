@@ -10,10 +10,7 @@ import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.StartRelease;
-import org.usfirst.frc.team4342.robot.commands.StopClimber;
-import org.usfirst.frc.team4342.robot.commands.StopDrive;
-import org.usfirst.frc.team4342.robot.commands.StopElevator;
-import org.usfirst.frc.team4342.robot.commands.StopIntake;
+import org.usfirst.frc.team4342.robot.commands.StopSubsystem;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -117,50 +114,50 @@ public class OI {
 		// Climbing button to enable the winch
 		// Switch is opposite
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
-		climbButton.whenPressed(new StopClimber(Climber));
+		climbButton.whenPressed(new StopSubsystem(Climber));
 		climbButton.whenReleased(new StartClimber(Climber));
 		
 		// Switch to enable the intake for a cube
 		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
 		intakeSwitch.whenPressed(new StartIntake(Intake));
-		intakeSwitch.whenReleased(new StopIntake(Intake));
+		intakeSwitch.whenReleased(new StopSubsystem(Intake));
 		
 		// Switch to enable reverse intake to release a cube
 		JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
 		releaseSwitch.whenPressed(new StartRelease(Intake));
-		releaseSwitch.whenReleased(new StopIntake(Intake));
+		releaseSwitch.whenReleased(new StopSubsystem(Intake));
 		
 		// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
 		JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
 		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
-		elevateHigh.whenReleased(new StopElevator(Elevator));
+		elevateHigh.whenReleased(new StopSubsystem(Elevator));
 		
 		// Button to set the elevator to the scale platform height when it's at its neutral point (no one has ownership)
 		JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
 		elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
-		elevateNeutral.whenReleased(new StopElevator(Elevator));
+		elevateNeutral.whenReleased(new StopSubsystem(Elevator));
 		
 		// Button to set the elevator to the scale when it's at its lowest point (we have ownership)
 		JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
 		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
-		elevateLow.whenReleased(new StopElevator(Elevator));
+		elevateLow.whenReleased(new StopSubsystem(Elevator));
 		
 		// Button to set the elevator to the switch height
 		// Switch is opposite
 		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
 		elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
-		elevateSwitch.whenPressed(new StopElevator(Elevator));
+		elevateSwitch.whenPressed(new StopSubsystem(Elevator));
 		
 		// Button to set the elevator to its lowest point to pick up a cube
 		// Switch is opposite
 		JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
 		elevateCube.whenReleased(new ElevatePickupCube(Elevator));
-		elevateCube.whenPressed(new StopElevator(Elevator));
+		elevateCube.whenPressed(new StopSubsystem(Elevator));
 		
 		// Button on the right drive stick to maintain the robot's current heading
 		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
 		driveStraight.whenPressed(new DriveStraightWithJoystick(RightDriveStick, Drive));
-		driveStraight.whenReleased(new StopDrive(Drive));
+		driveStraight.whenReleased(new StopSubsystem(Drive));
 		
 		// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);

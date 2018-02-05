@@ -63,7 +63,6 @@ public class Elevator extends SubsystemBase
 		super.initSendable(builder);
 
 		builder.setSmartDashboardType("Elevator");
-		builder.setSafeState(this::stop);
 		builder.addDoubleProperty("Height", this::getHeight, null);
 		builder.addDoubleProperty("Setpoint", elevatePID::getSetpoint, this::setSetpoint);
 		builder.addDoubleProperty("P", this::getP, this::setP);
@@ -71,6 +70,15 @@ public class Elevator extends SubsystemBase
         builder.addDoubleProperty("D", this::getD, this::setD);
 		builder.addBooleanProperty("OnTarget", this::isAtSetpoint, null);
 		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
+	}
+
+	/**
+	 * Stops the elevator
+	 */
+	@Override
+	public void stop()
+	{
+		set(0);
 	}
 
 	/**
@@ -166,14 +174,6 @@ public class Elevator extends SubsystemBase
 	{
 		elevatePID.setSetpoint(height);
 		elevatePID.enable();
-	}
-	
-	/**
-	 * Stops the elevator
-	 */
-	public void stop()
-	{
-		set(0);
 	}
 	
 	/**

@@ -86,7 +86,7 @@ public class AutoScale extends AutonomousRoutine
 			if(position == StartPosition.CENTER)
 				mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
 			else
-				mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
+				mssg = "No position provided for AutoScale! Crossing Auto Line...";
 
 			Logger.warning(mssg);
 			this.addSequential(new AutoBaseline(position, d));

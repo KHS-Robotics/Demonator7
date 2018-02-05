@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static class Constants {
+	public static class Constants {
 		static boolean DEBUG = true;
 
 		// Dimensions
@@ -27,8 +27,24 @@ public class SwerveDrive extends DriveTrainBase {
 		static final double L_OVER_R = L / R, W_OVER_R = W / R;
 
 		// Pivot PID values
-		static final double P = 0.0, I = 0.0, D = 0.0;
 		static final double TOLERANCE = 2.0; // degrees
+		public static class PivotPID {
+			public static final double FR_P = 0.0;
+			public static final double FR_I = 0.0;
+			public static final double FR_D = 0.0;
+
+			public static final double FL_P = 0.0;
+			public static final double FL_I = 0.0;
+			public static final double FL_D = 0.0;
+
+			public static final double RR_P = 0.0;
+			public static final double RR_I = 0.0;
+			public static final double RR_D = 0.0;
+
+			public static final double RL_P = 0.0;
+			public static final double RL_I = 0.0;
+			public static final double RL_D = 0.0;
+		}
 
 		// For PID and Voltage to Angle conversion
 		static final double MIN_VOLTAGE = 0.0;
@@ -60,7 +76,7 @@ public class SwerveDrive extends DriveTrainBase {
 		this.rr = rr;
 		this.rl = rl;
 
-		setPID(Constants.P, Constants.I, Constants.D);
+		setPID(0, 0, 0);
 	}
 
 	/**
@@ -93,6 +109,22 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("FL-Angle", fl::getAngle, fl::setPivot);
 		builder.addDoubleProperty("RR-Angle", rr::getAngle, rr::setPivot);
 		builder.addDoubleProperty("RL-Angle", rl::getAngle, rl::setPivot);
+
+		builder.addDoubleProperty("FR-P", fr::getP, fr::setP);
+		builder.addDoubleProperty("FR-I", fr::getI, fr::setI);
+		builder.addDoubleProperty("FR-D", fr::getD, fr::setD);
+		
+		builder.addDoubleProperty("FL-P", fl::getP, fl::setP);
+		builder.addDoubleProperty("FL-I", fl::getI, fl::setI);
+		builder.addDoubleProperty("FL-D", fl::getD, fl::setD);
+		
+		builder.addDoubleProperty("RR-P", rr::getP, rr::setP);
+		builder.addDoubleProperty("RR-I", rr::getI, rr::setI);
+		builder.addDoubleProperty("RR-D", rr::getD, rr::setD);
+
+		builder.addDoubleProperty("RL-P", rl::getP, rl::setP);
+		builder.addDoubleProperty("RL-I", rl::getI, rl::setI);
+		builder.addDoubleProperty("RL-D", rl::getD, rl::setD);
 
 		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, null);
 		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, null);
@@ -390,6 +422,7 @@ public class SwerveDrive extends DriveTrainBase {
 		private TalonSRX drive, pivot;
 		private Encoder driveEnc;
 		private AnalogInput pivotEnc;
+		private double p, i, d;
 		
 		// TalonSRX doesn't implement PIDOutput :(
 		private class PIDOutputClass implements PIDOutput {
@@ -410,17 +443,23 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @param driveEnc the encoder for the drive motor
 		 * @param pivot the pivot motor for rotation
 		 * @param pivotEnc the analog input for the pivot motor
+		 * @param p the proportional value for the pivot PID
+		 * @param i the integral value for the pivot PID
+		 * @param d the derivative value for the pivot PID
 		 */
-		public SwerveModule(TalonSRX drive, Encoder driveEnc, TalonSRX pivot, AnalogInput pivotEnc) {
+		public SwerveModule(TalonSRX drive, Encoder driveEnc, TalonSRX pivot, AnalogInput pivotEnc, double p, double i, double d) {
 			this.drive = drive;
 			this.driveEnc = driveEnc;
 			this.pivot = pivot;
 			this.pivotEnc = pivotEnc;
+			this.p = p;
+			this.i = i;
+			this.d = d;
 			
 			pivotPID = new PIDController(
-				Constants.P, 
-				Constants.I, 
-				Constants.D, 
+				p, 
+				i, 
+				d, 
 				pivotEnc, 
 				new PIDOutputClass(pivot)
 			);
@@ -429,6 +468,70 @@ public class SwerveDrive extends DriveTrainBase {
 			pivotPID.setOutputRange(-1, 1);
 			pivotPID.setAbsoluteTolerance(toVoltage(Constants.TOLERANCE));
 			pivotPID.setContinuous();
+		}
+
+		/**
+		 * Sets the PID values for the internal PID controller for pivot.
+		 * @param p the proportional value
+		 * @param i the integral value
+		 * @param d the derivatve value
+		 */
+		public void setPID(double p, double i, double d) {
+			this.p = p;
+			this.i = i;
+			this.d = d;
+			pivotPID.setPID(p, i, d);
+		}
+
+		/**
+		 * Sets the P value for the internal PID controller for pivot.
+		 * @param p the proportional value
+		 */
+		public void setP(double p) {
+			this.p = p;
+			setPID(p, i, d);
+		}
+
+		/**
+		 * Gets the proportional value for the internal PID controller for pivot.
+		 * @return the proportional value
+		 */
+		public double getP() {
+			return p;
+		}
+
+		/**
+		 * Sets the I value for the internal PID controller for pivot.
+		 * @param i the integral value
+		 */
+		public void setI(double i) {
+			this.i = i;
+			setPID(p, i, d);
+		}
+
+		/**
+		 * Gets the integral value for the internal PID controller for pivot.
+		 * @return the integral value
+		 */
+		public double getI() {
+			return i;
+		}
+
+		/**
+		 * Sets the D value for the intenral PID controller for pivot.
+		 * @param d the derivative value
+		 */
+		public void setD(double d) {
+			this.d = d;
+			setPID(p, i, d);
+		}
+
+		/**
+		 * Gets the derivative value for the internal PID controller forpivotyaw.
+		 * @return the derivative value
+		 */
+		public double getD() {
+			return d;
 		}
 
 		/**

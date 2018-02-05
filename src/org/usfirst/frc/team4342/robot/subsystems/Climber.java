@@ -29,7 +29,6 @@ public class Climber extends SubsystemBase
 		super.initSendable(builder);
 
 		builder.setSmartDashboardType("Climber");
-		builder.setSafeState(this::disable);
 		builder.addBooleanProperty("Enabled", () -> enabled, null);
 	}
 	
@@ -48,7 +47,8 @@ public class Climber extends SubsystemBase
 	/**
 	 * Disables the winch
 	 */
-	public void disable()
+	@Override
+	public void stop()
 	{
 		if(!enabled)
 			return;

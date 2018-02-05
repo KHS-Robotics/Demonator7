@@ -41,7 +41,6 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
-        builder.setSafeState(this::stop);
         builder.addDoubleProperty("Offset", this::getOffset, this::setHeadingOffset);
         builder.addDoubleProperty("Angle", this::getAngle, null);
         builder.addDoubleProperty("Heading", this::getHeading, this::setHeading);
@@ -52,11 +51,6 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
         builder.addDoubleArrayProperty("GetAllDistances", this::getAllDistances, null);
         builder.addBooleanProperty("OnTarget", this::onTarget, null);
     }
-
-    /**
-     * Stops all motors
-     */
-    public abstract void stop();
 
     /**
      * Go Straight

@@ -72,7 +72,7 @@ public class AutoBoth extends AutonomousRoutine
 		}
 		else
 		{
-			Logger.warning("No Position for AutoBoth! Crossing Baseline...");
+			Logger.warning("No position provided for AutoBoth! Crossing Baseline...");
 			this.addSequential(new AutoBaseline(position, d));
 		}
 	}
