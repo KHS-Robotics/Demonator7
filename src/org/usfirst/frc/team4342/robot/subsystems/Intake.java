@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase
 	{
 		super.initSendable(builder);
 
+		builder.setSmartDashboardType("Intake");
 		builder.setSafeState(this::disable);
 		builder.addBooleanProperty("Intaking", () -> intaking, null);
 		builder.addBooleanProperty("Releasing", () -> releasing, null);

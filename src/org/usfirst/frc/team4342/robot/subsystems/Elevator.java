@@ -61,6 +61,7 @@ public class Elevator extends SubsystemBase
 	{
 		super.initSendable(builder);
 
+		builder.setSmartDashboardType("Elevator");
 		builder.setSafeState(this::stop);
 		builder.addDoubleProperty("Height", this::getHeight, null);
 		builder.addDoubleProperty("Setpoint", elevatePID::getSetpoint, this::setSetpoint);

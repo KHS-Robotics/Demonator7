@@ -67,6 +67,7 @@ public class TankDrive extends DriveTrainBase
 	{
 		super.initSendable(builder);
 
+		builder.setSmartDashboardType("Tank");
 		builder.addDoubleProperty("Direction", () -> direction, null);
 		builder.addDoubleProperty("LeftOutput", () -> leftOutput, null);
 		builder.addDoubleProperty("RightOutput", () -> rightOutput, null);

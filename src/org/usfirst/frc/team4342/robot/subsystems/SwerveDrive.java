@@ -78,6 +78,8 @@ public class SwerveDrive extends DriveTrainBase {
 	public void initSendable(SendableBuilder builder) {
 		super.initSendable(builder);
 
+		builder.setSmartDashboardType("Swerve");
+
 		builder.addDoubleProperty("Direction", () -> direction, null);
 		builder.addBooleanProperty("FieldOriented", () -> fieldOriented, this::setFieldOriented);
 

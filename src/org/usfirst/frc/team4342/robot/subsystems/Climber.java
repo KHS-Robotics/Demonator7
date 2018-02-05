@@ -30,6 +30,7 @@ public class Climber extends SubsystemBase
 	{
 		super.initSendable(builder);
 
+		builder.setSmartDashboardType("Climber");
 		builder.setSafeState(this::disable);
 		builder.addBooleanProperty("Enabled", () -> enabled, null);
 	}
