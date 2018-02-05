@@ -56,6 +56,8 @@ public class DemonDashboard
 			{
 				try
 				{
+					SmartDashboard.putNumber("Drive-GetHeading", oi.Drive.getHeading());
+
 					SmartDashboard.putData("Drive", oi.Drive);
 					SmartDashboard.putData("Elevator", oi.Elevator);
 					SmartDashboard.putData("Intake", oi.Intake);
