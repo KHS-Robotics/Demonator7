@@ -47,12 +47,12 @@ public class ElevateWithJoystick extends CommandBase {
 		}
 		
 		if(!elevator.isAtBottom() && idle && !initializedIdle) {
-			elevator.setSetpoint(elevator.getDistance()); // hold current height
+			elevator.setSetpoint(elevator.getPosition()); // hold current height
 			initializedIdle = true;
 		} 
 		else if(!idle) {
-			final boolean IN_BOTTOM_WINDOW = elevator.getDistance() < BOTTOM_WINDOW;
-			final boolean IN_TOP_WINDOW = elevator.getDistance() > TOP_WINDOW;
+			final boolean IN_BOTTOM_WINDOW = elevator.getPosition() < BOTTOM_WINDOW;
+			final boolean IN_TOP_WINDOW = elevator.getPosition() > TOP_WINDOW;
 
 			double input = 0.0;
 
@@ -63,6 +63,7 @@ public class ElevateWithJoystick extends CommandBase {
 			else
 				input = INPUT;
 
+			elevator.disable();
 			elevator.set(input);
 			initializedIdle = false;
 		}

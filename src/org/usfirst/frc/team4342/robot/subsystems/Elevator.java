@@ -10,18 +10,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Elevator subsystem
  */
-public class Elevator extends SubsystemBase
+public class Elevator extends PIDSubsystem
 {
 	private double p, i, d;
 	
-	private PIDController elevatePID;
 	private TalonSRX motor;
 	private Encoder encoder;
 	private DigitalInput ls;
@@ -34,14 +32,33 @@ public class Elevator extends SubsystemBase
 	 */
 	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
 	{
+		super(0, 0, 0);
+		setInputRange(0, 80);
+		setOutputRange(-1, 1);
+		setAbsoluteTolerance(0.5);
+
 		this.motor = motor;
 		this.encoder = encoder;
 		this.ls = ls;
-		
-		elevatePID = new PIDController(p, i, d, encoder, new PIDOutputClass(motor));
-		elevatePID.setInputRange(0, 80);
-		elevatePID.setOutputRange(-1, 1);
-		elevatePID.setAbsoluteTolerance(0.5);
+	}
+
+	/**
+	 * Gets the encoder distance
+	 * @return the encoder distance
+	 */
+	@Override
+	protected double returnPIDInput() 
+	{
+		return encoder.getDistance();
+	}
+
+	/**
+	 * Sets the calculated output to the motor
+	 */
+	@Override
+	protected void usePIDOutput(double output) 
+	{
+		set(output);
 	}
 
 	/**
@@ -63,21 +80,22 @@ public class Elevator extends SubsystemBase
 		super.initSendable(builder);
 
 		builder.setSmartDashboardType("Elevator");
-		builder.addDoubleProperty("Height", this::getHeight, null);
-		builder.addDoubleProperty("Setpoint", elevatePID::getSetpoint, this::setSetpoint);
+		builder.setSafeState(this::stop);
+		builder.addDoubleProperty("Height", this::getPosition, null);
+		builder.addDoubleProperty("Setpoint", this::getSetpoint, this::setSetpoint);
 		builder.addDoubleProperty("P", this::getP, this::setP);
         builder.addDoubleProperty("I", this::getI, this::setI);
         builder.addDoubleProperty("D", this::getD, this::setD);
-		builder.addBooleanProperty("OnTarget", this::isAtSetpoint, null);
+		builder.addBooleanProperty("OnTarget", this::onTarget, null);
 		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
 	}
 
 	/**
 	 * Stops the elevator
 	 */
-	@Override
 	public void stop()
 	{
+		disable();
 		set(0);
 	}
 
@@ -92,7 +110,7 @@ public class Elevator extends SubsystemBase
 		this.p = p;
 		this.i = i;
 		this.d = d;
-		elevatePID.setPID(p, i, d);
+		this.getPIDController().setPID(p, i, d);
 	}
 
 	/**
@@ -162,27 +180,7 @@ public class Elevator extends SubsystemBase
 	 */
 	public void set(double output)
 	{
-		disablePID();
 		motor.set(ControlMode.PercentOutput, output);
-	}
-	
-	/**
-	 * Sets the elevator height
-	 * @param height the desired height of the elevator
-	 */
-	public void setSetpoint(double height)
-	{
-		elevatePID.setSetpoint(height);
-		elevatePID.enable();
-	}
-	
-	/**
-	 * Gets the elevator's height
-	 * @return the elevator's height
-	 */
-	public double getHeight()
-	{
-		return encoder.getDistance();
 	}
 	
 	/**
@@ -200,35 +198,5 @@ public class Elevator extends SubsystemBase
 	public boolean isAtBottom()
 	{
 		return ls.get();
-	}
-	
-	/**
-	 * Gets if the elevator is at its desired height
-	 * @return true if the elevator is at its desired height, false otherwise
-	 */
-	public boolean isAtSetpoint()
-	{
-		return elevatePID.onTarget();
-	}
-
-	/**
-	 * Disables the internal PID Controller for the elevator
-	 */
-	private void disablePID()
-	{
-		if(elevatePID.isEnabled())
-			elevatePID.disable();
-	}
-	
-	private class PIDOutputClass implements PIDOutput {
-		private TalonSRX motor;
-		public PIDOutputClass(TalonSRX motor) {
-			this.motor = motor;
-		}
-		
-		@Override
-		public void pidWrite(double output) {
-			motor.set(ControlMode.PercentOutput, output);
-		}
 	}
 }

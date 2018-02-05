@@ -35,7 +35,7 @@ public class Elevate extends CommandBase {
 
 	@Override
 	protected boolean isFinished() {
-		return elevator.isAtSetpoint() || this.isTimedOut();
+		return elevator.onTarget() || this.isTimedOut();
 	}
 
 	@Override
