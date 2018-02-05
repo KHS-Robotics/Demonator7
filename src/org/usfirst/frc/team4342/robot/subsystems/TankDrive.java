@@ -114,8 +114,6 @@ public class TankDrive extends DriveTrainBase
 	 */
 	public void set(double left, double right)
 	{
-		disablePID();
-		
 		leftOutput = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
 		rightOutput = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		
