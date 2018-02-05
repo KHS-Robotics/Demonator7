@@ -38,7 +38,6 @@ public class IntakeCube extends CommandBase
 
 	@Override
 	protected void end() {
-		intake.disable();
+		intake.stop();
 	}
-
 }

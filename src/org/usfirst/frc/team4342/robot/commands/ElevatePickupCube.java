@@ -15,6 +15,13 @@ public class ElevatePickupCube extends Elevate {
 	}
 
 	/**
+	 * Stops the elevator
+	 */
+	protected void end() {
+		elevator.stop();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
