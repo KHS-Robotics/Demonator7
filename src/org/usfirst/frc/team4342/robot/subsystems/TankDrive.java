@@ -128,7 +128,9 @@ public class TankDrive extends DriveTrainBase
 	@Override
 	public void stop()
 	{
+		disablePID();
 		set(0, 0);
+		direction = 0;
 	}
 	
 	/**
