@@ -61,8 +61,8 @@ public class OI {
 	
 	// Joysticks, motors, and sensors
 	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
-	public final TalonSRX ClimberMotor, EleMotor;
-	public final Spark IntakeMotor, FrontLeft, FrontRight, RearLeft, RearRight;
+	public final TalonSRX EleMotor;
+	public final Spark IntakeMotor, ClimberMotor, FrontLeft, FrontRight, RearLeft, RearRight;
 	public final AHRS NavX;
 	public final Encoder LeftDrive, RightDrive, EleEnc;
 	public final DigitalInput EleLS;
@@ -81,20 +81,14 @@ public class OI {
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 		
-		// Motors for DriveTrain, Climber and Elevator
-		ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
-		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
-		
+		// Motors for DriveTrain, Elevator, Intake and Climber
 		FrontLeft = new Spark(RobotMap.FRONT_LEFT);
 		FrontRight = new Spark(RobotMap.FRONT_RIGHT);
 		RearLeft = new Spark(RobotMap.REAR_LEFT);
 		RearRight = new Spark(RobotMap.REAR_RIGHT);
-
-		ClimberMotor.setNeutralMode(NeutralMode.Brake);
-		EleMotor.setNeutralMode(NeutralMode.Brake);
-
-		// Intake motor
+		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
 		
 		// Encoders for Drive Train and Elevator
 		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
@@ -112,10 +106,13 @@ public class OI {
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
 
 		// Subsystems
-		Intake = new Intake(IntakeMotor);
-		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
+		Intake = new Intake(IntakeMotor);
 		Climber = new Climber(ClimberMotor);
+
+		Elevator.setNeutralMode(NeutralMode.Brake);
+		// Drive.setNeutralMode(NeutralMode.Brake);
 
 		// Climbing button to enable the winch
 		// Switch is opposite

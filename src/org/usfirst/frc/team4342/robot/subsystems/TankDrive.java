@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  */
 public class TankDrive extends DriveTrainBase
 {
-	private static final double P = 0.0, I = 0.0, D = 0.0;
-	
 	private Spark fr, fl, rr, rl;
 	private Encoder left, right;
 	
@@ -43,7 +41,7 @@ public class TankDrive extends DriveTrainBase
 		this.left = left;
 		this.right = right;
 
-		setPID(P, I, D);
+		setPID(0, 0, 0);
 	}
 
 	/**

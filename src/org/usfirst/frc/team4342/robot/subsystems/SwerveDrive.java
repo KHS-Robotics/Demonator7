@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -107,6 +108,17 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("FL-Voltage", fl::getVoltage, null);
 		builder.addDoubleProperty("RR-Voltage", rr::getVoltage, null);
 		builder.addDoubleProperty("RL-Voltage", rl::getVoltage, null);
+	}
+
+	/**
+	 * Sets the neutral mode on drive train
+	 * @see com.ctre.phoenix.motorcontrol.NeutralMode
+	 */
+	public void setNeutralMode(NeutralMode mode) {
+		fr.setNeutralMode(mode);
+		fl.setNeutralMode(mode);
+		rr.setNeutralMode(mode);
+		rl.setNeutralMode(mode);
 	}
 
 	/**
@@ -375,7 +387,7 @@ public class SwerveDrive extends DriveTrainBase {
 		private double output, offset;
 		private boolean flipDrive;
 
-		private TalonSRX drive;
+		private TalonSRX drive, pivot;
 		private Encoder driveEnc;
 		private AnalogInput pivotEnc;
 		
@@ -402,6 +414,7 @@ public class SwerveDrive extends DriveTrainBase {
 		public SwerveModule(TalonSRX drive, Encoder driveEnc, TalonSRX pivot, AnalogInput pivotEnc) {
 			this.drive = drive;
 			this.driveEnc = driveEnc;
+			this.pivot = pivot;
 			this.pivotEnc = pivotEnc;
 			
 			pivotPID = new PIDController(
@@ -424,6 +437,15 @@ public class SwerveDrive extends DriveTrainBase {
 		 */
 		public void setOffset(double offset) {
 			this.offset = offset;
+		}
+
+		/**
+		 * Sets the neutral mode for the drive and pivot motor
+		 * @see com.ctre.phoenix.motorcontrol.NeutralMode
+		*/
+		public void setNeutralMode(NeutralMode mode) {
+			drive.setNeutralMode(mode);
+			pivot.setNeutralMode(mode);
 		}
 		
 		/**

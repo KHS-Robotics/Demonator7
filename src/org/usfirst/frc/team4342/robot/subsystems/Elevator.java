@@ -5,6 +5,7 @@ import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.ElevateWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -135,7 +136,16 @@ public class Elevator extends SubsystemBase
      */
     public double getD() {
         return d;
-    }
+	}
+	
+	/**
+	 * Sets the neutral mode for the motor
+	 * @see com.ctre.phoenix.motorcontrol.NeutralMode
+	 */
+	public void setNeutralMode(NeutralMode mode)
+	{
+		motor.setNeutralMode(mode);
+	}
 	
 	/**
 	 * Sets the output of the elevator motor

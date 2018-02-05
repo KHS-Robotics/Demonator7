@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.logging;
 
 import org.usfirst.frc.team4342.robot.OI;
 
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -57,6 +58,8 @@ public class DemonDashboard
 				try
 				{
 					SmartDashboard.putNumber("Drive-GetHeading", oi.Drive.getHeading());
+
+					SmartDashboard.putData(Scheduler.getInstance());
 
 					SmartDashboard.putData("Drive", oi.Drive);
 					SmartDashboard.putData("Elevator", oi.Elevator);

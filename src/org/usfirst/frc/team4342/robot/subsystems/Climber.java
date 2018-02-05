@@ -1,8 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
@@ -11,13 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class Climber extends SubsystemBase 
 {
 	private boolean enabled;
-	private TalonSRX motor;
+	private Spark motor;
 	
 	/**
 	 * Creates a new <code>Climber</code> subsystem
 	 * @param motor the motor to control the winch
 	 */
-	public Climber(TalonSRX motor)
+	public Climber(Spark motor)
 	{
 		this.motor = motor;
 	}
@@ -44,7 +42,7 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = true;
 		
-		motor.set(ControlMode.PercentOutput, -1);
+		motor.set(1);
 	}
 	
 	/**
@@ -56,6 +54,6 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = false;
 		
-		motor.set(ControlMode.PercentOutput, 0);
+		motor.set(0);
 	}
 }
