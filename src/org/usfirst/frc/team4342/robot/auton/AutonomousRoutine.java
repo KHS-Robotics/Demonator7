@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.auton;
 
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,8 +13,8 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	protected final StartPosition position;
 
 	// TODO: Update robot dimensions
-	protected static final double ROBOT_X = 32.5 / 2;
-	protected static final double ROBOT_Y = 27.5 / 2;
+	protected static final double ROBOT_X = Constants.ROBOT_WIDTH / 2;
+	protected static final double ROBOT_Y = Constants.ROBOT_LENGTH / 2;
 
 	/**
 	 * Constructs an autonomous routine
