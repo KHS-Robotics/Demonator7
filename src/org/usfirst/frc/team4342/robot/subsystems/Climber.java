@@ -3,6 +3,8 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+
 /**
  * Climber subsystem to climb the tower
  */
@@ -18,6 +20,18 @@ public class Climber extends SubsystemBase
 	public Climber(TalonSRX motor)
 	{
 		this.motor = motor;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder) 
+	{
+		super.initSendable(builder);
+
+		builder.setSafeState(this::disable);
+		builder.addBooleanProperty("Enabled", () -> enabled, null);
 	}
 	
 	/**

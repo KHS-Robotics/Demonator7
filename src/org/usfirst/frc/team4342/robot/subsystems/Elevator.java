@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Elevator subsystem
  */
 public class Elevator extends SubsystemBase
 {
-	private static final double P = 0.0, I = 0.0, D = 0.0;
+	private double p, i, d;
 	
 	private PIDController elevatePID;
 	private TalonSRX motor;
@@ -30,21 +31,110 @@ public class Elevator extends SubsystemBase
 	 * @param encoder the encoder to keep track of the elevator's height
 	 * @param ls the limit switch at the bottom of the elevator
 	 */
-	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) {
+	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
+	{
 		this.motor = motor;
 		this.encoder = encoder;
 		this.ls = ls;
 		
-		elevatePID = new PIDController(P, I, D, encoder, new PIDOutputClass(motor));
+		elevatePID = new PIDController(p, i, d, encoder, new PIDOutputClass(motor));
 		elevatePID.setInputRange(0, 80);
 		elevatePID.setOutputRange(-1, 1);
 		elevatePID.setAbsoluteTolerance(0.5);
 	}
 
-	public void setPID(double P, double I, double D)
+	/**
+	 * Sets the default command to <code>ElevateWithJoystick</code>
+	 */
+	@Override
+	protected void initDefaultCommand()
 	{
-		elevatePID.setPID(P, I, D);
+		OI oi = OI.getInstance();
+		this.setDefaultCommand(new ElevateWithJoystick(oi.SwitchBox, oi.Elevator));
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder) 
+	{
+		super.initSendable(builder);
+
+		builder.setSafeState(this::stop);
+		builder.addDoubleProperty("Height", this::getHeight, null);
+		builder.addDoubleProperty("Setpoint", elevatePID::getSetpoint, this::setSetpoint);
+		builder.addDoubleProperty("P", this::getP, this::setP);
+        builder.addDoubleProperty("I", this::getI, this::setI);
+        builder.addDoubleProperty("D", this::getD, this::setD);
+		builder.addBooleanProperty("OnTarget", this::isAtSetpoint, null);
+		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
+	}
+
+	/**
+	 * Sets the PID values for the internal PID controller for elevator height.
+     * @param p the proportional value
+     * @param i the integral value
+     * @param d the derivatve value
+	 */
+	public void setPID(double p, double i, double d)
+	{
+		this.p = p;
+		this.i = i;
+		this.d = d;
+		elevatePID.setPID(p, i, d);
+	}
+
+	/**
+     * Sets the P value for the internal PID controller for yaw.
+     * @param p the proportional value
+     */
+    public void setP(double p) {
+        this.p = p;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the proportional value for the internal PID controller for yaw.
+     * @return the proportional value
+     */
+    public double getP() {
+        return p;
+    }
+
+    /**
+     * Sets the I value for the internal PID controller for yaw.
+     * @param i the integral value
+     */
+    public void setI(double i) {
+        this.i = i;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the integral value for the internal PID controller for yaw.
+     * @return the integral value
+     */
+    public double getI() {
+        return i;
+    }
+
+    /**
+     * Sets the D value for the intenral PID controller for yaw.
+     * @param d the derivative value
+     */
+    public void setD(double d) {
+        this.d = d;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the derivative value for the internal PID controller for yaw.
+     * @return the derivative value
+     */
+    public double getD() {
+        return d;
+    }
 	
 	/**
 	 * Sets the output of the elevator motor
@@ -63,8 +153,8 @@ public class Elevator extends SubsystemBase
 	 */
 	public void setSetpoint(double height)
 	{
-		elevatePID.enable();
 		elevatePID.setSetpoint(height);
+		elevatePID.enable();
 	}
 	
 	/**
@@ -79,7 +169,7 @@ public class Elevator extends SubsystemBase
 	 * Gets the elevator's height
 	 * @return the elevator's height
 	 */
-	public double getDistance()
+	public double getHeight()
 	{
 		return encoder.getDistance();
 	}
@@ -108,16 +198,6 @@ public class Elevator extends SubsystemBase
 	public boolean isAtSetpoint()
 	{
 		return elevatePID.onTarget();
-	}
-	
-	/**
-	 * Sets the default command to <code>ElevateWithJoystick</code>
-	 */
-	@Override
-	protected void initDefaultCommand()
-	{
-		OI oi = OI.getInstance();
-		this.setDefaultCommand(new ElevateWithJoystick(oi.SwitchBox, oi.Elevator));
 	}
 
 	/**

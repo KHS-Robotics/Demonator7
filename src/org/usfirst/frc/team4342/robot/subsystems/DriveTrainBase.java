@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Base class for a drive train
  */
 public abstract class DriveTrainBase extends SubsystemBase implements PIDSource, PIDOutput {
+    private double p, i, d;
     private final PIDController yawPID;
 
     private double offset;
@@ -25,11 +27,30 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     public DriveTrainBase(AHRS navx) {
         this.navx = navx;
 
-        yawPID = new PIDController(0, 0, 0, this, this);
+        yawPID = new PIDController(p, i, d, this, this);
         yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
 		yawPID.setAbsoluteTolerance(2);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+
+        builder.setSafeState(this::stop);
+        builder.addDoubleProperty("Offset", this::getOffset, this::setHeadingOffset);
+        builder.addDoubleProperty("Angle", this::getAngle, null);
+        builder.addDoubleProperty("Heading", this::getHeading, this::setHeading);
+        builder.addDoubleProperty("P", this::getP, this::setP);
+        builder.addDoubleProperty("I", this::getI, this::setI);
+        builder.addDoubleProperty("D", this::getD, this::setD);
+        builder.addDoubleProperty("Setpoint", yawPID::getSetpoint, null);
+        builder.addDoubleArrayProperty("GetAllDistances", this::getAllDistances, null);
+        builder.addBooleanProperty("OnTarget", this::onTarget, null);
     }
 
     /**
@@ -61,13 +82,67 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     public abstract double[] getAllDistances();
 
     /**
-     * Sets the PID values for the interal PID controller for yaw.
+     * Sets the PID values for the internal PID controller for yaw.
      * @param p the proportional value
      * @param i the integral value
      * @param d the derivatve value
      */
     public void setPID(double p, double i, double d) {
+        this.p = p;
+		this.i = i;
+		this.d = d;
         yawPID.setPID(p, i, d);
+    }
+
+     /**
+     * Sets the P value for the internal PID controller for yaw.
+     * @param p the proportional value
+     */
+    public void setP(double p) {
+        this.p = p;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the proportional value for the internal PID controller for yaw.
+     * @return the proportional value
+     */
+    public double getP() {
+        return p;
+    }
+
+    /**
+     * Sets the I value for the internal PID controller for yaw.
+     * @param i the integral value
+     */
+    public void setI(double i) {
+        this.i = i;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the integral value for the internal PID controller for yaw.
+     * @return the integral value
+     */
+    public double getI() {
+        return i;
+    }
+
+    /**
+     * Sets the D value for the intenral PID controller for yaw.
+     * @param d the derivative value
+     */
+    public void setD(double d) {
+        this.d = d;
+        setPID(p, i, d);
+    }
+
+    /**
+     * Gets the derivative value for the internal PID controller for yaw.
+     * @return the derivative value
+     */
+    public double getD() {
+        return d;
     }
 
     /**
@@ -123,7 +198,15 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 	 * @return the current heading of the robot ranging from -180.0 to 180.0 degrees
 	 */
 	public double getHeading() {
-		return normalizeYaw(navx.getYaw() + offset);
+		return normalizeYaw(navx.getYaw() + getOffset());
+    }
+
+    /**
+     * Gets the heading offset
+     * @return the heading offset
+     */
+    public double getOffset() {
+        return offset;
     }
     
     /**

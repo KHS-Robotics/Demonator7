@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Swerve Drive subsystem
@@ -20,7 +21,7 @@ public class SwerveDrive extends DriveTrainBase {
 		static boolean DEBUG = true;
 
 		// Dimensions
-		static final double L = 32.3, W = 23.5; // vehicle's wheelbase and trackwidth
+		static final double L = 27.5, W = 32.5; // vehicle's wheelbase and trackwidth
 		static final double R = Math.sqrt((L*L) + (W*W));
 		static final double L_OVER_R = L / R, W_OVER_R = W / R;
 
@@ -60,7 +61,7 @@ public class SwerveDrive extends DriveTrainBase {
 
 		setPID(Constants.P, Constants.I, Constants.D);
 	}
-	
+
 	/**
 	 * Sets the default command to <code>DriveSwerveWithJoystick</code>
 	 */
@@ -69,6 +70,42 @@ public class SwerveDrive extends DriveTrainBase {
 //		OI oi = OI.getInstance();
 //		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.Drive));
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder) {
+		super.initSendable(builder);
+
+		builder.addDoubleProperty("Direction", () -> direction, null);
+		builder.addBooleanProperty("FieldOriented", () -> fieldOriented, this::setFieldOriented);
+
+		builder.addDoubleProperty("FR-DriveOutput", fr::getDriveOutput, null);
+		builder.addDoubleProperty("FL-DriveOutput", fl::getDriveOutput, null);
+		builder.addDoubleProperty("RR-DriveOutput", rr::getDriveOutput, null);
+		builder.addDoubleProperty("RL-DriveOutput", rl::getDriveOutput, null);
+
+		builder.addDoubleProperty("FR-Angle", fr::getAngle, fr::setPivot);
+		builder.addDoubleProperty("FL-Angle", fl::getAngle, fl::setPivot);
+		builder.addDoubleProperty("RR-Angle", rr::getAngle, rr::setPivot);
+		builder.addDoubleProperty("RL-Angle", rl::getAngle, rl::setPivot);
+
+		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, null);
+		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, null);
+		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, null);
+		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, null);
+
+		builder.addBooleanProperty("FR-PivotAtSetpoint", fr::pivotAtSetpoint, null);
+		builder.addBooleanProperty("FL-PivotAtSetpoint", fl::pivotAtSetpoint, null);
+		builder.addBooleanProperty("RR-PivotAtSetpoint", rr::pivotAtSetpoint, null);
+		builder.addBooleanProperty("RL-PivotAtSetpoint", rl::pivotAtSetpoint, null);
+
+		builder.addDoubleProperty("FR-Voltage", fr::getVoltage, null);
+		builder.addDoubleProperty("FL-Voltage", fl::getVoltage, null);
+		builder.addDoubleProperty("RR-Voltage", rr::getVoltage, null);
+		builder.addDoubleProperty("RL-Voltage", rl::getVoltage, null);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -76,7 +113,7 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	public void pidWrite(double output) {
 		if(Constants.DEBUG)
-			Logger.debug("Swerve Drive pidWrite output=" + output);
+			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output);
 
 		this.set(0, direction, output);
 	}
@@ -102,6 +139,20 @@ public class SwerveDrive extends DriveTrainBase {
 			Logger.debug("SwerveDrive setFieldOriented flag=" + flag);
 
 		fieldOriented = flag;
+	}
+
+	/**
+	 * Tank drive using Swerve. This assumes the wheels 
+	 * are fixed straight ahead. This should only be used
+	 * in unfortunate situations...
+	 * @param left the left output
+	 * @param right the right output
+	 */
+	public void set(double left, double right) {
+		fr.setDrive(right);
+		fl.setDrive(left);
+		rr.setDrive(right);
+		rl.setDrive(left);
 	}
 	
 	/**
@@ -319,7 +370,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	public static class SwerveModule {
 		private PIDController pivotPID;
-		private double offset;
+		private double output, offset;
 		private boolean flipDrive;
 
 		private TalonSRX drive;
@@ -378,8 +429,8 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @param output the speed ranging from 0 to 1
 		 */
 		protected void setDrive(double output) {
-			output = flipDrive ? -output : output;
-			drive.set(ControlMode.PercentOutput, output);
+			this.output = flipDrive ? -output : output;
+			drive.set(ControlMode.PercentOutput, this.output);
 		}
 		
 		/**
@@ -406,6 +457,14 @@ public class SwerveDrive extends DriveTrainBase {
 		}
 
 		/**
+		 * Gets the current drive output
+		 * @return the current drive output
+		 */
+		public double getDriveOutput() {
+			return output;
+		}
+
+		/**
 		 * Gets the pivot angle in degrees
 		 * @return the pivot angle in degrees
 		 */
@@ -427,6 +486,14 @@ public class SwerveDrive extends DriveTrainBase {
 		 */
 		public double getDistance() {
 			return driveEnc.getDistance();
+		}
+
+		/**
+		 * Gets the current pivot setpoint
+		 * @return the current pivot setpoint
+		 */
+		public double getSetpoint() {
+			return toAngle(pivotPID.getSetpoint());
 		}
 
 		/**

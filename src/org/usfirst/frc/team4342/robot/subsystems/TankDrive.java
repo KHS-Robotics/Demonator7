@@ -7,6 +7,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Tank Drive subsystem
@@ -19,7 +20,7 @@ public class TankDrive extends DriveTrainBase
 	private Encoder left, right;
 	
 	private boolean invertRight, invertLeft;
-	private double direction;
+	private double direction, leftOutput, rightOutput;
 	
 	/**
 	 * Creates a new <code>TankDrive</code> subsystem
@@ -56,6 +57,19 @@ public class TankDrive extends DriveTrainBase
 	{
 		OI oi = OI.getInstance();
 		this.setDefaultCommand(new DriveTankWithJoysticks(oi.LeftDriveStick, oi.RightDriveStick, oi.Drive));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder) 
+	{
+		super.initSendable(builder);
+
+		builder.addDoubleProperty("Direction", () -> direction, null);
+		builder.addDoubleProperty("LeftOutput", () -> leftOutput, null);
+		builder.addDoubleProperty("RightOutput", () -> rightOutput, null);
 	}
 
 	/**
@@ -103,13 +117,13 @@ public class TankDrive extends DriveTrainBase
 	{
 		disablePID();
 		
-		left = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
-		right = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
+		leftOutput = invertLeft ? -normalizeOutput(left) : normalizeOutput(left);
+		rightOutput = invertRight ? -normalizeOutput(right) : normalizeOutput(right);
 		
-		fr.set(-right);
-		fl.set(left);
-		rr.set(-right);
-		rl.set(left);
+		fr.set(rightOutput);
+		fl.set(leftOutput);
+		rr.set(rightOutput);
+		rl.set(leftOutput);
 	}
 	
 	/**

@@ -58,8 +58,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("D-I" , 0.0);
 		SmartDashboard.putNumber("D-D" , 0.0);
 		
-		SmartDashboard.putNumber("GoToAngle", 0.0);
-		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
 	

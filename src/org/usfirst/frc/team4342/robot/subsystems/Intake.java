@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Intake subsystem to intake and release cubes
@@ -18,6 +19,19 @@ public class Intake extends SubsystemBase
 	public Intake(Spark motor)
 	{
 		this.motor = motor;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder) 
+	{
+		super.initSendable(builder);
+
+		builder.setSafeState(this::disable);
+		builder.addBooleanProperty("Intaking", () -> intaking, null);
+		builder.addBooleanProperty("Releasing", () -> releasing, null);
 	}
 
 	/**

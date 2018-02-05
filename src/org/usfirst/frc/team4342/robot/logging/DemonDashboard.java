@@ -56,23 +56,11 @@ public class DemonDashboard
 			{
 				try
 				{
-					// NavX
-					SmartDashboard.putNumber("NavX-Angle", oi.NavX.getAngle());
-					SmartDashboard.putNumber("NavX-Yaw", oi.NavX.getYaw());
-					SmartDashboard.putNumber("NavX-Roll", oi.NavX.getRoll());
-					SmartDashboard.putNumber("NavX-Pitch", oi.NavX.getPitch());
+					SmartDashboard.putData("Drive", oi.Drive);
+					SmartDashboard.putData("Elevator", oi.Elevator);
+					SmartDashboard.putData("Intake", oi.Intake);
+					SmartDashboard.putData("Climber", oi.Climber);
 					
-					// Elevator
-					SmartDashboard.putNumber("Elev-ED", oi.Elevator.getDistance());
-					SmartDashboard.putBoolean("Elev-AtBottom", oi.Elevator.isAtBottom());
-					SmartDashboard.putBoolean("Elev-AtSetpoint", oi.Elevator.isAtSetpoint());
-					
-					// Drive
-					SmartDashboard.putNumber("Drive-Heading", oi.Drive.getHeading());
-					SmartDashboard.putNumberArray("Drive-AllDists", oi.Drive.getAllDistances());
-					SmartDashboard.putBoolean("Drive-OnTarget", oi.Drive.onTarget());
-					
-					// Power Distribution Panel
 					SmartDashboard.putData("PDP", oi.PDP);
 
 					Thread.sleep(50);
