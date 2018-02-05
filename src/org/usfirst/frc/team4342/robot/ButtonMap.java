@@ -6,7 +6,6 @@ package org.usfirst.frc.team4342.robot;
  */
 public class ButtonMap 
 {
-
 	/**
 	 * Drive Sticks to control the Tank Drive
 	 */

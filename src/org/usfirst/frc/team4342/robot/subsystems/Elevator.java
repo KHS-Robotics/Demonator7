@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.ElevateWithJoystick;
 
@@ -32,7 +32,7 @@ public class Elevator extends PIDSubsystem
 	 */
 	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
 	{
-		super(0, 0, 0);
+		super(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
 		setInputRange(0, 80);
 		setOutputRange(-1, 1);
 		setAbsoluteTolerance(0.5);

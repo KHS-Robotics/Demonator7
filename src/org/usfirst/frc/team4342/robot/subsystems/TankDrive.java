@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.DriveTankWithJoysticks;
 
@@ -41,7 +42,7 @@ public class TankDrive extends DriveTrainBase
 		this.left = left;
 		this.right = right;
 
-		setPID(0, 0, 0);
+		setPID(Constants.Drive.P, Constants.Drive.I, Constants.Drive.D);
 	}
 
 	/**

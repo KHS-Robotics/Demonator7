@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -18,39 +19,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	public static class Constants {
-		static boolean DEBUG = true;
+	private static final boolean DEBUG = true;
 
-		// Dimensions
-		static final double L = 27.5, W = 32.5; // vehicle's wheelbase and trackwidth
-		static final double R = Math.sqrt((L*L) + (W*W));
-		static final double L_OVER_R = L / R, W_OVER_R = W / R;
+	// Dimensions (vehicle's wheelbase and trackwidth)
+	private static final double L = Constants.ROBOT_LENGTH;
+	private static final double W = Constants.ROBOT_WIDTH;
+	private static final double R = Math.sqrt((L*L) + (W*W));
+	private static final double L_OVER_R = L / R, W_OVER_R = W / R;
 
-		// Pivot PID values
-		static final double TOLERANCE = 2.0; // degrees
-		public static class PivotPID {
-			public static final double FR_P = 0.0;
-			public static final double FR_I = 0.0;
-			public static final double FR_D = 0.0;
+	// Pivot PID
+	private static final double TOLERANCE = 2.0; // degrees
 
-			public static final double FL_P = 0.0;
-			public static final double FL_I = 0.0;
-			public static final double FL_D = 0.0;
-
-			public static final double RR_P = 0.0;
-			public static final double RR_I = 0.0;
-			public static final double RR_D = 0.0;
-
-			public static final double RL_P = 0.0;
-			public static final double RL_I = 0.0;
-			public static final double RL_D = 0.0;
-		}
-
-		// For PID and Voltage to Angle conversion
-		static final double MIN_VOLTAGE = 0.0;
-		static final double MAX_VOLTAGE = 5.0;
-		static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
-	}
+	// For PID and Voltage to Angle conversion
+	private static final double MIN_VOLTAGE = 0.0;
+	private static final double MAX_VOLTAGE = 5.0;
+	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	private double direction;
 	private boolean fieldOriented;
@@ -158,7 +141,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void pidWrite(double output) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output);
 
 		this.set(0, direction, output);
@@ -169,7 +152,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void goStraight(double direction, double yaw) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw);
 
 		this.direction = direction;
@@ -181,7 +164,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param flag true for field oriented, false for robot oriented
 	 */
 	public void setFieldOriented(boolean flag) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("SwerveDrive setFieldOriented flag=" + flag);
 
 		fieldOriented = flag;
@@ -221,10 +204,10 @@ public class SwerveDrive extends DriveTrainBase {
 			fwd = TEMP;
 		}
 		
-		final double xNeg = str - (rcw*Constants.L_OVER_R);
-		final double xPos = str + (rcw*Constants.L_OVER_R);
-		final double yNeg = fwd - (rcw*Constants.W_OVER_R);
-		final double yPos = fwd + (rcw*Constants.W_OVER_R);
+		final double xNeg = str - (rcw*L_OVER_R);
+		final double xPos = str + (rcw*L_OVER_R);
+		final double yNeg = fwd - (rcw*W_OVER_R);
+		final double yPos = fwd + (rcw*W_OVER_R);
 		
 		double frSpeed = calcMagnitude(xPos, yNeg);
 		double frPivot = calcAngle(xPos, yNeg);
@@ -275,7 +258,7 @@ public class SwerveDrive extends DriveTrainBase {
 		rl.setDrive(rlSpeed);
 		rr.setDrive(rrSpeed);
 
-		if(Constants.DEBUG) {
+		if(DEBUG) {
 			Logger.debug("SwerveDrive set x=" + x + " y=" + y + " z=" + z);
 			Logger.debug("FL speed=" + flSpeed + " pivot=" + flPivot + " :: FR speed=" + frSpeed + " pivot=" + frPivot);
 			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rrSpeed + " pivot=" + rrPivot);
@@ -288,7 +271,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param angle the angle ranging from 0 to 360
 	 */
 	public void setAll(double output, double angle) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("SwerveDrive setAll output=" + output + " angle=" + angle);
 
 		fr.setPivot(angle);
@@ -307,7 +290,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param output the speed ranging from -1 to 1
 	 */
 	public void setDrive(double output) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("SwerveDrive serDrive output=" + output);
 
 		fr.setDrive(output);
@@ -321,7 +304,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param angle the pivot angle
 	 */
 	public void setPivot(double angle) {
-		if(Constants.DEBUG)
+		if(DEBUG)
 			Logger.debug("SwerveDrive setPivot angle=" + angle);
 			
 		fr.setPivot(angle);
@@ -464,9 +447,9 @@ public class SwerveDrive extends DriveTrainBase {
 				new PIDOutputClass(pivot)
 			);
 			
-			pivotPID.setInputRange(Constants.MIN_VOLTAGE, Constants.MAX_VOLTAGE);
+			pivotPID.setInputRange(MIN_VOLTAGE, MAX_VOLTAGE);
 			pivotPID.setOutputRange(-1, 1);
-			pivotPID.setAbsoluteTolerance(toVoltage(Constants.TOLERANCE));
+			pivotPID.setAbsoluteTolerance(toVoltage(TOLERANCE));
 			pivotPID.setContinuous();
 		}
 
@@ -576,7 +559,7 @@ public class SwerveDrive extends DriveTrainBase {
 			if(flipDrive)
 				angle += 180;
 
-			if(Constants.DEBUG)
+			if(DEBUG)
 				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle);
 
 			pivotPID.setSetpoint(toVoltage(angle));
@@ -647,7 +630,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @return the angle of the analog input (e.g., pivot angle)
 		 */
 		private double toAngle(double voltage) {
-			return ((360.0 * (voltage - Constants.MIN_VOLTAGE) / Constants.DELTA_VOLTAGE) + 360.0 - offset) % 360;
+			return ((360.0 * (voltage - MIN_VOLTAGE) / DELTA_VOLTAGE) + 360.0 - offset) % 360;
 		}
 
 		/**
@@ -658,7 +641,7 @@ public class SwerveDrive extends DriveTrainBase {
 		private double toVoltage(double angle) {
 			angle %= 360;
 			angle += 360; // add 360 to ensure formula gives a value from 0 to 5
-			return (Constants.MIN_VOLTAGE + (Constants.DELTA_VOLTAGE*(offset + angle - 360))/360.0);
+			return (MIN_VOLTAGE + (DELTA_VOLTAGE*(offset + angle - 360))/360.0);
 		}
 	}
 }
