@@ -291,7 +291,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	public void setDrive(double output) {
 		if(DEBUG)
-			Logger.debug("SwerveDrive serDrive output=" + output);
+			Logger.debug("SwerveDrive setDrive output=" + output);
 
 		fr.setDrive(output);
 		fl.setDrive(output);
@@ -539,6 +539,9 @@ public class SwerveDrive extends DriveTrainBase {
 		 * @param output the speed ranging from 0 to 1
 		 */
 		protected void setDrive(double output) {
+			if(DEBUG)
+				Logger.debug("SwerveModule setDrive output=" + (flipDrive ? -output : output) + " flipDrive=" + flipDrive);
+			
 			this.output = flipDrive ? -output : output;
 			drive.set(ControlMode.PercentOutput, this.output);
 		}
