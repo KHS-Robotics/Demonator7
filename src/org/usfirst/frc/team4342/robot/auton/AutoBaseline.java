@@ -8,6 +8,8 @@ import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
  */
 public class AutoBaseline extends AutonomousRoutine
 {
+	private final double BASELINE_DISTANCE = 120 - ROBOT_Y;
+
 	/**
 	 * Auto routine to cross the auto line
 	 * @param position the starting position
@@ -19,14 +21,5 @@ public class AutoBaseline extends AutonomousRoutine
 		super(position);
 		
 		this.addSequential(new DriveStraight(drive, 0.5, BASELINE_DISTANCE));
-	}
-
-	/**
-	 * Auto routine to cross the auto line
-	 * @param drive the drive
-	 */
-	public AutoBaseline(DriveTrainBase drive)
-	{
-		this(StartPosition.CENTER, drive);
 	}
 }

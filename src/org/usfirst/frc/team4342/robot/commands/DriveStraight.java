@@ -20,6 +20,8 @@ public class DriveStraight extends CommandBase {
      * @param distance the distance
      */
     public DriveStraight(DriveTrainBase drive, double speed, double distance) {
+        super(10);
+        
         this.drive = drive;
         this.speed = speed;
         this.distance = distance;

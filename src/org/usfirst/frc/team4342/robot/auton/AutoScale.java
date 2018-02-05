@@ -15,6 +15,14 @@ import org.usfirst.frc.team4342.robot.subsystems.Intake;
  */
 public class AutoScale extends AutonomousRoutine
 {	
+	// Left or Right Scale when Position = Scale Side
+	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 324;
+	private static final double MOVE_TO_SCALE_DISTANCE = 42 - ROBOT_X;
+	// Left or Right Scale when Position != Scale Side
+	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 210;
+	private static final double ALIGN_TO_SCALE_DISTANCE = 222;
+	private static final double AJUST_TO_SCALE_DISTANCE = 114;
+
 	/**
 	 * Auto routine to place a cube on the scale for the
 	 * specified position
@@ -30,7 +38,7 @@ public class AutoScale extends AutonomousRoutine
 		
 		if(position == StartPosition.LEFT)
 		{
-			if(this.isScaleLeft())
+			if(isScaleLeft())
 			{
 				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
@@ -52,7 +60,7 @@ public class AutoScale extends AutonomousRoutine
 		}
 		else if(position == StartPosition.RIGHT)
 		{
-			if(this.isScaleRight())
+			if(isScaleRight())
 			{
 				this.addParallel(new ElevateToScaleNeutral(e));
 				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
@@ -74,7 +82,13 @@ public class AutoScale extends AutonomousRoutine
 		}
 		else
 		{
-			Logger.warning("No Position for Scale Auto! Crossing Baseline...");
+			String mssg;
+			if(position == StartPosition.CENTER)
+				mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
+			else
+				mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
+
+			Logger.warning(mssg);
 			this.addSequential(new AutoBaseline(position, d));
 		}
 	}
