@@ -83,10 +83,10 @@ public class Elevator extends PIDSubsystem
 		builder.setSafeState(this::stop);
 		builder.addDoubleProperty("Height", this::getPosition, null);
 		builder.addDoubleProperty("Setpoint", this::getSetpoint, this::setSetpoint);
+		builder.addBooleanProperty("OnTarget", this::onTarget, null);
 		builder.addDoubleProperty("P", this::getP, this::setP);
         builder.addDoubleProperty("I", this::getI, this::setI);
         builder.addDoubleProperty("D", this::getD, this::setD);
-		builder.addBooleanProperty("OnTarget", this::onTarget, null);
 		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
 	}
 

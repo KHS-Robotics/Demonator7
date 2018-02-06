@@ -43,13 +43,13 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 
         builder.addDoubleProperty("Offset", this::getOffset, this::setHeadingOffset);
         builder.addDoubleProperty("Angle", this::getAngle, null);
-        builder.addDoubleProperty("Heading", this::getHeading, this::setHeading);
+        builder.addDoubleProperty("Heading", this::getHeading, null);
+        builder.addDoubleProperty("Setpoint", yawPID::getSetpoint, this::setHeading);
+        builder.addBooleanProperty("OnTarget", this::onTarget, null);
         builder.addDoubleProperty("P", this::getP, this::setP);
         builder.addDoubleProperty("I", this::getI, this::setI);
         builder.addDoubleProperty("D", this::getD, this::setD);
-        builder.addDoubleProperty("Setpoint", yawPID::getSetpoint, null);
         builder.addDoubleArrayProperty("GetAllDistances", this::getAllDistances, null);
-        builder.addBooleanProperty("OnTarget", this::onTarget, null);
     }
 
     /**

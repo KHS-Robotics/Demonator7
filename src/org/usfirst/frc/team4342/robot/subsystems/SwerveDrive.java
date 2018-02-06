@@ -94,6 +94,16 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("RR-Angle", rr::getAngle, null);
 		builder.addDoubleProperty("RL-Angle", rl::getAngle, null);
 
+		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, fr::setPivot);
+		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, fl::setPivot);
+		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, rr::setPivot);
+		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, rl::setPivot);
+
+		builder.addBooleanProperty("FR-PivotAtSetpoint", fr::pivotAtSetpoint, null);
+		builder.addBooleanProperty("FL-PivotAtSetpoint", fl::pivotAtSetpoint, null);
+		builder.addBooleanProperty("RR-PivotAtSetpoint", rr::pivotAtSetpoint, null);
+		builder.addBooleanProperty("RL-PivotAtSetpoint", rl::pivotAtSetpoint, null);
+
 		builder.addDoubleProperty("FR-P", fr::getP, fr::setP);
 		builder.addDoubleProperty("FR-I", fr::getI, fr::setI);
 		builder.addDoubleProperty("FR-D", fr::getD, fr::setD);
@@ -109,16 +119,6 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("RL-P", rl::getP, rl::setP);
 		builder.addDoubleProperty("RL-I", rl::getI, rl::setI);
 		builder.addDoubleProperty("RL-D", rl::getD, rl::setD);
-
-		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, fr::setPivot);
-		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, fl::setPivot);
-		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, rr::setPivot);
-		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, rl::setPivot);
-
-		builder.addBooleanProperty("FR-PivotAtSetpoint", fr::pivotAtSetpoint, null);
-		builder.addBooleanProperty("FL-PivotAtSetpoint", fl::pivotAtSetpoint, null);
-		builder.addBooleanProperty("RR-PivotAtSetpoint", rr::pivotAtSetpoint, null);
-		builder.addBooleanProperty("RL-PivotAtSetpoint", rl::pivotAtSetpoint, null);
 
 		builder.addDoubleProperty("FR-Voltage", fr::getVoltage, null);
 		builder.addDoubleProperty("FL-Voltage", fl::getVoltage, null);
