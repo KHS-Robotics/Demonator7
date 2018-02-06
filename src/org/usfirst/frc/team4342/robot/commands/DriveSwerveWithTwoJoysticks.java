@@ -56,7 +56,7 @@ public class DriveSwerveWithTwoJoysticks extends TeleopCommand {
 		zInput = Z ? zInput : 0;
 
 		if(x || y || Z) {
-			drive.set(xy.getX(), xy.getY(), z.getTwist());
+			drive.set(xInput, yInput, zInput);
 			idle = false;
 		}
 		else if(!idle) {

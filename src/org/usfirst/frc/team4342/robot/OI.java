@@ -77,6 +77,7 @@ public class OI {
 		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
 		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
+		SwitchBox.setTwistChannel(3);
 		
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
@@ -100,7 +101,6 @@ public class OI {
 		LeftDrive.setDistancePerPulse(1);
 		RightDrive.setDistancePerPulse(1);
 		EleEnc.setDistancePerPulse(1);
-		SwitchBox.setTwistChannel(3);
 		
 		// Limit Switch on the bottom of the elevator
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
