@@ -22,6 +22,7 @@ public class ElevateRelative extends Elevate {
 	@Override
 	protected void initialize() {
 		elevator.setSetpointRelative(delta);
+		elevator.enable();
 	}
 
 	@Override

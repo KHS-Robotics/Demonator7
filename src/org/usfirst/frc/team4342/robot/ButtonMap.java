@@ -40,6 +40,6 @@ public class ButtonMap
 		public static final int ELEVATE_SCALE_LOW = 1;
 		public static final int ELEVATE_SWITCH = 12;
 		public static final int ELEVATE_PICKUP_CUBE = 3;
-		public static final int OVERIDE = 9;
+		public static final int ELEVATOR_OVERIDE = 9;
 	}
 }

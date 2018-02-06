@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.ElevateWithJoystick;
@@ -10,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
@@ -43,6 +45,16 @@ public class Elevator extends PIDSubsystem
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void disable() 
+	{
+		if(this.getPIDController().isEnabled())
+			super.disable();
+	}
+
+	/**
 	 * Gets the encoder distance
 	 * @return the encoder distance
 	 */
@@ -68,7 +80,11 @@ public class Elevator extends PIDSubsystem
 	protected void initDefaultCommand()
 	{
 		OI oi = OI.getInstance();
-		this.setDefaultCommand(new ElevateWithJoystick(oi.SwitchBox, oi.Elevator));
+		this.setDefaultCommand(new ElevateWithJoystick(
+			oi.SwitchBox, 
+			new JoystickButton(oi.SwitchBox, ButtonMap.SwitchBox.ELEVATOR_OVERIDE),
+			oi.Elevator
+		));
 	}
 
 	/**

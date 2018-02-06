@@ -17,5 +17,4 @@ public class ElevateToScaleLow extends Elevate {
 	public ElevateToScaleLow(Elevator elevator) {
 		super(elevator, SCALE_HEIGHT);
 	}
-
 }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot.commands;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Command to control the elevator with a joystick
@@ -13,6 +14,7 @@ public class ElevateWithJoystick extends CommandBase {
 	private boolean idle, initializedIdle;
 	
 	private Joystick joystick;
+	private JoystickButton override;
 	private Elevator elevator;
 	
 	/**
@@ -20,8 +22,9 @@ public class ElevateWithJoystick extends CommandBase {
 	 * @param joystick the joystick
 	 * @param elevator the elevator
 	 */
-	public ElevateWithJoystick(Joystick joystick, Elevator elevator) {
+	public ElevateWithJoystick(Joystick joystick, JoystickButton override, Elevator elevator) {
 		this.joystick = joystick;
+		this.override = override;
 		this.elevator = elevator;
 		
 		this.requires(elevator);
@@ -36,6 +39,13 @@ public class ElevateWithJoystick extends CommandBase {
 	protected void execute() {
 		final double INPUT = joystick.getTwist();
 		idle = checkJoystickDeadband(INPUT);
+
+		// Emergency override in case sensors malfunction
+		if(!idle && override.get()) {
+			elevator.disable();
+			elevator.set(INPUT);
+			return;
+		}
 		
 		if(elevator.isAtBottom()) {
 			elevator.stop();
@@ -48,6 +58,7 @@ public class ElevateWithJoystick extends CommandBase {
 		
 		if(!elevator.isAtBottom() && idle && !initializedIdle) {
 			elevator.setSetpoint(elevator.getPosition()); // hold current height
+			elevator.enable();
 			initializedIdle = true;
 		} 
 		else if(!idle) {

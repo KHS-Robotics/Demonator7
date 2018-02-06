@@ -26,6 +26,7 @@ public class Elevate extends CommandBase {
 	@Override
 	protected void initialize() {
 		elevator.setSetpoint(height);
+		elevator.enable();
 	}
 
 	@Override
