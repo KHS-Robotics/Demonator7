@@ -563,7 +563,7 @@ public class SwerveDrive extends DriveTrainBase {
 				angle += 180;
 
 			if(DEBUG)
-				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle);
+				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();

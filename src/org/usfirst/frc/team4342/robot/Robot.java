@@ -12,7 +12,6 @@ import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
-import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
@@ -33,7 +32,6 @@ public class Robot extends TimedRobot {
 		Logger.info("Bootstrapping Demonator7...");
 		
 		OI.getInstance();
-		DemonDashboard.start();
 		PDPLogger.start();
 		
 		Logger.info("Initializing autonomous choosers...");

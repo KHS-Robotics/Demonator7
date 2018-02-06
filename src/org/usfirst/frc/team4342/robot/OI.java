@@ -28,6 +28,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -111,6 +113,18 @@ public class OI {
 
 		Elevator.setNeutralMode(NeutralMode.Brake);
 		// Drive.setNeutralMode(NeutralMode.Brake);
+
+		// Scheduler
+		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+
+		// Subsystems
+		SmartDashboard.putData("Drive", Drive);
+		SmartDashboard.putData("Elevator", Elevator);
+		SmartDashboard.putData("Intake", Intake);
+		SmartDashboard.putData("Climber", Climber);
+
+		// Power Distribution Panel
+		SmartDashboard.putData("PDP", PDP);
 
 		// Climbing button to enable the winch
 		// Switch is opposite
