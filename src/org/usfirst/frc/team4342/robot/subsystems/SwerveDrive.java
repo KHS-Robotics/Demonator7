@@ -59,7 +59,7 @@ public class SwerveDrive extends DriveTrainBase {
 		this.rr = rr;
 		this.rl = rl;
 
-		setPID(0, 0, 0);
+		setPID(Constants.Drive.P, Constants.Drive.I, Constants.Drive.D);
 	}
 
 	/**

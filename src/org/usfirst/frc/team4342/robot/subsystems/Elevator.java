@@ -34,10 +34,12 @@ public class Elevator extends PIDSubsystem
 	 */
 	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
 	{
-		super(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
+		super(0, 0, 0);
+		
+		setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
 		setInputRange(0, 80);
 		setOutputRange(-1, 1);
-		setAbsoluteTolerance(0.5);
+		setAbsoluteTolerance(1.0);
 
 		this.motor = motor;
 		this.encoder = encoder;
