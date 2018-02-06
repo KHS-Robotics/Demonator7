@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Command to use the tank drive with two joysticks
  */
-public class DriveTankWithJoysticks extends CommandBase {
+public class DriveTankWithJoysticks extends TeleopCommand {
 	private static final double JOYSTICK_DEADZONE = 0.05;
 	// [0,1], 0 for no sensitivity control (linear) and 
 	// 1 for full sensitivity control (cubic)
@@ -62,12 +62,6 @@ public class DriveTankWithJoysticks extends CommandBase {
 	protected void end()
 	{
 		drive.stop();
-	}
-	
-	@Override
-	protected boolean isFinished()
-	{
-		return false;
 	}
 	
 	/**

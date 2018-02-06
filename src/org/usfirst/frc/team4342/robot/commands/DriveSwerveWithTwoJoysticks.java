@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Drive Swerve With Two Joysticks
  */
-public class DriveSwerveWithTwoJoysticks extends CommandBase {
+public class DriveSwerveWithTwoJoysticks extends TeleopCommand {
 	private static final double DEADBAND = 0.02;
 
 	private boolean idle;
@@ -71,13 +71,5 @@ public class DriveSwerveWithTwoJoysticks extends CommandBase {
 	@Override
 	protected void end() {
 		drive.stop();
-	}
-    
-    /**
-     * {@inheritDoc}
-     */
-	@Override
-	protected boolean isFinished() {
-		return false;
 	}
 }

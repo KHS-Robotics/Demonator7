@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 /**
  * Command to control the elevator with a joystick
  */
-public class ElevateWithJoystick extends CommandBase {
+public class ElevateWithJoystick extends TeleopCommand {
 	private static final double DEADBAND = 0.03, TOP_WINDOW = 70.0, BOTTOM_WINDOW = 5.0;
 	
 	private boolean idle, initializedIdle;
@@ -78,11 +78,6 @@ public class ElevateWithJoystick extends CommandBase {
 			elevator.set(input);
 			initializedIdle = false;
 		}
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return false;
 	}
 
 	@Override

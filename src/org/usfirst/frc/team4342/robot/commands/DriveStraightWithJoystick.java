@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Joystick;
 /**
  * Command to drive straight with a joystick
  */
-public class DriveStraightWithJoystick extends CommandBase {
+public class DriveStraightWithJoystick extends TeleopCommand {
 	private Joystick joystick;
 	private DriveTrainBase drive;
 	private boolean invertY;
@@ -50,10 +50,5 @@ public class DriveStraightWithJoystick extends CommandBase {
 	@Override
 	protected void end() {
 		drive.stop();
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return false;
 	}
 }

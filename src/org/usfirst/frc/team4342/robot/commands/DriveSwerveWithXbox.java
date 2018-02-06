@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 /**
  * Drive Swerve With Xbox Controller
  */
-public class DriveSwerveWithXbox extends CommandBase {
+public class DriveSwerveWithXbox extends TeleopCommand {
     private static final double DEADBAND = 0.02;
 
     private boolean idle;
@@ -69,13 +69,5 @@ public class DriveSwerveWithXbox extends CommandBase {
     @Override
     protected void end() {
         drive.stop();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected boolean isFinished() {
-        return false;
     }
 }

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
  * Command used to control swerve like a tank drive. This should
  * only be used in unfortunate situations...
  */
-public class DriveSwerveTankWithJoysticks extends CommandBase {
+public class DriveSwerveTankWithJoysticks extends TeleopCommand {
     private static final double DEADBAND = 0.02;
 
 	private boolean idle;
@@ -69,9 +69,4 @@ public class DriveSwerveTankWithJoysticks extends CommandBase {
 	protected void end() {
 		drive.stop();
 	}
-
-    @Override
-    protected boolean isFinished() {
-        return false;
-    }
 }
