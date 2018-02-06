@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static final boolean DEBUG = true;
+	private static boolean DEBUG = true;
 
 	// Dimensions (vehicle's wheelbase and trackwidth)
 	private static final double L = Constants.ROBOT_LENGTH;
@@ -80,6 +80,7 @@ public class SwerveDrive extends DriveTrainBase {
 
 		builder.setSmartDashboardType("Swerve");
 
+		builder.addBooleanProperty("DEBUG", () -> DEBUG, this::setDebug);
 		builder.addDoubleProperty("Direction", () -> direction, null);
 		builder.addBooleanProperty("FieldOriented", () -> fieldOriented, this::setFieldOriented);
 
@@ -88,10 +89,10 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("RR-DriveOutput", rr::getDriveOutput, null);
 		builder.addDoubleProperty("RL-DriveOutput", rl::getDriveOutput, null);
 
-		builder.addDoubleProperty("FR-Angle", fr::getAngle, fr::setPivot);
-		builder.addDoubleProperty("FL-Angle", fl::getAngle, fl::setPivot);
-		builder.addDoubleProperty("RR-Angle", rr::getAngle, rr::setPivot);
-		builder.addDoubleProperty("RL-Angle", rl::getAngle, rl::setPivot);
+		builder.addDoubleProperty("FR-Angle", fr::getAngle, null);
+		builder.addDoubleProperty("FL-Angle", fl::getAngle, null);
+		builder.addDoubleProperty("RR-Angle", rr::getAngle, null);
+		builder.addDoubleProperty("RL-Angle", rl::getAngle, null);
 
 		builder.addDoubleProperty("FR-P", fr::getP, fr::setP);
 		builder.addDoubleProperty("FR-I", fr::getI, fr::setI);
@@ -109,10 +110,10 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("RL-I", rl::getI, rl::setI);
 		builder.addDoubleProperty("RL-D", rl::getD, rl::setD);
 
-		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, null);
-		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, null);
-		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, null);
-		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, null);
+		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, fr::setPivot);
+		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, fl::setPivot);
+		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, rr::setPivot);
+		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, rl::setPivot);
 
 		builder.addBooleanProperty("FR-PivotAtSetpoint", fr::pivotAtSetpoint, null);
 		builder.addBooleanProperty("FL-PivotAtSetpoint", fl::pivotAtSetpoint, null);
@@ -123,6 +124,14 @@ public class SwerveDrive extends DriveTrainBase {
 		builder.addDoubleProperty("FL-Voltage", fl::getVoltage, null);
 		builder.addDoubleProperty("RR-Voltage", rr::getVoltage, null);
 		builder.addDoubleProperty("RL-Voltage", rl::getVoltage, null);
+	}
+
+	/**
+	 * Sets flag for debug statements
+	 * @param flag true for debug statements to stdout, false otherwise
+	 */
+	public void setDebug(boolean flag) {
+		DEBUG = flag;
 	}
 
 	/**
