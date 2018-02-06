@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static boolean DEBUG = true;
+	private static boolean DEBUG;
 
 	// Dimensions (vehicle's wheelbase and trackwidth)
 	private static final double L = Constants.ROBOT_LENGTH;
