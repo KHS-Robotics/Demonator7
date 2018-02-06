@@ -10,11 +10,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  * Superclass for Autonomous Routines
  */
 public abstract class AutonomousRoutine extends CommandGroup {
-	protected final StartPosition position;
-
-	// TODO: Update robot dimensions
 	protected static final double ROBOT_X = Constants.ROBOT_WIDTH / 2;
 	protected static final double ROBOT_Y = Constants.ROBOT_LENGTH / 2;
+	
+	protected final StartPosition position;
 
 	/**
 	 * Constructs an autonomous routine

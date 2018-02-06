@@ -114,7 +114,7 @@ public class Elevator extends PIDSubsystem
 	}
 
 	/**
-     * Sets the P value for the internal PID controller for yaw.
+     * Sets the P value for the internal PID controller for height.
      * @param p the proportional value
      */
     public void setP(double p) {
@@ -123,7 +123,7 @@ public class Elevator extends PIDSubsystem
     }
 
     /**
-     * Gets the proportional value for the internal PID controller for yaw.
+     * Gets the proportional value for the internal PID controller for height.
      * @return the proportional value
      */
     public double getP() {
@@ -131,7 +131,7 @@ public class Elevator extends PIDSubsystem
     }
 
     /**
-     * Sets the I value for the internal PID controller for yaw.
+     * Sets the I value for the internal PID controller for height.
      * @param i the integral value
      */
     public void setI(double i) {
@@ -140,7 +140,7 @@ public class Elevator extends PIDSubsystem
     }
 
     /**
-     * Gets the integral value for the internal PID controller for yaw.
+     * Gets the integral value for the internal PID controller for height.
      * @return the integral value
      */
     public double getI() {
@@ -148,7 +148,7 @@ public class Elevator extends PIDSubsystem
     }
 
     /**
-     * Sets the D value for the intenral PID controller for yaw.
+     * Sets the D value for the intenral PID controller for height.
      * @param d the derivative value
      */
     public void setD(double d) {
@@ -157,7 +157,7 @@ public class Elevator extends PIDSubsystem
     }
 
     /**
-     * Gets the derivative value for the internal PID controller for yaw.
+     * Gets the derivative value for the internal PID controller for height.
      * @return the derivative value
      */
     public double getD() {

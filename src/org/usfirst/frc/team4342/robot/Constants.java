@@ -4,6 +4,7 @@ package org.usfirst.frc.team4342.robot;
  * Constants such as Dimensions and PID
  */
 public class Constants {
+    // TODO: Verify Robot Dimensions
     /** Robot Length in inches */
     public static final double ROBOT_LENGTH = 27.5;
     /** Robot Width in inches */
@@ -13,6 +14,7 @@ public class Constants {
      * Elevator Constants
      */
     public static class Elevator {
+        // TODO: Get PID values
         public static final double P = 0.0;
         public static final double I = 0.0;
         public static final double D = 0.0;
@@ -23,12 +25,14 @@ public class Constants {
      */
     public static class Drive {
         // Heading
+        // TODO: Get PID values
         public static final double P = 0.0;
         public static final double I = 0.0;
         public static final double D = 0.0;
 
         // Swerve Pivot
         public static class PivotPID {
+            // TODO: Get PID values
 			public static final double FR_P = 0.0;
 			public static final double FR_I = 0.0;
 			public static final double FR_D = 0.0;
