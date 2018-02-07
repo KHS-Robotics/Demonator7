@@ -41,6 +41,7 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
+        builder.setSmartDashboardType("Drive");
         builder.addDoubleProperty("Offset", this::getOffset, this::setHeadingOffset);
         builder.addDoubleProperty("Angle", this::getAngle, null);
         builder.addDoubleProperty("Heading", this::getHeading, null);

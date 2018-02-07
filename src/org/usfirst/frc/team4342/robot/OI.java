@@ -114,18 +114,6 @@ public class OI {
 		Elevator.setNeutralMode(NeutralMode.Brake);
 		// Drive.setNeutralMode(NeutralMode.Brake);
 
-		// Scheduler
-		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-
-		// Subsystems
-		SmartDashboard.putData("Drive", Drive);
-		SmartDashboard.putData("Elevator", Elevator);
-		SmartDashboard.putData("Intake", Intake);
-		SmartDashboard.putData("Climber", Climber);
-
-		// Power Distribution Panel
-		SmartDashboard.putData("PDP", PDP);
-
 		// Climbing button to enable the winch
 		// Switch is opposite
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);

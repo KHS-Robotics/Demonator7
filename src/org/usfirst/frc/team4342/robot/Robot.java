@@ -31,8 +31,20 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		Logger.info("Bootstrapping Demonator7...");
 		
-		OI.getInstance();
+		OI oi = OI.getInstance();
 		PDPLogger.start();
+
+		// Scheduler
+		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+
+		// Subsystems
+		SmartDashboard.putData("Drive", oi.Drive);
+		SmartDashboard.putData("Elevator", oi.Elevator);
+		SmartDashboard.putData("Intake", oi.Intake);
+		SmartDashboard.putData("Climber", oi.Climber);
+
+		// Power Distribution Panel
+		SmartDashboard.putData("PDP", oi.PDP);
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();
