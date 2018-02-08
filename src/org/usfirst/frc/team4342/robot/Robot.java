@@ -33,18 +33,7 @@ public class Robot extends TimedRobot {
 		
 		OI oi = OI.getInstance();
 		PDPLogger.start();
-
-		// Scheduler
-		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-
-		// Subsystems
-		SmartDashboard.putData("Drive", oi.Drive);
-		SmartDashboard.putData("Elevator", oi.Elevator);
-		SmartDashboard.putData("Intake", oi.Intake);
-		SmartDashboard.putData("Climber", oi.Climber);
-
-		// Power Distribution Panel
-		SmartDashboard.putData("PDP", oi.PDP);
+		AwesomeLights.start();
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();
@@ -67,6 +56,18 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("D-P" , 0.0);
 		SmartDashboard.putNumber("D-I" , 0.0);
 		SmartDashboard.putNumber("D-D" , 0.0);
+
+		// Scheduler
+		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
+
+		// Subsystems
+		SmartDashboard.putData("Drive", oi.Drive);
+		SmartDashboard.putData("Elevator", oi.Elevator);
+		SmartDashboard.putData("Intake", oi.Intake);
+		SmartDashboard.putData("Climber", oi.Climber);
+
+		// Power Distribution Panel
+		SmartDashboard.putData("PDP", oi.PDP);
 		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}

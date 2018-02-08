@@ -3,14 +3,17 @@ package org.usfirst.frc.team4342.robot.commands;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * Command to drive straight with a joystick
  */
 public class DriveStraightWithJoystick extends TeleopCommand {
+	private double input;
+	
 	private Joystick joystick;
+	private XboxController xbox;
 	private DriveTrainBase drive;
-	private boolean invertY;
 	
 	private double yaw;
 	
@@ -20,21 +23,18 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 	 * @param drive the drive
 	 * @param invertY true to invert y input
 	 */
-	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive, boolean invertY) {
+	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
 		this.joystick = joystick;
 		this.drive = drive;
-		this.invertY = invertY;
 		
 		this.requires(drive);
 	}
 
-	/**
-	 * Command to drive straight with a joystick
-	 * @param joystick the joystick
-	 * @param drive the drive
-	 */
-	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
-		this(joystick, drive, false);
+	public DriveStraightWithJoystick(XboxController xbox, DriveTrainBase drive) {
+		this.xbox = xbox;
+		this.drive = drive;
+		
+		this.requires(drive);
 	}
 
 	@Override
@@ -44,7 +44,8 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 
 	@Override
 	protected void execute() {
-		drive.goStraight(invertY ? -joystick.getY() : joystick.getY(), yaw);
+		input = xbox != null ? -xbox.getRawAxis(1) : -joystick.getY();
+		drive.goStraight(input, yaw);
 	}
 
 	@Override

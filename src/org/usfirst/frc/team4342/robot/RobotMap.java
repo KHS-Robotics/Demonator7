@@ -9,27 +9,52 @@ import edu.wpi.first.wpilibj.SPI.Port;
  * floating around.
  */
 public class RobotMap {
+	// NavX Board
 	public static final Port NAVX_PORT = Port.kMXP;
 	public static final byte NAVX_UPDATE_RATE_HZ = (byte) 50;
 	
-	public static final int LEFT_DRIVE_STICK = 0;
-	public static final int RIGHT_DRIVE_STICK = 1;
-	public static final int SWITCH_BOX = 3;
+	// Joysticks and Switch Box
+	public static final int XBOX_PORT = 0;
+	public static final int SWITCH_BOX = 1;
 	
-	public static final int FRONT_LEFT = 0;
-	public static final int FRONT_RIGHT = 2;
-	public static final int REAR_LEFT = 1;
-	public static final int REAR_RIGHT = 3;
-	public static final int INTAKE_MOTOR = 4;
-	public static final int CLIMBER_MOTOR = 13;
-	public static final int ELE_MOTOR = 2;
+	// Motors for Swerve (Drive and Pivot)
+	public static final int FRONT_RIGHT_DRIVE = 0;
+	public static final int FRONT_RIGHT_PIVOT = 1;
+	public static final int FRONT_LEFT_DRIVE = 2;
+	public static final int FRONT_LEFT_PIVOT = 3;
+	public static final int REAR_RIGHT_DRIVE = 4;
+	public static final int REAR_RIGHT_PIVOT = 5;
+	public static final int REAR_LEFT_DRIVE = 6;
+	public static final int REAR_LEFT_PIVOT = 7;
+
+	// Motors for Intake, Climber and Elevator
+	public static final int INTAKE_MOTOR = 8;
+	public static final int CLIMBER_MOTOR = 9;
+	public static final int ELE_MOTOR = 10;
 	
-	public static final int LEFT_DRIVE_IN = 2;
-	public static final int LEFT_DRIVE_OUT = 3;
-	public static final int RIGHT_DRIVE_IN = 0;
-	public static final int RIGHT_DRIVE_OUT = 1;
-	public static final int ELE_ENC_IN = 4;
-	public static final int ELE_ENC_OUT = 5;
-	
-	public static final int ELE_LS = 6;
+	// Drive Encoders for Swerve
+	public static final int FRONT_RIGHT_DRIVE_ENC_A = 0;
+	public static final int FRONT_RIGHT_DRIVE_ENC_B = 1;
+	public static final int FRONT_LEFT_DRIVE_ENC_A = 2;
+	public static final int FRONT_LEFT_DRIVE_ENC_B = 3;
+	public static final int REAR_RIGHT_DRIVE_ENC_A = 4;
+	public static final int REAR_RIGHT_DRIVE_ENC_B = 5;
+	public static final int REAR_LEFT_DRIVE_ENC_A = 6;
+	public static final int REAR_LEFT_DRIVE_ENC_B = 7;
+	// Pivot Analog Inputs for Swerve
+	public static final int FRONT_RIGHT_PIVOT_CHANNEL = 0;
+	public static final int FRONT_LEFT_PIVOT_CHANNEL = 1;
+	public static final int REAR_RIGHT_PIVOT_CHANNEL = 2;
+	public static final int REAR_LEFT_PIVOT_CHANNEL = 3;
+
+	// Encoder and Limit Switch for Elevator
+	public static final int ELE_ENC_IN = 8;
+	public static final int ELE_ENC_OUT = 9;
+	public static final int ELE_LS = 10;
+
+	// LEDs on PCM
+	public static final int LED_POWER = 0;
+	public static final int RED_LED = 1;
+	public static final int GREEN_LED = 2;
+	public static final int BLUE_LED = 3;
 }

@@ -14,22 +14,25 @@ import org.usfirst.frc.team4342.robot.commands.StopElevator;
 import org.usfirst.frc.team4342.robot.commands.StopSubsystem;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive.SwerveModule;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
-import org.usfirst.frc.team4342.robot.subsystems.TankDrive;
 import org.usfirst.frc.team4342.robot.subsystems.Climber;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -52,20 +55,33 @@ public class OI {
 
 	// PowerDistributionPanel
 	public final PowerDistributionPanel PDP;
-	
-	// Subsystems
-	public final Intake Intake;
-	public final Elevator Elevator;
-	public final TankDrive Drive;
-	public final Climber Climber;
-	
-	// Joysticks, motors, and sensors
-	public final Joystick LeftDriveStick, RightDriveStick, SwitchBox;
-	public final TalonSRX EleMotor;
-	public final Spark IntakeMotor, ClimberMotor, FrontLeft, FrontRight, RearLeft, RearRight;
+
+	// Joysticks
+	public final XboxController DriveController;
+	public final Joystick SwitchBox;
+
+	// Drive
+	public final SwerveModule FR, FL, RR, RL;
+	public final SwerveDrive Drive;
 	public final AHRS NavX;
-	public final Encoder LeftDrive, RightDrive, EleEnc;
+	public final TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
+	public final TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
+	public final Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
+	public final AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
+
+	// Climber
+	public final Climber Climber;
+	public final Spark ClimberMotor;
+
+	// Elevator
+	public final Elevator Elevator;
+	public final TalonSRX EleMotor;
+	public final Encoder EleEnc;
 	public final DigitalInput EleLS;
+	
+	// Intake
+	public final Intake Intake;
+	public final Spark IntakeMotor;
 	
 	private OI() {
 		Logger.info("Constructing the Operator Interface.....");
@@ -74,45 +90,99 @@ public class OI {
 		PDP = new PowerDistributionPanel();
 		
 		// Joysticks and Switch Box
-		LeftDriveStick = new Joystick(RobotMap.LEFT_DRIVE_STICK);
-		RightDriveStick = new Joystick(RobotMap.RIGHT_DRIVE_STICK);
+		DriveController = new XboxController(RobotMap.XBOX_PORT);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3);
 		
-		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
-		
-		// Motors for DriveTrain, Elevator, Intake and Climber
-		FrontLeft = new Spark(RobotMap.FRONT_LEFT);
-		FrontRight = new Spark(RobotMap.FRONT_RIGHT);
-		RearLeft = new Spark(RobotMap.REAR_LEFT);
-		RearRight = new Spark(RobotMap.REAR_RIGHT);
-		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
-		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+
+		FrontRightDrive = new TalonSRX(RobotMap.FRONT_RIGHT_DRIVE);
+		FrontLeftDrive = new TalonSRX(RobotMap.FRONT_LEFT_DRIVE);
+		RearLeftDrive = new TalonSRX(RobotMap.REAR_LEFT_DRIVE);
+		RearRightDrive = new TalonSRX(RobotMap.REAR_RIGHT_DRIVE);
+
+		FrontRightPivot = new TalonSRX(RobotMap.FRONT_RIGHT_PIVOT);
+		FrontLeftPivot = new TalonSRX(RobotMap.FRONT_LEFT_PIVOT);
+		RearLeftPivot = new TalonSRX(RobotMap.REAR_LEFT_PIVOT);
+		RearRightPivot = new TalonSRX(RobotMap.REAR_RIGHT_PIVOT);
+
+		FrontRightDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
+		FrontLeftDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
+		RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
+		RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
+
+		FrontRightPivotEnc = new AnalogInput(RobotMap.FRONT_RIGHT_PIVOT_CHANNEL);
+		FrontLeftPivotEnc = new AnalogInput(RobotMap.FRONT_LEFT_PIVOT_CHANNEL);
+		RearRightPivotEnc = new AnalogInput(RobotMap.REAR_RIGHT_PIVOT_CHANNEL);
+		RearLeftPivotEnc = new AnalogInput(RobotMap.REAR_LEFT_PIVOT_CHANNEL);
+
+		FR = new SwerveModule(
+			FrontRightDrive, 
+			FrontRightDriveEnc, 
+			FrontRightPivot, 
+			FrontRightPivotEnc, 
+			Constants.Drive.PivotPID.FR_P, 
+			Constants.Drive.PivotPID.FR_I, 
+			Constants.Drive.PivotPID.FR_D
+		);
+
+		FL = new SwerveModule(
+			FrontLeftDrive, 
+			FrontLeftDriveEnc, 
+			FrontLeftPivot, 
+			FrontLeftPivotEnc, 
+			Constants.Drive.PivotPID.FL_P, 
+			Constants.Drive.PivotPID.FL_I, 
+			Constants.Drive.PivotPID.FL_D
+		);
+
+		RR = new SwerveModule(
+			RearRightDrive, 
+			RearRightDriveEnc, 
+			RearRightPivot, 
+			RearRightPivotEnc, 
+			Constants.Drive.PivotPID.RR_P, 
+			Constants.Drive.PivotPID.RR_I, 
+			Constants.Drive.PivotPID.RR_D
+		);
+
+		RL = new SwerveModule(
+			RearLeftDrive, 
+			RearLeftDriveEnc, 
+			RearLeftPivot, 
+			RearLeftPivotEnc, 
+			Constants.Drive.PivotPID.RL_P, 
+			Constants.Drive.PivotPID.RL_I, 
+			Constants.Drive.PivotPID.RL_D
+		);
+
+		// Swerve
+		Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
+
+		// Climber
 		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
+		Climber = new Climber(ClimberMotor);
 		
-		// Encoders for Drive Train and Elevator
-		LeftDrive = new Encoder(RobotMap.LEFT_DRIVE_IN, RobotMap.LEFT_DRIVE_OUT);
-		RightDrive = new Encoder(RobotMap.RIGHT_DRIVE_IN, RobotMap.RIGHT_DRIVE_OUT);
+		// Elevator
+		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 		EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
+		EleLS = new DigitalInput(RobotMap.ELE_LS);
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
+
+		// Intake
+		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+		Intake = new Intake(IntakeMotor);
 		
 		// TODO: Set distance per pulse so encoder values are in inches
 		// (Wheel Radius * PI * Num Input Teeth) / (Dist Per Pulse of Encoder * Num Encoder Gear Ratio? * Num Output Teeth)
-		LeftDrive.setDistancePerPulse(1);
-		RightDrive.setDistancePerPulse(1);
+		FrontRightDriveEnc.setDistancePerPulse(1);
+		FrontLeftDriveEnc.setDistancePerPulse(1);
+		RearRightDriveEnc.setDistancePerPulse(1);
+		RearLeftDriveEnc.setDistancePerPulse(1);
 		EleEnc.setDistancePerPulse(1);
-		
-		// Limit Switch on the bottom of the elevator
-		EleLS = new DigitalInput(RobotMap.ELE_LS);
-
-		// Subsystems
-		Drive = new TankDrive(FrontRight, FrontLeft, RearRight, RearLeft, NavX, LeftDrive, RightDrive);
-		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
-		Intake = new Intake(IntakeMotor);
-		Climber = new Climber(ClimberMotor);
 
 		Elevator.setNeutralMode(NeutralMode.Brake);
-		// Drive.setNeutralMode(NeutralMode.Brake);
+		Drive.setNeutralMode(NeutralMode.Brake);
 
 		// Climbing button to enable the winch
 		// Switch is opposite
@@ -158,24 +228,24 @@ public class OI {
 		elevateCube.whenPressed(new StopElevator(Elevator));
 		
 		// Button on the right drive stick to maintain the robot's current heading
-		JoystickButton driveStraight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_STRAIGHT);
-		driveStraight.whenPressed(new DriveStraightWithJoystick(RightDriveStick, Drive));
+		JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+		driveStraight.whenPressed(new DriveStraightWithJoystick(DriveController, Drive));
 		driveStraight.whenReleased(new StopSubsystem(Drive));
 		
 		// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
-		JoystickButton goToZero = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_ZERO);
+		JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);
 		goToZero.whenPressed(new DriveGoToAngle(Drive, 0));
 		
 		// Button on the right drive stick to go to -90 degree heading (facing towards left side of the field)
-		JoystickButton goToLeft = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_LEFT);
+		JoystickButton goToLeft = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_LEFT);
 		goToLeft.whenPressed(new DriveGoToAngle(Drive, -90));
 		
 		// Button on the right drive stick to go to 90 degree heading (facing towards right side of the field)
-		JoystickButton goToRight = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_TO_RIGHT);
+		JoystickButton goToRight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_RIGHT);
 		goToRight.whenPressed(new DriveGoToAngle(Drive, 90));
 		
 		// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
-		JoystickButton go180 = new JoystickButton(RightDriveStick, ButtonMap.DriveStick.Right.GO_180);
+		JoystickButton go180 = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_180);
 		go180.whenPressed(new DriveGoToAngle(Drive, 180));
 	}
 }

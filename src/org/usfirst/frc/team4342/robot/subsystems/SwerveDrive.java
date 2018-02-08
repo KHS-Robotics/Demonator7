@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.commands.DriveSwerveWithXbox;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -58,7 +59,7 @@ public class SwerveDrive extends DriveTrainBase {
 		this.fl = fl;
 		this.rr = rr;
 		this.rl = rl;
-
+		
 		setPID(Constants.Drive.P, Constants.Drive.I, Constants.Drive.D);
 	}
 
@@ -67,8 +68,8 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-//		OI oi = OI.getInstance();
-//		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveStick, oi.Drive));
+		OI oi = OI.getInstance();
+		this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
 	}
 	
 	/**

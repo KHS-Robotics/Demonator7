@@ -1,27 +1,24 @@
 
 package org.usfirst.frc.team4342.robot;
 
+import edu.wpi.first.wpilibj.XboxController;
+
 /**
  * Class to keep track of the button maps for teleop
  */
 public class ButtonMap 
 {
 	/**
-	 * Drive Sticks to control the Tank Drive
+	 * Xbox Controller to control the Swerve Drive
 	 */
-	public static class DriveStick
+	public static class DriveController
 	{
-		/**
-		 * Right Drive Stick
-		 */
-		public static class Right
-		{
-			public static final int GO_STRAIGHT = 1;
-			public static final int GO_TO_ZERO = 3;
-			public static final int GO_TO_LEFT = 4;
-			public static final int GO_TO_RIGHT = 5;
-			public static final int GO_180 = 2;
-		}
+		public static final int GO_STRAIGHT = XboxButton.kA.value;
+		// TODO: Implement Directional Pad (D-Pad) values in Button enum
+		public static final int GO_TO_ZERO = -1; // TODO: up on D-Pad
+		public static final int GO_TO_LEFT = -1; // TODO: left on D-Pad
+		public static final int GO_TO_RIGHT = -1; // TODO: right on D-Pad
+		public static final int GO_TO_180 = -1; // TODO: down on D-Pad
 	}
 	
 	/**
@@ -41,5 +38,28 @@ public class ButtonMap
 		public static final int ELEVATE_SWITCH = 12;
 		public static final int ELEVATE_PICKUP_CUBE = 3;
 		public static final int ELEVATOR_OVERIDE = 9;
+	}
+
+	/**
+	 * Represents a digital button on an XboxController.
+	 * // TODO: Implement Directional Pad (D-Pad) values
+	 */
+	 enum XboxButton {
+		kBumperLeft(5),
+		kBumperRight(6),
+		kStickLeft(9),
+		kStickRight(10),
+		kA(1),
+		kB(2),
+		kX(3),
+		kY(4),
+		kBack(7),
+		kStart(8);
+
+		private int value;
+
+		XboxButton(int value) {
+			this.value = value;
+		}
 	}
 }
