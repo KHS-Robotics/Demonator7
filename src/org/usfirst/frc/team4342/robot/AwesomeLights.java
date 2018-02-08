@@ -17,6 +17,7 @@ public class AwesomeLights {
     public static void start() {
         if(started)
             return;
+        started = true;
 
         Logger.info("Starting the awesome lights...");
         new LightController().start();
