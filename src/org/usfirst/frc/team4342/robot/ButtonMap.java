@@ -1,8 +1,6 @@
 
 package org.usfirst.frc.team4342.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-
 /**
  * Class to keep track of the button maps for teleop
  */
