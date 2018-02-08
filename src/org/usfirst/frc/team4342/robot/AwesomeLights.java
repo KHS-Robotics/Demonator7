@@ -26,10 +26,10 @@ public class AwesomeLights {
      * Class to control the RGB Lights on a separate thread
      */
     private static class LightController extends Thread implements Runnable {
-        private final Solenoid LedPower;
-        private final Solenoid RedLight;
-        private final Solenoid GreenLight;
-        private final Solenoid BlueLight;
+        private final Solenoid power;
+        private final Solenoid red;
+        private final Solenoid green;
+        private final Solenoid blue;
         
         private boolean[] on = { true, false, false };
         private double interval = 500, lastUpated = 0;
@@ -38,11 +38,11 @@ public class AwesomeLights {
          * Class to control the RGB Lights on a separate thread
          */
         private LightController() {
-            LedPower = new Solenoid(RobotMap.LED_POWER);
-            RedLight = new Solenoid(RobotMap.RED_LED);
-            GreenLight = new Solenoid(RobotMap.GREEN_LED);
-            BlueLight = new Solenoid(RobotMap.BLUE_LED);
-            LedPower.set(true);
+            power = new Solenoid(RobotMap.LED_POWER);
+            red = new Solenoid(RobotMap.RED_LED);
+            green = new Solenoid(RobotMap.GREEN_LED);
+            blue = new Solenoid(RobotMap.BLUE_LED);
+            power.set(true);
         }
 
         /**
@@ -52,27 +52,33 @@ public class AwesomeLights {
         public void run() {
             if(RobotState.isEnabled()) {
                 long current = System.currentTimeMillis();
-                if(current - lastUpated >= interval) {
-                    shift();
-                    setLights();
-                    lastUpated = System.currentTimeMillis();
-                }
+                if(current - lastUpated >= interval)
+                    cycleLights();
             }
+        }
+
+        /**
+         * Shifts and sets the lights by calling
+         * {@link #shiftLights()} then {@link #setLights()}
+         */
+        private void cycleLights() {
+            shiftLights();
+            setLights();
         }
 
         /**
          * Sets the lights based on the state of the internal array
          */
         private void setLights() {
-            RedLight.set(on[0]);
-            GreenLight.set(on[1]);
-            BlueLight.set(on[2]);
+            red.set(on[0]);
+            green.set(on[1]);
+            blue.set(on[2]);
         }
 
         /**
          * Shifts the internal array
          */
-        private void shift() {
+        private void shiftLights() {
             boolean temp = on[on.length-1];
             for(int i = on.length-2; i >= 0; i++) {
                 on[i+1] = on[i];
