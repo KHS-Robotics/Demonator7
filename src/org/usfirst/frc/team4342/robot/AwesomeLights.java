@@ -9,53 +9,66 @@ import edu.wpi.first.wpilibj.Solenoid;
  * Class to control the RGB Lights
  */
 public class AwesomeLights {
-    private static boolean started;
+    private static Solenoid power, red, green, blue;
+
+    private static boolean started, running;
+    private static LightController controller;
 
     /**
-     * Gets the instance of this class
+     * Starts the awesome lights
      */
     public static void start() {
-        if(started)
+        if(running)
             return;
-        started = true;
+        running = true;
 
-        Logger.info("Starting the awesome lights...");
-        new LightController().start();
+        if(!started) {
+            started = true;
+            Logger.info("Creating the awesome lights...");
+            power = new Solenoid(RobotMap.LED_POWER);
+            red = new Solenoid(RobotMap.RED_LED);
+            green = new Solenoid(RobotMap.GREEN_LED);
+            blue = new Solenoid(RobotMap.BLUE_LED);
+        }
+
+        controller = new LightController();
+        controller.start();
+    }
+
+    /**
+     * Stops the awesome lights
+     */
+    public void stop() {
+        running = false;
+        controller.interrupt();
     }
 
     /**
      * Class to control the RGB Lights on a separate thread
      */
     private static class LightController extends Thread implements Runnable {
-        private final Solenoid power;
-        private final Solenoid red;
-        private final Solenoid green;
-        private final Solenoid blue;
-        
         private boolean[] on = { true, false, false };
         private double interval = 500, lastUpated = 0;
-
-        /**
-         * Class to control the RGB Lights on a separate thread
-         */
-        private LightController() {
-            power = new Solenoid(RobotMap.LED_POWER);
-            red = new Solenoid(RobotMap.RED_LED);
-            green = new Solenoid(RobotMap.GREEN_LED);
-            blue = new Solenoid(RobotMap.BLUE_LED);
-            power.set(true);
-        }
 
         /**
          * Runs if robot is enabled
          */
         @Override
         public void run() {
-            if(RobotState.isEnabled()) {
-                long current = System.currentTimeMillis();
-                if(current - lastUpated >= interval)
-                    cycleLights();
+            power.set(true);
+
+            while(!Thread.interrupted()) {
+                if(RobotState.isEnabled()) {
+                    long current = System.currentTimeMillis();
+                    if(current - lastUpated >= interval)
+                        cycleLights();
+                }
             }
+
+            red.set(false);
+            green.set(false);
+            blue.set(false);
+            power.set(false);
         }
 
         /**
@@ -65,6 +78,7 @@ public class AwesomeLights {
         private void cycleLights() {
             shiftLights();
             setLights();
+            lastUpated = System.currentTimeMillis();
         }
 
         /**
