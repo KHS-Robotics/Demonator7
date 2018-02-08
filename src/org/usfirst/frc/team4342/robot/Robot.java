@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		Logger.info("Bootstrapping Demonator7...");
 		
-		OI oi = OI.getInstance();
+		final OI oi = OI.getInstance();
 		PDPLogger.start();
 		AwesomeLights.start();
 		
@@ -129,7 +129,7 @@ public class Robot extends TimedRobot {
 		}
 
 		if(routine != null)
-			Logger.info("Selected \"" + routine + "\" auto routine for " + position.toString().toLowerCase());
+			Logger.info("Selected \"" + routine + "\" routine for " + position.toString().toLowerCase());
 		
 		startAutonomousRoutine();
 	}
@@ -194,6 +194,7 @@ public class Robot extends TimedRobot {
 		if(autonomousRoutine != null) {
 			Logger.info("Stopping autonomous routine...");
 			autonomousRoutine.cancel();
+			Scheduler.getInstance().run();
 		}
 	}
 }
