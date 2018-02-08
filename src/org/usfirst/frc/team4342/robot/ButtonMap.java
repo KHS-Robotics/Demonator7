@@ -37,8 +37,7 @@ public class ButtonMap
 	}
 
 	/**
-	 * Represents a digital button on an XboxController.
-	 * // TODO: Implement Directional Pad (D-Pad) values
+	 * Represents a digital button on an XboxController
 	 */
 	 enum XboxButton {
 		kBumperLeft(5),
