@@ -64,7 +64,7 @@ public class SwerveDrive extends DriveTrainBase {
 	}
 
 	/**
-	 * Sets the default command to <code>DriveSwerveWithJoystick</code>
+	 * Sets the default command to <code>DriveSwerveWithXbox</code>
 	 */
 	@Override
 	protected void initDefaultCommand() {
