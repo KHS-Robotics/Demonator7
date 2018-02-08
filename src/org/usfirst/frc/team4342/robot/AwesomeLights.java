@@ -38,7 +38,7 @@ public class AwesomeLights {
     /**
      * Stops the awesome lights
      */
-    public void stop() {
+    public static void stop() {
         running = false;
         controller.interrupt();
     }
