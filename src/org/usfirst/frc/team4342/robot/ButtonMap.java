@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team4342.robot;
 
 /**
@@ -11,12 +10,11 @@ public class ButtonMap
 	 */
 	public static class DriveController
 	{
-		public static final int GO_STRAIGHT = XboxButton.kA.value;
-		// TODO: Implement Directional Pad (D-Pad) values in Button enum
-		public static final int GO_TO_ZERO = -1; // TODO: up on D-Pad
-		public static final int GO_TO_LEFT = -1; // TODO: left on D-Pad
-		public static final int GO_TO_RIGHT = -1; // TODO: right on D-Pad
-		public static final int GO_TO_180 = -1; // TODO: down on D-Pad
+		public static final int GO_STRAIGHT = XboxButton.kBumperRight.value;
+		public static final int GO_TO_ZERO = XboxButton.kA.value;
+		public static final int GO_TO_LEFT = XboxButton.kX.value;
+		public static final int GO_TO_RIGHT = XboxButton.kB.value;
+		public static final int GO_TO_180 = XboxButton.kY.value;
 	}
 	
 	/**

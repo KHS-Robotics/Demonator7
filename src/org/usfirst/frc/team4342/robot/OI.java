@@ -156,6 +156,7 @@ public class OI {
 
 		// Swerve
 		Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
+		// Drive.setFieldOriented(true);
 
 		// Climber
 		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
