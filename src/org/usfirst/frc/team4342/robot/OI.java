@@ -59,8 +59,8 @@ public class OI {
 	public final Joystick SwitchBox;
 
 	// Drive
-	public final SwerveModule FR, FL, RR, RL;
 	public final SwerveDrive Drive;
+	public final SwerveModule FR, FL, RR, RL;
 	public final AHRS NavX;
 	public final TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
 	public final TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;

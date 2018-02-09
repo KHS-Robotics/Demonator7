@@ -11,10 +11,10 @@ public class ButtonMap
 	public static class DriveController
 	{
 		public static final int GO_STRAIGHT = XboxButton.kBumperRight.value;
-		public static final int GO_TO_ZERO = XboxButton.kA.value;
+		public static final int GO_TO_ZERO = XboxButton.kY.value;
 		public static final int GO_TO_LEFT = XboxButton.kX.value;
 		public static final int GO_TO_RIGHT = XboxButton.kB.value;
-		public static final int GO_TO_180 = XboxButton.kY.value;
+		public static final int GO_TO_180 = XboxButton.kA.value;
 	}
 	
 	/**
