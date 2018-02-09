@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystickSwerve;
 import org.usfirst.frc.team4342.robot.commands.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
@@ -226,10 +227,15 @@ public class OI {
 		elevateCube.whenReleased(new ElevatePickupCube(Elevator));
 		elevateCube.whenPressed(new StopElevator(Elevator));
 		
-		// Button on the right drive stick to maintain the robot's current heading
-		JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+		// Button to maintain heading and move forward/backward
+		JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_Y);
 		driveStraight.whenPressed(new DriveStraightWithJoystick(DriveController, Drive));
 		driveStraight.whenReleased(new StopSubsystem(Drive));
+
+		// Button to maintain heading and strafe
+		JoystickButton strafeStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_X);
+		strafeStraight.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive, true));
+		strafeStraight.whenReleased(new StopSubsystem(Drive));
 		
 		// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 		JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);

@@ -1,0 +1,22 @@
+package org.usfirst.frc.team4342.robot.commands;
+
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
+
+import edu.wpi.first.wpilibj.XboxController;
+
+/**
+ * Drive Straight with Joystick with Swerve
+ */
+public class DriveStraightWithJoystickSwerve extends DriveStraightWithJoystick {
+    private SwerveDrive drive;
+
+    public DriveStraightWithJoystickSwerve(XboxController xbox, SwerveDrive drive, boolean x) {
+        super(xbox, drive, x);
+        this.drive = drive;
+	}
+    
+    @Override
+    protected void execute() {
+        drive.goStaight(getInput(), yaw, isXDirection);
+    }
+}

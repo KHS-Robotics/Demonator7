@@ -37,7 +37,7 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	private double direction;
-	private boolean fieldOriented;
+	private boolean fieldOriented, directionIsX;
 	
 	public final SwerveModule fr;
 	public final SwerveModule fl;
@@ -154,7 +154,12 @@ public class SwerveDrive extends DriveTrainBase {
 		if(DEBUG)
 			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output);
 
-		this.set(0, direction, output);
+		if(directionIsX) {
+			this.set(direction, 0, output);
+		} else {
+			this.set(0, direction, output);
+		}
+		
 	}
 
 	/**
@@ -162,10 +167,21 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void goStraight(double direction, double yaw) {
+		this.goStaight(direction, yaw, false);
+	}
+
+	/**
+	 * Go straight
+	 * @param direction -1 to 1
+	 * @param yaw the heading of the robot to maintain
+	 * @param x whether the robot should move forward/backward or strafe (true to strafe)
+	 */
+	public void goStaight(double direction, double yaw, boolean x) {
 		if(DEBUG)
-			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw);
+			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw + " x=" + x);
 
 		this.direction = direction;
+		this.directionIsX = x;
 		this.setHeading(yaw);
 	}
 	
@@ -341,6 +357,7 @@ public class SwerveDrive extends DriveTrainBase {
 		rl.stop();
 
 		direction = 0;
+		directionIsX = false;
 	}
 
 	/**

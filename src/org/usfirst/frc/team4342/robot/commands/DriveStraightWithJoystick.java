@@ -4,37 +4,47 @@ import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * Command to drive straight with a joystick
  */
 public class DriveStraightWithJoystick extends TeleopCommand {
-	private double input;
-	
+	protected double yaw;
+
 	private Joystick joystick;
 	private XboxController xbox;
 	private DriveTrainBase drive;
-	
-	private double yaw;
+	protected boolean isXDirection;
 	
 	/**
 	 * Command to drive straight with a joystick
 	 * @param joystick the joystick
 	 * @param drive the drive
-	 * @param invertY true to invert y input
+	 * @param x true to use go straight with x, false to use y
 	 */
-	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
+	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive, boolean x) {
 		this.joystick = joystick;
 		this.drive = drive;
+		this.isXDirection = x;
+		
+		this.requires(drive);
+	}
+
+	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
+		this(joystick, drive, false);
+	}
+
+	public DriveStraightWithJoystick(XboxController xbox, DriveTrainBase drive, boolean x) {
+		this.xbox = xbox;
+		this.drive = drive;
+		this.isXDirection = x;
 		
 		this.requires(drive);
 	}
 
 	public DriveStraightWithJoystick(XboxController xbox, DriveTrainBase drive) {
-		this.xbox = xbox;
-		this.drive = drive;
-		
-		this.requires(drive);
+		this(xbox, drive, false);
 	}
 
 	@Override
@@ -44,12 +54,22 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 
 	@Override
 	protected void execute() {
-		input = xbox != null ? -xbox.getRawAxis(1) : -joystick.getY();
-		drive.goStraight(input, yaw);
+		drive.goStraight(getInput(), yaw);
 	}
 
 	@Override
 	protected void end() {
 		drive.stop();
+	}
+
+	/**
+	 * Gets the input of the joystick or xbox controller
+	 * @return the input of the joystick or xbox controller
+	 */
+	protected double getInput() {
+		if(isXDirection) {
+			return xbox != null ? xbox.getX(Hand.kRight) : joystick.getX();
+		}
+		return xbox != null ? -xbox.getY(Hand.kLeft) : -joystick.getY();
 	}
 }
