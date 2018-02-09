@@ -48,7 +48,7 @@ public class AwesomeLights {
      */
     private static class LightController extends Thread implements Runnable {
         private boolean[] on = { true, false, false };
-        private double interval = 500, lastUpated = 0;
+        private long interval = 500, lastUpated = 0;
 
         /**
          * Runs if robot is enabled
@@ -59,8 +59,8 @@ public class AwesomeLights {
 
             while(!Thread.interrupted()) {
                 if(RobotState.isEnabled()) {
-                    long current = System.currentTimeMillis();
-                    if(current - lastUpated >= interval)
+                    // current - last
+                    if(System.currentTimeMillis() - lastUpated >= interval)
                         cycleLights();
                 }
             }

@@ -88,28 +88,33 @@ public class OI {
 		// Power Distribution Panel
 		PDP = new PowerDistributionPanel();
 		
-		// Joysticks and Switch Box
+		// Xbox Controller and Switch Box
 		DriveController = new XboxController(RobotMap.XBOX_PORT);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
-		SwitchBox.setTwistChannel(3);
+		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick on switch box
 		
+		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
 
+		// Drive Motors
 		FrontRightDrive = new TalonSRX(RobotMap.FRONT_RIGHT_DRIVE);
 		FrontLeftDrive = new TalonSRX(RobotMap.FRONT_LEFT_DRIVE);
 		RearLeftDrive = new TalonSRX(RobotMap.REAR_LEFT_DRIVE);
 		RearRightDrive = new TalonSRX(RobotMap.REAR_RIGHT_DRIVE);
 
+		// Pivot Motors
 		FrontRightPivot = new TalonSRX(RobotMap.FRONT_RIGHT_PIVOT);
 		FrontLeftPivot = new TalonSRX(RobotMap.FRONT_LEFT_PIVOT);
 		RearLeftPivot = new TalonSRX(RobotMap.REAR_LEFT_PIVOT);
 		RearRightPivot = new TalonSRX(RobotMap.REAR_RIGHT_PIVOT);
 
+		// Drive/Traslational Encoders
 		FrontRightDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
 		FrontLeftDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
 		RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
 		RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
 
+		// Pivot/Rotational analog inputs
 		FrontRightPivotEnc = new AnalogInput(RobotMap.FRONT_RIGHT_PIVOT_CHANNEL);
 		FrontLeftPivotEnc = new AnalogInput(RobotMap.FRONT_LEFT_PIVOT_CHANNEL);
 		RearRightPivotEnc = new AnalogInput(RobotMap.REAR_RIGHT_PIVOT_CHANNEL);

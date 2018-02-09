@@ -13,11 +13,11 @@ public class RobotMap {
 	public static final Port NAVX_PORT = Port.kMXP;
 	public static final byte NAVX_UPDATE_RATE_HZ = (byte) 50;
 	
-	// Joysticks and Switch Box
+	// Xbox Controller and Switch Box
 	public static final int XBOX_PORT = 0;
 	public static final int SWITCH_BOX = 1;
 	
-	// Motors for Swerve (Drive and Pivot)
+	// Motors for Swerve
 	public static final int FRONT_RIGHT_DRIVE = 0;
 	public static final int FRONT_RIGHT_PIVOT = 1;
 	public static final int FRONT_LEFT_DRIVE = 2;
@@ -32,7 +32,7 @@ public class RobotMap {
 	public static final int CLIMBER_MOTOR = 9;
 	public static final int ELE_MOTOR = 10;
 	
-	// Drive Encoders for Swerve
+	// Drive/Translational Encoders for Swerve
 	public static final int FRONT_RIGHT_DRIVE_ENC_A = 0;
 	public static final int FRONT_RIGHT_DRIVE_ENC_B = 1;
 	public static final int FRONT_LEFT_DRIVE_ENC_A = 2;
@@ -41,7 +41,7 @@ public class RobotMap {
 	public static final int REAR_RIGHT_DRIVE_ENC_B = 5;
 	public static final int REAR_LEFT_DRIVE_ENC_A = 6;
 	public static final int REAR_LEFT_DRIVE_ENC_B = 7;
-	// Pivot Analog Inputs for Swerve
+	// Pivot/Rotational Analog Inputs for Swerve
 	public static final int FRONT_RIGHT_PIVOT_CHANNEL = 0;
 	public static final int FRONT_LEFT_PIVOT_CHANNEL = 1;
 	public static final int REAR_RIGHT_PIVOT_CHANNEL = 2;
@@ -52,7 +52,7 @@ public class RobotMap {
 	public static final int ELE_ENC_OUT = 9;
 	public static final int ELE_LS = 10;
 
-	// LEDs on PCM
+	// RGB LEDs on PCM
 	public static final int LED_POWER = 0;
 	public static final int RED_LED = 1;
 	public static final int GREEN_LED = 2;
