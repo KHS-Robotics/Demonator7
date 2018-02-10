@@ -152,7 +152,7 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	public void pidWrite(double output) {
 		if(DEBUG)
-			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output);
+			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output + " directionIsX=" + directionIsX);
 
 		if(directionIsX) {
 			this.set(direction, 0, output);
