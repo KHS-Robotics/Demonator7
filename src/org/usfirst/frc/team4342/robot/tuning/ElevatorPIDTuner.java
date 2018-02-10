@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.tuning;
 
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.RobotState;
@@ -14,18 +15,18 @@ public class ElevatorPIDTuner extends Thread implements Runnable {
     public ElevatorPIDTuner(Elevator elevator) {
         this.elevator = elevator;
 
-        SmartDashboard.putNumber("Elevator-P", 0.0);
-        SmartDashboard.putNumber("Elevator-I", 0.0);
-        SmartDashboard.putNumber("Elevator-D", 0.0);
-        SmartDashboard.putNumber("Elevator-Setpoint", 0.0);
+        SmartDashboard.putNumber("Elevator-P", SmartDashboard.getNumber("Elevator-P", 0.0));
+        SmartDashboard.putNumber("Elevator-I", SmartDashboard.getNumber("Elevator-I", 0.0));
+        SmartDashboard.putNumber("Elevator-D", SmartDashboard.getNumber("Elevator-D", 0.0));
+        SmartDashboard.putNumber("Elevator-Setpoint", SmartDashboard.getNumber("Elevator-Setpoint", 0.0));
     }
     
     @Override
     public void run() {
         while(!Thread.interrupted()) {
             final double position = elevator.getPosition();
-
-            if(RobotState.isDisabled()) {
+            
+            if(RobotState.isTest()) {
                 elevator.setPID(
                     SmartDashboard.getNumber("Elevator-P", 0.0),
                     SmartDashboard.getNumber("Elevator-I", 0.0),
@@ -40,10 +41,10 @@ public class ElevatorPIDTuner extends Thread implements Runnable {
             try {
                 Thread.sleep(20);
             } catch(InterruptedException ex) {
-                // ignore
+                elevator.setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
             }
         }
 
-        elevator.setPID(0, 0, 0);
+        elevator.setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
     }
 }

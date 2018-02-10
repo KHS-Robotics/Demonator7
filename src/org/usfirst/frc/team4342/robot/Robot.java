@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +27,11 @@ public class Robot extends TimedRobot {
 	private SendableChooser<StartPosition> startPositionChooser;
 	private SendableChooser<Priority> priorityChooser;
 	private AutonomousRoutine autonomousRoutine;
+
+	// For test mode
+	private DrivePIDTuner driveTuner;
+	private ElevatorPIDTuner elevTuner;
+	private PivotPIDTuner frTuner, flTuner, rrTuner, rlTuner;
 	
 	/**
 	 * Robot-wide initialization code
@@ -63,18 +69,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Elevator", oi.Elevator);
 		SmartDashboard.putData("Intake", oi.Intake);
 		SmartDashboard.putData("Climber", oi.Climber);
-
-		Logger.info("Starting PID tuners...");
-		// Temporary for PID tuning
-		// Drive
-		new DrivePIDTuner(oi.Drive).start();
-		// Elevator
-		new ElevatorPIDTuner(oi.Elevator).start();
-		// Swerve Modules
-		new PivotPIDTuner(oi.FR, "FR");
-		new PivotPIDTuner(oi.FL, "FL");
-		new PivotPIDTuner(oi.RR, "RR");
-		new PivotPIDTuner(oi.RL, "RL");
 		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
@@ -123,6 +117,13 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
+		
+		driveTuner.interrupt();
+		elevTuner.interrupt();
+		frTuner.interrupt();
+		flTuner.interrupt();
+		rrTuner.interrupt();
+		rlTuner.interrupt();
 	}
 	
 	/**
@@ -131,8 +132,41 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testInit() {
 		Logger.info("Entering test...");
-		stopAutonomousRoutine();
-		Scheduler.getInstance().run();
+		LiveWindow.setEnabled(false);
+
+		final OI oi = OI.getInstance();
+		// Drive
+		driveTuner = new DrivePIDTuner(oi.Drive);
+		// Elevator
+		elevTuner = new ElevatorPIDTuner(oi.Elevator);
+		// Swerve Modules
+		frTuner = new PivotPIDTuner(oi.FR, "FR", 
+			Constants.Drive.PivotPID.FR_P,
+			Constants.Drive.PivotPID.FR_I,
+			Constants.Drive.PivotPID.FR_D
+		);
+		flTuner = new PivotPIDTuner(oi.FL, "FL", 
+			Constants.Drive.PivotPID.FL_P,
+			Constants.Drive.PivotPID.FL_I,
+			Constants.Drive.PivotPID.FL_D
+		);
+		rrTuner = new PivotPIDTuner(oi.RR, "RR", 
+			Constants.Drive.PivotPID.RR_P,
+			Constants.Drive.PivotPID.RR_I,
+			Constants.Drive.PivotPID.RR_D
+		);
+		rlTuner = new PivotPIDTuner(oi.RL, "RL", 
+			Constants.Drive.PivotPID.RL_P,
+			Constants.Drive.PivotPID.RL_I,
+			Constants.Drive.PivotPID.RL_D
+		);
+
+		driveTuner.start();
+		elevTuner.start();
+		frTuner.start();
+		flTuner.start();
+		rrTuner.start();
+		rlTuner.start();
 	}
 	
 	/**

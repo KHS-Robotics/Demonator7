@@ -11,15 +11,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class PivotPIDTuner extends Thread implements Runnable {
     private SwerveModule module;
     private String name;
+    private double p, i, d;
 
-    public PivotPIDTuner(SwerveModule module, String name) {
+    public PivotPIDTuner(SwerveModule module, String name, double p, double i, double d) {
         this.module = module;
         this.name = name;
+        this.p = p;
+        this.i = i;
+        this.d = d;
 
-        SmartDashboard.putNumber(name + "-Pivot-P", 0.0);
-        SmartDashboard.putNumber(name + "-Pivot-I", 0.0);
-        SmartDashboard.putNumber(name + "-Pivot-D", 0.0);
-        SmartDashboard.putNumber(name + "-Pivot-Setpoint", 0.0);
+        SmartDashboard.putNumber(name + "-Pivot-P", SmartDashboard.getNumber(name + "-Pivot-P", 0.0));
+        SmartDashboard.putNumber(name + "-Pivot-I", SmartDashboard.getNumber(name + "-Pivot-I", 0.0));
+        SmartDashboard.putNumber(name + "-Pivot-D", SmartDashboard.getNumber(name + "-Pivot-D", 0.0));
+        SmartDashboard.putNumber(name + "-Pivot-Setpoint", SmartDashboard.getNumber(name + "-Pivot-Setpoint", 0.0));
     }
     
     @Override
@@ -27,7 +31,7 @@ public class PivotPIDTuner extends Thread implements Runnable {
         while(!Thread.interrupted()) {
             final double angle = module.getAngle();
 
-            if(RobotState.isDisabled()) {
+            if(RobotState.isTest()) {
                 module.setPID(
                     SmartDashboard.getNumber(name + "-Pivot-P", 0.0),
                     SmartDashboard.getNumber(name + "-Pivot-I", 0.0),
@@ -42,10 +46,10 @@ public class PivotPIDTuner extends Thread implements Runnable {
             try {
                 Thread.sleep(20);
             } catch(InterruptedException ex) {
-                // ignore
+                module.setPID(p, i, d);
             }
         }
 
-        module.setPID(0, 0, 0);
+        module.setPID(p, i, d);
     }
 }

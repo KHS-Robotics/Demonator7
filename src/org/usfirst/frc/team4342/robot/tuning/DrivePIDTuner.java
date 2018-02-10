@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.tuning;
 
+import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 import edu.wpi.first.wpilibj.RobotState;
@@ -14,10 +15,10 @@ public class DrivePIDTuner extends Thread implements Runnable {
     public DrivePIDTuner(DriveTrainBase drive) {
         this.drive = drive;
 
-        SmartDashboard.putNumber("Drive-P", 0.0);
-        SmartDashboard.putNumber("Drive-I", 0.0);
-        SmartDashboard.putNumber("Drive-D", 0.0);
-        SmartDashboard.putNumber("Drive-Setpoint", 0.0);
+        SmartDashboard.putNumber("Drive-P", SmartDashboard.getNumber("Drive-P", 0.0));
+        SmartDashboard.putNumber("Drive-I", SmartDashboard.getNumber("Drive-I", 0.0));
+        SmartDashboard.putNumber("Drive-D", SmartDashboard.getNumber("Drive-D", 0.0));
+        SmartDashboard.putNumber("Drive-Setpoint", SmartDashboard.getNumber("Drive-Setpoint", 0.0));
     }
     
     @Override
@@ -25,7 +26,7 @@ public class DrivePIDTuner extends Thread implements Runnable {
         while(!Thread.interrupted()) {
             final double heading = drive.getHeading();
 
-            if(RobotState.isDisabled()) {
+            if(RobotState.isTest()) {
                 drive.setPID(
                     SmartDashboard.getNumber("Drive-P", 0.0),
                     SmartDashboard.getNumber("Drive-I", 0.0),
@@ -36,14 +37,14 @@ public class DrivePIDTuner extends Thread implements Runnable {
             }
             
             SmartDashboard.putNumber("Drive-Heading", heading);
-            
+
             try {
                 Thread.sleep(20);
             } catch(InterruptedException ex) {
-                // ignore
+                drive.setPID(Constants.Drive.P, Constants.Drive.I, Constants.Drive.D);
             }
         }
 
-        drive.setPID(0, 0, 0);
+        drive.setPID(Constants.Drive.P, Constants.Drive.I, Constants.Drive.D);
     }
 }
