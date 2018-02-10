@@ -178,12 +178,12 @@ public class OI {
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 		Intake = new Intake(IntakeMotor);
 		
-		// TODO: Set distance per pulse so encoder values are in inches
-		// (Wheel Radius * PI * Num Input Teeth) / (Dist Per Pulse of Encoder * Num Encoder Gear Ratio? * Num Output Teeth)
-		FrontRightDriveEnc.setDistancePerPulse(1);
-		FrontLeftDriveEnc.setDistancePerPulse(1);
-		RearRightDriveEnc.setDistancePerPulse(1);
-		RearLeftDriveEnc.setDistancePerPulse(1);
+		// (Pulse Per Rev)*(Gear Reduction)*(Wheel Circumference)
+		FrontRightDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
+		FrontLeftDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
+		RearRightDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
+		RearLeftDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
+		// TODO: Set distance per pulse for elevator encoder
 		EleEnc.setDistancePerPulse(1);
 
 		Elevator.setNeutralMode(NeutralMode.Brake);
