@@ -14,6 +14,9 @@ import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
+import org.usfirst.frc.team4342.robot.tuning.DrivePIDTuner;
+import org.usfirst.frc.team4342.robot.tuning.ElevatorPIDTuner;
+import org.usfirst.frc.team4342.robot.tuning.PivotPIDTuner;
 
 /**
  * Main Robot Class
@@ -48,14 +51,9 @@ public class Robot extends TimedRobot {
 		priorityChooser.addObject("Scale", Priority.SCALE);
 		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
-		
-		SmartDashboard.putNumber("E-P" , 0.0);
-		SmartDashboard.putNumber("E-I" , 0.0);
-		SmartDashboard.putNumber("E-D" , 0.0);
-		
-		SmartDashboard.putNumber("D-P" , 0.0);
-		SmartDashboard.putNumber("D-I" , 0.0);
-		SmartDashboard.putNumber("D-D" , 0.0);
+
+		// Power Distribution Panel
+		SmartDashboard.putData("PDP", oi.PDP);
 
 		// Scheduler
 		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
@@ -66,8 +64,16 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putData("Intake", oi.Intake);
 		SmartDashboard.putData("Climber", oi.Climber);
 
-		// Power Distribution Panel
-		SmartDashboard.putData("PDP", oi.PDP);
+		// Temporary for PID tuning
+		// Drive
+		new DrivePIDTuner(oi.Drive).start();
+		// Elevator
+		new ElevatorPIDTuner(oi.Elevator).start();
+		// Swerve Modules
+		new PivotPIDTuner(oi.FR, "FR");
+		new PivotPIDTuner(oi.FL, "FL");
+		new PivotPIDTuner(oi.RR, "RR");
+		new PivotPIDTuner(oi.RL, "RL");
 		
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
@@ -116,21 +122,6 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
-		Scheduler.getInstance().run();
-	}
-
-	@Override
-	public void disabledPeriodic() {
-		// Temporary for tuning PID values
-		double EP = SmartDashboard.getNumber("E-P", 0.0);
-		double EI = SmartDashboard.getNumber("E-I", 0.0);
-		double ED = SmartDashboard.getNumber("E-D", 0.0);
-		OI.getInstance().Elevator.setPID(EP, EI, ED);
-		
-		double DP = SmartDashboard.getNumber("D-P", 0.0);
-		double DI = SmartDashboard.getNumber("D-I", 0.0);
-		double DD = SmartDashboard.getNumber("D-D", 0.0);
-		OI.getInstance().Drive.setPID(DP, DI, DD);
 	}
 	
 	/**
