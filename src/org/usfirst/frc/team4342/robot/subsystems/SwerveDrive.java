@@ -22,9 +22,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class SwerveDrive extends DriveTrainBase {
 	private static boolean DEBUG;
 
-	// Dimensions (vehicle's wheelbase and trackwidth)
-	private static final double L = Constants.ROBOT_LENGTH;
-	private static final double W = Constants.ROBOT_WIDTH;
+	// Dimensions in inches (vehicle's wheelbase and trackwidth)
+	// measurements are from center of pivot to center of pivot
+	private static final double L = 18;
+	private static final double W = 25.75;
 	private static final double R = Math.sqrt((L*L) + (W*W));
 	private static final double L_OVER_R = L / R, W_OVER_R = W / R;
 

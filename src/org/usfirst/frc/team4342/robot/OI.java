@@ -83,18 +83,24 @@ public class OI {
 	public final Spark IntakeMotor;
 	
 	private OI() {
-		Logger.info("Constructing the Operator Interface.....");
+		Logger.info("Connecting to PDP...");
 
 		// Power Distribution Panel
 		PDP = new PowerDistributionPanel();
 		
+		Logger.info("Initializing joysticks...");
+
 		// Xbox Controller and Switch Box
 		DriveController = new XboxController(RobotMap.XBOX_PORT);
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick on switch box
-		
+
+		Logger.info("Initializing NavX...");
+
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
+
+		Logger.info("Initializing Swerve...");
 
 		// Drive Motors
 		FrontRightDrive = new TalonSRX(RobotMap.FRONT_RIGHT_DRIVE);
@@ -164,9 +170,13 @@ public class OI {
 		Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 		// Drive.setFieldOriented(true);
 
+		Logger.info("Initializing Climber...");
+
 		// Climber
 		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
 		Climber = new Climber(ClimberMotor);
+
+		Logger.info("Initializing Elevator...");
 		
 		// Elevator
 		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
@@ -174,6 +184,8 @@ public class OI {
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 
+		Logger.info("Initializing Intake...");
+		
 		// Intake
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 		Intake = new Intake(IntakeMotor);
@@ -188,6 +200,8 @@ public class OI {
 
 		Elevator.setNeutralMode(NeutralMode.Brake);
 		Drive.setNeutralMode(NeutralMode.Brake);
+
+		Logger.info("Initializing Operator Inferface...");
 
 		// Climbing button to enable the winch
 		// Switch is opposite
