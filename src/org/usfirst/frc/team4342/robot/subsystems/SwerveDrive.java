@@ -577,7 +577,7 @@ public class SwerveDrive extends DriveTrainBase {
 		 * Sets the pivot angle
 		 * @param angle the pivot angle ranging from 0 to 360
 		 */
-		protected void setPivot(double angle) {
+		public void setPivot(double angle) {
 			angle %= 360;
 
 			// Check if complementary angle is closer

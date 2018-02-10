@@ -39,11 +39,16 @@ public class ElevateWithJoystick extends TeleopCommand {
 	protected void execute() {
 		final double INPUT = joystick.getTwist();
 		idle = checkJoystickDeadband(INPUT);
+		elevator.setOverride(override.get());
 
 		// Emergency override in case sensors malfunction
 		if(!idle && override.get()) {
 			elevator.disable();
 			elevator.set(INPUT);
+			return;
+		}
+		else if(override.get()) {
+			elevator.stop();
 			return;
 		}
 		

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class Elevator extends PIDSubsystem
 {
 	private double p, i, d;
+	private boolean override;
 	
 	private TalonSRX motor;
 	private Encoder encoder;
@@ -198,7 +199,19 @@ public class Elevator extends PIDSubsystem
 	 */
 	public void set(double output)
 	{
+		if(!override && ls.get() && output < 0)
+			motor.set(ControlMode.PercentOutput, 0);
+		
 		motor.set(ControlMode.PercentOutput, output);
+	}
+
+	/**
+	 * Sets the override to disregard the state of the limit switch
+	 * when setting the motor
+	 */
+	public void setOverride(boolean flag)
+	{
+		override = flag;
 	}
 	
 	/**
