@@ -23,9 +23,9 @@ public class SwerveDrive extends DriveTrainBase {
 	private static boolean DEBUG;
 
 	// Dimensions in inches (vehicle's wheelbase and trackwidth)
-	// measurements are from center of pivot to center of pivot
-	private static final double L = 18;
-	private static final double W = 25.75;
+	// measurements are from one center of pivot to another center of pivot
+	private static final double L = 20.25;
+	private static final double W = 25.50;
 	private static final double R = Math.sqrt((L*L) + (W*W));
 	private static final double L_OVER_R = L / R, W_OVER_R = W / R;
 
