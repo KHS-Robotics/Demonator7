@@ -26,6 +26,8 @@ public class ElevatorPIDTuner extends Thread implements Runnable {
                 SmartDashboard.getNumber("Elevator-I", 0.0),
                 SmartDashboard.getNumber("Elevator-D", 0.0)
             );
+
+            SmartDashboard.putNumber("Elevator-Distance", elevator.getPosition());
         }
 
         elevator.setPID(0, 0, 0);

@@ -52,18 +52,19 @@ public class Robot extends TimedRobot {
 		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 
+
+		Logger.info("Linking subsystems to SmartDashboard...");
 		// Power Distribution Panel
 		SmartDashboard.putData("PDP", oi.PDP);
-
 		// Scheduler
 		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-
 		// Subsystems
 		SmartDashboard.putData("Drive", oi.Drive);
 		SmartDashboard.putData("Elevator", oi.Elevator);
 		SmartDashboard.putData("Intake", oi.Intake);
 		SmartDashboard.putData("Climber", oi.Climber);
 
+		Logger.info("Starting PID tuners...");
 		// Temporary for PID tuning
 		// Drive
 		new DrivePIDTuner(oi.Drive).start();

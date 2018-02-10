@@ -26,6 +26,8 @@ public class DrivePIDTuner extends Thread implements Runnable {
                 SmartDashboard.getNumber("Drive-I", 0.0),
                 SmartDashboard.getNumber("Drive-D", 0.0)
             );
+
+            SmartDashboard.putNumber("Drive-Heading", drive.getHeading());
         }
 
         drive.setPID(0, 0, 0);

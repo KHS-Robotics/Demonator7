@@ -28,6 +28,8 @@ public class PivotPIDTuner extends Thread implements Runnable {
                 SmartDashboard.getNumber(name + "-Pivot-I", 0.0),
                 SmartDashboard.getNumber(name + "-Pivot-D", 0.0)
             );
+
+            SmartDashboard.putNumber(name + "-Pivot-Angle", module.getAngle());
         }
 
         module.setPID(0, 0, 0);
