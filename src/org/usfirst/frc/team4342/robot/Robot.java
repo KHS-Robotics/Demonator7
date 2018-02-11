@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 		
 		OI.getInstance();
 		PDPLogger.start();
-		AwesomeLights.start();
+//		AwesomeLights.start();
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();

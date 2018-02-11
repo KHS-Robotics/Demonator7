@@ -13,6 +13,12 @@ public class DriveStraightWithJoystickSwerve extends DriveStraightWithJoystick {
 
     public DriveStraightWithJoystickSwerve(XboxController xbox, SwerveDrive drive, boolean x) {
         super(xbox, drive, x);
+        
+        this.requires(drive.fr);
+		this.requires(drive.fl);
+		this.requires(drive.rr);
+		this.requires(drive.rl);
+		
         this.drive = drive;
     }
     

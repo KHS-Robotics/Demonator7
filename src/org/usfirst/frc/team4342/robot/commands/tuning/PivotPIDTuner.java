@@ -20,8 +20,11 @@ public class PivotPIDTuner extends PIDTuner {
         this.d = d;
         
         this.requires(module);
-
-        SmartDashboard.putNumber(name + "-Pivot-P", SmartDashboard.getNumber(name + "-Pivot-P", 0.0));
+    }
+    
+    @Override
+    protected void initialize() {
+    	SmartDashboard.putNumber(name + "-Pivot-P", SmartDashboard.getNumber(name + "-Pivot-P", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-I", SmartDashboard.getNumber(name + "-Pivot-I", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-D", SmartDashboard.getNumber(name + "-Pivot-D", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-Setpoint", SmartDashboard.getNumber(name + "-Pivot-Setpoint", 0.0));
@@ -40,6 +43,7 @@ public class PivotPIDTuner extends PIDTuner {
     protected void setSetpoint() {
         final double angle = module.getAngle();
         SmartDashboard.putNumber(name + "-Pivot-Angle", angle);
+        SmartDashboard.putNumber(name + "-Pivot-Votage", module.getVoltage());
         module.setPivot(SmartDashboard.getNumber(name + "-Pivot-Setpoint", angle));
     }
 

@@ -15,13 +15,16 @@ public class DrivePIDTuner extends PIDTuner {
         this.drive = drive;
 
         this.requires(drive);
-
-        SmartDashboard.putNumber("Drive-P", SmartDashboard.getNumber("Drive-P", 0.0));
+    }
+    
+    @Override
+    protected void initialize() {
+    	SmartDashboard.putNumber("Drive-P", SmartDashboard.getNumber("Drive-P", 0.0));
         SmartDashboard.putNumber("Drive-I", SmartDashboard.getNumber("Drive-I", 0.0));
         SmartDashboard.putNumber("Drive-D", SmartDashboard.getNumber("Drive-D", 0.0));
         SmartDashboard.putNumber("Drive-Setpoint", SmartDashboard.getNumber("Drive-Setpoint", 0.0));
     }
-
+    
     @Override
     protected void setPID() {
         drive.setPID(

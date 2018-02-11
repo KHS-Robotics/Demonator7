@@ -34,8 +34,8 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double TOLERANCE = 2.0; // degrees
 
 	// For PID and Voltage to Angle conversion
-	private static final double MIN_VOLTAGE = 0.0;
-	private static final double MAX_VOLTAGE = 5.0;
+	private static final double MIN_VOLTAGE = 0.20;
+	private static final double MAX_VOLTAGE = 4.76;
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	private double direction;
@@ -70,6 +70,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	protected void initDefaultCommand() {
+//		super.initDefaultCommand();
 		OI oi = OI.getInstance();
 		// TODO: Switch back to DriveSwerveWithXbox when we get an Xbox Controller
 		//this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
@@ -239,18 +240,18 @@ public class SwerveDrive extends DriveTrainBase {
 		final double yNeg = fwd - (rcw*W_OVER_R);
 		final double yPos = fwd + (rcw*W_OVER_R);
 		
-		double frSpeed = calcMagnitude(xPos, yNeg);
-		double frPivot = calcAngle(xPos, yNeg);
+		double frSpeed = calcMagnitude(xPos, /*yNeg*/yPos);
+		double frPivot = calcAngle(xPos, /*yNeg*/yPos);
 		
-		double flSpeed = calcMagnitude(xPos, yPos);
-		double flPivot = calcAngle(xPos, yPos);
+		double flSpeed = calcMagnitude(/*xPos*/xNeg, yPos);
+		double flPivot = calcAngle(/*xPos*/xNeg, yPos);
 		
-		double rlSpeed = calcMagnitude(xNeg, yPos);
-		double rlPivot = calcAngle(xNeg, yPos);
+		double rlSpeed = calcMagnitude(xNeg, /*yPos*/yNeg);
+		double rlPivot = calcAngle(xNeg, /*yPos*/yNeg);
 		
-		double rrSpeed = calcMagnitude(xNeg, yNeg);
-		double rrPivot = calcAngle(xNeg, yNeg);
-
+		double rrSpeed = calcMagnitude(/*xNeg*/xPos, yNeg);
+		double rrPivot = calcAngle(/*xNeg*/xPos, yNeg);
+		
 		// Make sure we don't use the arctan value
 		// with x=0
 		if((xNeg == 0 && Math.abs(fwd) < 0.001) || (x == 0 && y == 0 && z == 0)) {
@@ -431,7 +432,7 @@ public class SwerveDrive extends DriveTrainBase {
 	public static class SwerveModule extends SubsystemBase {
 		private PIDController pivotPID;
 		private double output, offset;
-		private boolean flipDrive;
+		private boolean flipDrive, reverse;
 
 		private TalonSRX drive, pivot;
 		private Encoder driveEnc;
@@ -482,6 +483,10 @@ public class SwerveDrive extends DriveTrainBase {
 			pivotPID.setOutputRange(-1, 1);
 			pivotPID.setAbsoluteTolerance(toVoltage(TOLERANCE));
 			pivotPID.setContinuous();
+		}
+		
+		public void setReverse(boolean flag) {
+			reverse = flag;
 		}
 
 		/**
@@ -582,7 +587,12 @@ public class SwerveDrive extends DriveTrainBase {
 			if(DEBUG)
 				Logger.debug("SwerveModule setDrive output=" + (flipDrive ? -output : output) + " flipDrive=" + flipDrive);
 			
+			if(Math.abs(output) > 1) {
+				output /= output;
+			}
+			
 			this.output = flipDrive ? -output : output;
+			this.output = reverse ? -this.output : this.output;
 			drive.set(ControlMode.PercentOutput, this.output);
 		}
 		

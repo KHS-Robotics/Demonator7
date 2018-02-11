@@ -27,6 +27,11 @@ public class DriveSwerveWithTwoJoysticks extends TeleopCommand {
         this.z = z;
 		this.drive = drive;
 		
+		this.requires(drive.fr);
+		this.requires(drive.fl);
+		this.requires(drive.rr);
+		this.requires(drive.rl);
+		
 		this.requires(drive);
 	}
 

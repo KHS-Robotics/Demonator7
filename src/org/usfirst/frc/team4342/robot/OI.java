@@ -103,9 +103,9 @@ public class OI {
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
 
 		initDrive();
-		initClimber();
-		initElevator();
-		initIntake();
+//		initClimber();
+//		initElevator();
+//		initIntake();
 
 		// Button to tune PID via SmartDashboard
 		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
@@ -140,7 +140,7 @@ public class OI {
 			RearLeftPivot = new TalonSRX(RobotMap.REAR_LEFT_PIVOT);
 
 			// Drive/Traslational Encoders
-			FrontRightDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
+			FrontRightDriveEnc = new Encoder(RobotMap.FRONT_RIGHT_DRIVE_ENC_A, RobotMap.FRONT_RIGHT_DRIVE_ENC_B);
 			FrontLeftDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
 			RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
 			RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
@@ -177,6 +177,7 @@ public class OI {
 				Constants.Drive.PivotPID.FL_I, 
 				Constants.Drive.PivotPID.FL_D
 			);
+			FL.setReverse(true);
 
 			RR = new SwerveModule(
 				RearRightDrive, 
@@ -197,8 +198,9 @@ public class OI {
 				Constants.Drive.PivotPID.RL_I, 
 				Constants.Drive.PivotPID.RL_D
 			);
-
-			// Swerve
+			RL.setReverse(true);
+			
+//			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
 			// Drive.setFieldOriented(true);
@@ -228,9 +230,6 @@ public class OI {
 			// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
 			JoystickButton go180 = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_180);
 			go180.whenPressed(new DriveGoToAngle(Drive, 180));
-
-			// Add Drive to SmartDashboard
-			SmartDashboard.putData("Drive", Drive);
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Drive!", ex);
 		}
@@ -252,9 +251,6 @@ public class OI {
 			JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
 			climbButton.whenPressed(new StopSubsystem(Climber));
 			climbButton.whenReleased(new StartClimber(Climber));
-
-			// Add Climber to SmartDashboard
-			SmartDashboard.putData("Climber", Climber);
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Climber!", ex);
 		}
@@ -302,9 +298,6 @@ public class OI {
 			JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
 			elevateCube.whenReleased(new ElevatePickupCube(Elevator));
 			elevateCube.whenPressed(new StopElevator(Elevator));
-
-			// Add Elevator to SmartDashboard
-			SmartDashboard.putData("Elevator", Elevator);
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Elevator!", ex);
 		}
@@ -330,9 +323,6 @@ public class OI {
 			JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
 			releaseSwitch.whenPressed(new StartRelease(Intake));
 			releaseSwitch.whenReleased(new StopSubsystem(Intake));
-
-			// Add Intake to SmartDashboard
-			SmartDashboard.putData("Intake", Intake);
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Intake!", ex);
 		}
@@ -346,7 +336,7 @@ public class OI {
 			Logger.info("Initializing Drive PID Tuner...");
 
 			// Switch is opposite
-			button.whenReleased(new DrivePIDTuner(Drive));
+//			button.whenReleased(new DrivePIDTuner(Drive));
 			button.whenReleased(new PivotPIDTuner(FR, "FR", 
 				Constants.Drive.PivotPID.FR_P, 
 				Constants.Drive.PivotPID.FR_D, 

@@ -24,6 +24,11 @@ public class DriveSwerveWithJoystick extends TeleopCommand {
 		this.joystick = joystick;
 		this.drive = drive;
 		
+		this.requires(drive.fr);
+		this.requires(drive.fl);
+		this.requires(drive.rr);
+		this.requires(drive.rl);
+		
 		this.requires(drive);
 	}
 
@@ -46,7 +51,7 @@ public class DriveSwerveWithJoystick extends TeleopCommand {
 
 		boolean x = Math.abs(xInput) > DEADBAND;
 		boolean y = Math.abs(yInput) > DEADBAND;
-		boolean z = Math.abs(zInput) > DEADBAND;
+		boolean z = Math.abs(zInput) > DEADBAND+0.03;
 
 		xInput = x ? xInput : 0;
 		yInput = y ? yInput : 0;
