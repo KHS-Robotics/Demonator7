@@ -13,6 +13,9 @@ import org.usfirst.frc.team4342.robot.commands.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.StopElevator;
 import org.usfirst.frc.team4342.robot.commands.StopSubsystem;
+import org.usfirst.frc.team4342.robot.commands.tuning.DrivePIDTuner;
+import org.usfirst.frc.team4342.robot.commands.tuning.ElevatorPIDTuner;
+import org.usfirst.frc.team4342.robot.commands.tuning.PivotPIDTuner;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
@@ -100,6 +103,46 @@ public class OI {
 		initClimber();
 		initElevator();
 		initIntake();
+
+		if(Drive != null || Elevator != null) {
+			// Button to tune Drive PID via SmartDashboard
+			JoystickButton tuneDrivePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
+
+			if(Drive != null) {
+				// Switch is opposite
+				tuneDrivePID.whenReleased(new DrivePIDTuner(Drive));
+				tuneDrivePID.whenReleased(new PivotPIDTuner(FR, "FR", 
+					Constants.Drive.PivotPID.FR_P, 
+					Constants.Drive.PivotPID.FR_D, 
+					Constants.Drive.PivotPID.FR_D)
+				);
+				tuneDrivePID.whenReleased(new PivotPIDTuner(FL, "FL", 
+					Constants.Drive.PivotPID.FL_P, 
+					Constants.Drive.PivotPID.FL_D, 
+					Constants.Drive.PivotPID.FL_D)
+				);
+				tuneDrivePID.whenReleased(new PivotPIDTuner(RR, "RR", 
+					Constants.Drive.PivotPID.RR_P, 
+					Constants.Drive.PivotPID.RR_D, 
+					Constants.Drive.PivotPID.RR_D)
+				);
+				tuneDrivePID.whenReleased(new PivotPIDTuner(RL, "RL", 
+					Constants.Drive.PivotPID.RL_P, 
+					Constants.Drive.PivotPID.RL_D, 
+					Constants.Drive.PivotPID.RL_D)
+				);
+				tuneDrivePID.whenPressed(new StopSubsystem(Drive));
+				tuneDrivePID.whenPressed(new StopSubsystem(FR));
+				tuneDrivePID.whenPressed(new StopSubsystem(FL));
+				tuneDrivePID.whenPressed(new StopSubsystem(RR));
+				tuneDrivePID.whenPressed(new StopSubsystem(RL));
+			}
+			
+			if(Elevator != null) {
+				tuneDrivePID.whenReleased(new ElevatorPIDTuner(Elevator));
+				tuneDrivePID.whenPressed(new StopElevator(Elevator));
+			}
+		}
 	}
 
 	/**

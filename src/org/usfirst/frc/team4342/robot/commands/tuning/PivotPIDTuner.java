@@ -1,14 +1,13 @@
-package org.usfirst.frc.team4342.robot.tuning;
+package org.usfirst.frc.team4342.robot.commands.tuning;
 
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive.SwerveModule;
 
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Class to tune pivot PID for swerve
  */
-public class PivotPIDTuner extends Thread implements Runnable {
+public class PivotPIDTuner extends PIDTuner {
     private SwerveModule module;
     private String name;
     private double p, i, d;
@@ -19,37 +18,33 @@ public class PivotPIDTuner extends Thread implements Runnable {
         this.p = p;
         this.i = i;
         this.d = d;
+        
+        this.requires(module);
 
         SmartDashboard.putNumber(name + "-Pivot-P", SmartDashboard.getNumber(name + "-Pivot-P", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-I", SmartDashboard.getNumber(name + "-Pivot-I", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-D", SmartDashboard.getNumber(name + "-Pivot-D", 0.0));
         SmartDashboard.putNumber(name + "-Pivot-Setpoint", SmartDashboard.getNumber(name + "-Pivot-Setpoint", 0.0));
     }
-    
+
     @Override
-    public void run() {
-        while(!Thread.interrupted()) {
-            final double angle = module.getAngle();
+    protected void setPID() {
+        module.setPID(
+            SmartDashboard.getNumber(name + "-Pivot-P", 0.0),
+            SmartDashboard.getNumber(name + "-Pivot-I", 0.0),
+            SmartDashboard.getNumber(name + "-Pivot-D", 0.0)
+        );
+    }
 
-            if(RobotState.isTest()) {
-                module.setPID(
-                    SmartDashboard.getNumber(name + "-Pivot-P", 0.0),
-                    SmartDashboard.getNumber(name + "-Pivot-I", 0.0),
-                    SmartDashboard.getNumber(name + "-Pivot-D", 0.0)
-                );
+    @Override
+    protected void setSetpoint() {
+        final double angle = module.getAngle();
+        SmartDashboard.putNumber(name + "-Pivot-Angle", angle);
+        module.setPivot(SmartDashboard.getNumber(name + "-Pivot-Setpoint", angle));
+    }
 
-                module.setPivot(SmartDashboard.getNumber(name + "-Pivot-Setpoint", angle));
-            }
-            
-            SmartDashboard.putNumber(name + "-Pivot-Angle", angle);
-            
-            try {
-                Thread.sleep(20);
-            } catch(InterruptedException ex) {
-                module.setPID(p, i, d);
-            }
-        }
-
+    @Override
+    protected void resetPIDValues() {
         module.setPID(p, i, d);
     }
 }

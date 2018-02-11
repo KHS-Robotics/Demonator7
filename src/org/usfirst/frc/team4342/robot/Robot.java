@@ -2,7 +2,6 @@ package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,9 +14,6 @@ import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.logging.PDPLogger;
-import org.usfirst.frc.team4342.robot.tuning.DrivePIDTuner;
-import org.usfirst.frc.team4342.robot.tuning.ElevatorPIDTuner;
-import org.usfirst.frc.team4342.robot.tuning.PivotPIDTuner;
 
 /**
  * Main Robot Class
@@ -28,11 +24,6 @@ public class Robot extends TimedRobot {
 	private SendableChooser<Priority> priorityChooser;
 	private AutonomousRoutine autonomousRoutine;
 
-	// For test mode
-	private DrivePIDTuner driveTuner;
-	private ElevatorPIDTuner elevTuner;
-	private PivotPIDTuner frTuner, flTuner, rrTuner, rlTuner;
-	
 	/**
 	 * Robot-wide initialization code
 	 */
@@ -117,16 +108,6 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
-		stopPIDTuning();
-	}
-	
-	/**
-	 * Initialization code for test mode 
-	 */
-	@Override
-	public void testInit() {
-		Logger.info("Entering test...");
-		startPIDTuning();
 	}
 	
 	/**
@@ -187,75 +168,5 @@ public class Robot extends TimedRobot {
 
 		if(routine != null)
 			Logger.info("Selected \"" + routine + "\" routine for " + position.toString().toLowerCase());
-	}
-
-	/**
-	 * Starts PID tuning
-	 */
-	private void startPIDTuning() {
-		Logger.info("Starting PID tuning...");
-
-		LiveWindow.setEnabled(false);
-		final OI oi = OI.getInstance();
-
-		// Drive
-		driveTuner = new DrivePIDTuner(oi.Drive);
-		// Elevator
-		elevTuner = new ElevatorPIDTuner(oi.Elevator);
-		// Swerve Modules
-		frTuner = new PivotPIDTuner(oi.FR, "FR", 
-			Constants.Drive.PivotPID.FR_P,
-			Constants.Drive.PivotPID.FR_I,
-			Constants.Drive.PivotPID.FR_D
-		);
-		flTuner = new PivotPIDTuner(oi.FL, "FL", 
-			Constants.Drive.PivotPID.FL_P,
-			Constants.Drive.PivotPID.FL_I,
-			Constants.Drive.PivotPID.FL_D
-		);
-		rrTuner = new PivotPIDTuner(oi.RR, "RR", 
-			Constants.Drive.PivotPID.RR_P,
-			Constants.Drive.PivotPID.RR_I,
-			Constants.Drive.PivotPID.RR_D
-		);
-		rlTuner = new PivotPIDTuner(oi.RL, "RL", 
-			Constants.Drive.PivotPID.RL_P,
-			Constants.Drive.PivotPID.RL_I,
-			Constants.Drive.PivotPID.RL_D
-		);
-
-		driveTuner.start();
-		elevTuner.start();
-		frTuner.start();
-		flTuner.start();
-		rrTuner.start();
-		rlTuner.start();
-	}
-
-	/**
-	 * Stops PID tuning
-	 */
-	private void stopPIDTuning() {
-		Logger.info("Stopping PID tuning...");
-		
-		if(driveTuner != null)
-			driveTuner.interrupt();
-		if(elevTuner != null)
-			elevTuner.interrupt();
-		if(frTuner != null)
-			frTuner.interrupt();
-		if(flTuner != null)
-			flTuner.interrupt();
-		if(rrTuner != null)
-			rrTuner.interrupt();
-		if(rlTuner != null)
-			rlTuner.interrupt();
-
-		driveTuner = null;
-		elevTuner = null;
-		frTuner = null;
-		flTuner = null;
-		rrTuner = null;
-		rlTuner = null;
 	}
 }

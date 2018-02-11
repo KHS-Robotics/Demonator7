@@ -425,7 +425,7 @@ public class SwerveDrive extends DriveTrainBase {
 	/**
 	 * Swerve Module
 	 */
-	public static class SwerveModule {
+	public static class SwerveModule extends SubsystemBase {
 		private PIDController pivotPID;
 		private double output, offset;
 		private boolean flipDrive;
@@ -479,6 +479,15 @@ public class SwerveDrive extends DriveTrainBase {
 			pivotPID.setOutputRange(-1, 1);
 			pivotPID.setAbsoluteTolerance(toVoltage(TOLERANCE));
 			pivotPID.setContinuous();
+		}
+
+		/**
+		 * No default command. Swerve Module only extends SubsystemBase for
+		 * command reasons
+		 */
+		@Override
+		protected void initDefaultCommand() {
+			super.initDefaultCommand();
 		}
 
 		/**
@@ -648,7 +657,7 @@ public class SwerveDrive extends DriveTrainBase {
 		/**
 		 * Stops the swerve module
 		 */
-		protected void stop() {
+		public void stop() {
 			drive.set(ControlMode.PercentOutput, 0);
 			if(pivotPID.isEnabled())
 				pivotPID.disable();
