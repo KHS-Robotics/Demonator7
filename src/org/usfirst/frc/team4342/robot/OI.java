@@ -145,7 +145,8 @@ public class OI {
 			RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
 			RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
 
-			final double distancePerPulse = 2048*(18.0/54.0)*(Math.PI*6);
+			// (18 input teeth * 6 inch diameter wheels * PI) / (2048 pulses per rev * 54 output teeth)
+			final double distancePerPulse = (18*6*Math.PI) / (2048*54);
 			FrontRightDriveEnc.setDistancePerPulse(distancePerPulse);
 			FrontLeftDriveEnc.setDistancePerPulse(distancePerPulse);
 			RearRightDriveEnc.setDistancePerPulse(distancePerPulse);
