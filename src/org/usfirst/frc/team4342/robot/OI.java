@@ -64,26 +64,26 @@ public class OI {
 
 	// Drive
 	public SwerveDrive Drive;
-	public SwerveModule FR, FL, RR, RL;
-	public AHRS NavX;
-	public TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
-	public TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
-	public Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
-	public AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
+	private SwerveModule FR, FL, RR, RL;
+	private AHRS NavX;
+	private TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
+	private TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
+	private Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
+	private AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
 
 	// Climber
 	public Climber Climber;
-	public Spark ClimberMotor;
+	private Spark ClimberMotor;
 
 	// Elevator
 	public Elevator Elevator;
-	public TalonSRX EleMotor;
-	public Encoder EleEnc;
-	public DigitalInput EleLS;
+	private TalonSRX EleMotor;
+	private Encoder EleEnc;
+	private DigitalInput EleLS;
 	
 	// Intake
 	public Intake Intake;
-	public Spark IntakeMotor;
+	private Spark IntakeMotor;
 	
 	private OI() {
 		Logger.info("Connecting to PDP...");
