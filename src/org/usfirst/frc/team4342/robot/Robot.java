@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		Logger.info("Bootstrapping Demonator7...");
 		
-		final OI oi = OI.getInstance();
+		OI.getInstance();
 		PDPLogger.start();
 		AwesomeLights.start();
 		
@@ -49,18 +49,8 @@ public class Robot extends TimedRobot {
 		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 
-
-		Logger.info("Linking subsystems to SmartDashboard...");
-		// Power Distribution Panel
-		SmartDashboard.putData("PDP", oi.PDP);
-		// Scheduler
 		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
-		// Subsystems
-		SmartDashboard.putData("Drive", oi.Drive);
-		SmartDashboard.putData("Elevator", oi.Elevator);
-		SmartDashboard.putData("Intake", oi.Intake);
-		SmartDashboard.putData("Climber", oi.Climber);
-		
+
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
 	
@@ -88,7 +78,41 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		Logger.info("Entering autonomous...");
 		stopAutonomousRoutine();
-		setAutonomousRoutine();
+
+		final OI oi = OI.getInstance();
+		
+		String routine;
+		final StartPosition position = startPositionChooser.getSelected();
+		switch(priorityChooser.getSelected()) {
+			case BASELINE:
+				routine = "AutoBaseline";
+				autonomousRoutine = new AutoBaseline(position, oi.Drive);
+			break;
+			
+			case SWITCH:
+				routine = "AutoSwitch";
+				autonomousRoutine = new AutoSwitch(position, oi.Drive, oi.Elevator, oi.Intake);
+			break;
+			
+			case SCALE:
+				routine = "AutoScale";
+				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
+			break;
+				
+			case BOTH:
+				routine = "AutoBoth";
+				autonomousRoutine = new AutoBoth(position, oi.Drive, oi.Elevator, oi.Intake);
+			break;
+			
+			default:
+				routine = null;
+				Logger.warning("Auto priority could not be determined! Crossing auto line!");
+				autonomousRoutine = new AutoBaseline(position, oi.Drive);
+		}
+
+		if(routine != null)
+			Logger.info("Selected \"" + routine + "\" routine for " + position.toString().toLowerCase());
+
 		startAutonomousRoutine();
 	}
 	
@@ -129,44 +153,5 @@ public class Robot extends TimedRobot {
 			autonomousRoutine.cancel();
 			Scheduler.getInstance().run();
 		}
-	}
-
-	/**
-	 * Sets the autonomous routine based on the Sendable Choosers
-	 */
-	private void setAutonomousRoutine() {
-		final OI oi = OI.getInstance();
-
-		String routine;
-		final StartPosition position = startPositionChooser.getSelected();
-		switch(priorityChooser.getSelected()) {
-			case BASELINE:
-				routine = "AutoBaseline";
-				autonomousRoutine = new AutoBaseline(position, oi.Drive);
-			break;
-			
-			case SWITCH:
-				routine = "AutoSwitch";
-				autonomousRoutine = new AutoSwitch(position, oi.Drive, oi.Elevator, oi.Intake);
-			break;
-			
-			case SCALE:
-				routine = "AutoScale";
-				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
-			break;
-				
-			case BOTH:
-				routine = "AutoBoth";
-				autonomousRoutine = new AutoBoth(position, oi.Drive, oi.Elevator, oi.Intake);
-			break;
-			
-			default:
-				routine = null;
-				Logger.warning("Auto priority could not be determined! Crossing auto line!");
-				autonomousRoutine = new AutoBaseline(position, oi.Drive);
-		}
-
-		if(routine != null)
-			Logger.info("Selected \"" + routine + "\" routine for " + position.toString().toLowerCase());
 	}
 }

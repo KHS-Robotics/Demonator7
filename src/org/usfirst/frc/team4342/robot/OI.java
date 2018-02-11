@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -90,6 +91,7 @@ public class OI {
 
 		// Power Distribution Panel
 		PDP = new PowerDistributionPanel();
+		SmartDashboard.putData("PDP", PDP);
 
 		Logger.info("Initializing joysticks...");
 		// Joysticks
@@ -229,6 +231,8 @@ public class OI {
 		Drive.setNeutralMode(NeutralMode.Brake);
 		// Drive.setFieldOriented(true);
 
+		SmartDashboard.putData("Drive", Drive);
+
 		// Button to maintain heading and move forward/backward
 		JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_Y);
 		driveStraight.whenPressed(new DriveStraightWithJoystick(DriveController, Drive));
@@ -266,6 +270,8 @@ public class OI {
 		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
 		Climber = new Climber(ClimberMotor);
 
+		SmartDashboard.putData("Climber", Climber);
+
 		// Climbing button to enable the winch
 		// Switch is opposite
 		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
@@ -287,6 +293,8 @@ public class OI {
 		EleLS = new DigitalInput(RobotMap.ELE_LS);
 		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
 		Elevator.setNeutralMode(NeutralMode.Brake);
+
+		SmartDashboard.putData("Elevator", Elevator);
 
 		// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
 		JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
@@ -325,6 +333,8 @@ public class OI {
 		// Intake
 		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
 		Intake = new Intake(IntakeMotor);
+
+		SmartDashboard.putData("Intake", Intake);
 
 		// Switch to enable the intake for a cube
 		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
