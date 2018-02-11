@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.commands.DriveSwerveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.DriveSwerveWithXbox;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -70,7 +71,9 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	protected void initDefaultCommand() {
 		OI oi = OI.getInstance();
-		this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
+		// TODO: Switch back to DriveSwerveWithXbox when we get an Xbox Controller
+		//this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
+		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveController, oi.Drive));
 	}
 	
 	/**

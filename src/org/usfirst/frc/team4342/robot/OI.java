@@ -60,7 +60,8 @@ public class OI {
 	public PowerDistributionPanel PDP;
 
 	// Joysticks
-	public XboxController DriveController;
+	// TODO: Use Xbox controller for drive once we get one, use Joystick for now
+	public /*XboxController*/Joystick DriveController;
 	public Joystick SwitchBox;
 
 	// Drive
@@ -93,10 +94,10 @@ public class OI {
 		PDP = new PowerDistributionPanel();
 		SmartDashboard.putData("PDP", PDP);
 
-		Logger.info("Initializing joysticks...");
+		Logger.info("Connecting Xbox Controller and Switch Box...");
 		// Joysticks
 		// Xbox Controller
-		DriveController = new XboxController(RobotMap.XBOX_PORT);
+		DriveController = new /*XboxController*/Joystick(RobotMap.XBOX_PORT);
 		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
@@ -341,6 +342,8 @@ public class OI {
 	 */
 	private void initDrivePIDTuner(JoystickButton button) {
 		try {
+			Logger.info("Initializing Drive PID Tuner...");
+
 			// Switch is opposite
 			button.whenReleased(new DrivePIDTuner(Drive));
 			button.whenReleased(new PivotPIDTuner(FR, "FR", 
@@ -378,6 +381,8 @@ public class OI {
 	 */
 	private void initElevatorPIDTuner(JoystickButton button) {
 		try {
+			Logger.info("Initializing Elevator PID Tuner...");
+			
 			button.whenReleased(new ElevatorPIDTuner(Elevator));
 			button.whenPressed(new StopElevator(Elevator));
 		} catch(Exception ex) {

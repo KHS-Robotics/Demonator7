@@ -21,18 +21,19 @@ public class AwesomeLights {
         if(running)
             return;
         running = true;
-
+        
         if(!started) {
             started = true;
-            Logger.info("Creating the awesome lights...");
+
+            Logger.info("Creating the Awesome Lights...");
             power = new Solenoid(RobotMap.LED_POWER);
             red = new Solenoid(RobotMap.RED_LED);
             green = new Solenoid(RobotMap.GREEN_LED);
             blue = new Solenoid(RobotMap.BLUE_LED);
-        }
 
-        controller = new LightController();
-        controller.start();
+            controller = new LightController();
+            controller.start();
+        }
     }
 
     /**
@@ -40,7 +41,9 @@ public class AwesomeLights {
      */
     public static void stop() {
         running = false;
-        controller.interrupt();
+        green.set(false);
+        blue.set(false);
+        power.set(false);
     }
 
     /**
@@ -48,27 +51,34 @@ public class AwesomeLights {
      */
     private static class LightController extends Thread implements Runnable {
         private boolean[] on = { true, false, false };
-        private long interval = 500, lastUpated = 0;
 
         /**
          * Runs if robot is enabled
          */
         @Override
         public void run() {
-            power.set(true);
-
-            while(!Thread.interrupted()) {
-                if(RobotState.isEnabled()) {
-                    // current - last
-                    if(System.currentTimeMillis() - lastUpated >= interval)
+            boolean crashed = false;
+            
+            try {
+                Logger.info("Starting the Awesome Lights...");
+                power.set(true);
+                while(!crashed) {
+                    if(running && RobotState.isEnabled()) {
                         cycleLights();
-                }
-            }
+                    }
 
-            red.set(false);
-            green.set(false);
-            blue.set(false);
-            power.set(false);
+                    Thread.sleep(500);
+                }
+            } catch(Exception ex) {
+                Logger.error("The Awesome Lights crashed :(", ex);
+
+                red.set(false);
+                green.set(false);
+                blue.set(false);
+                power.set(false);
+
+                crashed = true;
+            }
         }
 
         /**
@@ -78,7 +88,6 @@ public class AwesomeLights {
         private void cycleLights() {
             shiftLights();
             setLights();
-            lastUpated = System.currentTimeMillis();
         }
 
         /**
