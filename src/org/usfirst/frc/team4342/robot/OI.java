@@ -53,54 +53,63 @@ public class OI {
 	}
 
 	// PowerDistributionPanel
-	public final PowerDistributionPanel PDP;
+	public PowerDistributionPanel PDP;
 
 	// Joysticks
-	public final XboxController DriveController;
-	public final Joystick SwitchBox;
+	public XboxController DriveController;
+	public Joystick SwitchBox;
 
 	// Drive
-	public final SwerveDrive Drive;
-	public final SwerveModule FR, FL, RR, RL;
-	public final AHRS NavX;
-	public final TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
-	public final TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
-	public final Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
-	public final AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
+	public SwerveDrive Drive;
+	public SwerveModule FR, FL, RR, RL;
+	public AHRS NavX;
+	public TalonSRX FrontRightDrive, FrontLeftDrive, RearLeftDrive, RearRightDrive;
+	public TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
+	public Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
+	public AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
 
 	// Climber
-	public final Climber Climber;
-	public final Spark ClimberMotor;
+	public Climber Climber;
+	public Spark ClimberMotor;
 
 	// Elevator
-	public final Elevator Elevator;
-	public final TalonSRX EleMotor;
-	public final Encoder EleEnc;
-	public final DigitalInput EleLS;
+	public Elevator Elevator;
+	public TalonSRX EleMotor;
+	public Encoder EleEnc;
+	public DigitalInput EleLS;
 	
 	// Intake
-	public final Intake Intake;
-	public final Spark IntakeMotor;
+	public Intake Intake;
+	public Spark IntakeMotor;
 	
 	private OI() {
 		Logger.info("Connecting to PDP...");
 
 		// Power Distribution Panel
 		PDP = new PowerDistributionPanel();
-		
+
 		Logger.info("Initializing joysticks...");
-
-		// Xbox Controller and Switch Box
+		// Joysticks
+		// Xbox Controller
 		DriveController = new XboxController(RobotMap.XBOX_PORT);
+		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
-		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick on switch box
+		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
 
-		Logger.info("Initializing NavX...");
+		initDrive();
+		initClimber();
+		initElevator();
+		initIntake();
+	}
+
+	/**
+	 * Initializes the Drive Train
+	 */
+	private void initDrive() {
+		Logger.info("Initializing Swerve...");
 
 		// NavX Board
 		NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
-
-		Logger.info("Initializing Swerve...");
 
 		// Drive Motors
 		FrontRightDrive = new TalonSRX(RobotMap.FRONT_RIGHT_DRIVE);
@@ -119,6 +128,12 @@ public class OI {
 		FrontLeftDriveEnc = new Encoder(RobotMap.FRONT_LEFT_DRIVE_ENC_A, RobotMap.FRONT_LEFT_DRIVE_ENC_B);
 		RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
 		RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
+
+		final double distancePerPulse = 2048*(18.0/54.0)*(Math.PI*6);
+		FrontRightDriveEnc.setDistancePerPulse(distancePerPulse);
+		FrontLeftDriveEnc.setDistancePerPulse(distancePerPulse);
+		RearRightDriveEnc.setDistancePerPulse(distancePerPulse);
+		RearLeftDriveEnc.setDistancePerPulse(distancePerPulse);
 
 		// Pivot/Rotational analog inputs
 		FrontRightPivotEnc = new AnalogInput(RobotMap.FRONT_RIGHT_PIVOT_CHANNEL);
@@ -168,84 +183,9 @@ public class OI {
 
 		// Swerve
 		Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
+		Drive.setNeutralMode(NeutralMode.Brake);
 		// Drive.setFieldOriented(true);
 
-		Logger.info("Initializing Climber...");
-
-		// Climber
-		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
-		Climber = new Climber(ClimberMotor);
-
-		Logger.info("Initializing Elevator...");
-		
-		// Elevator
-		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
-		EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
-		EleLS = new DigitalInput(RobotMap.ELE_LS);
-		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
-
-		Logger.info("Initializing Intake...");
-		
-		// Intake
-		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
-		Intake = new Intake(IntakeMotor);
-		
-		// (Pulse Per Rev)*(Gear Reduction)*(Wheel Circumference)
-		FrontRightDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
-		FrontLeftDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
-		RearRightDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
-		RearLeftDriveEnc.setDistancePerPulse(2048*(18.0/54.0)*(Math.PI*6));
-		// TODO: Set distance per pulse for elevator encoder
-		EleEnc.setDistancePerPulse(1);
-
-		Elevator.setNeutralMode(NeutralMode.Brake);
-		Drive.setNeutralMode(NeutralMode.Brake);
-
-		Logger.info("Initializing Operator Inferface...");
-
-		// Climbing button to enable the winch
-		// Switch is opposite
-		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
-		climbButton.whenPressed(new StopSubsystem(Climber));
-		climbButton.whenReleased(new StartClimber(Climber));
-		
-		// Switch to enable the intake for a cube
-		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
-		intakeSwitch.whenPressed(new StartIntake(Intake));
-		intakeSwitch.whenReleased(new StopSubsystem(Intake));
-		
-		// Switch to enable reverse intake to release a cube
-		JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
-		releaseSwitch.whenPressed(new StartRelease(Intake));
-		releaseSwitch.whenReleased(new StopSubsystem(Intake));
-		
-		// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
-		JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
-		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
-		elevateHigh.whenReleased(new StopElevator(Elevator));
-		
-		// Button to set the elevator to the scale platform height when it's at its neutral point (no one has ownership)
-		JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
-		elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
-		elevateNeutral.whenReleased(new StopElevator(Elevator));
-		
-		// Button to set the elevator to the scale when it's at its lowest point (we have ownership)
-		JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
-		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
-		elevateLow.whenReleased(new StopElevator(Elevator));
-		
-		// Button to set the elevator to the switch height
-		// Switch is opposite
-		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
-		elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
-		elevateSwitch.whenPressed(new StopElevator(Elevator));
-		
-		// Button to set the elevator to its lowest point to pick up a cube
-		// Switch is opposite
-		JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
-		elevateCube.whenReleased(new ElevatePickupCube(Elevator));
-		elevateCube.whenPressed(new StopElevator(Elevator));
-		
 		// Button to maintain heading and move forward/backward
 		JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_Y);
 		driveStraight.whenPressed(new DriveStraightWithJoystick(DriveController, Drive));
@@ -271,5 +211,86 @@ public class OI {
 		// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
 		JoystickButton go180 = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_180);
 		go180.whenPressed(new DriveGoToAngle(Drive, 180));
+	}
+
+	/**
+	 * Initializes the Climber
+	 */
+	private void initClimber() {
+		Logger.info("Initializing Climber...");
+
+		// Climber
+		ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
+		Climber = new Climber(ClimberMotor);
+
+		// Climbing button to enable the winch
+		// Switch is opposite
+		JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
+		climbButton.whenPressed(new StopSubsystem(Climber));
+		climbButton.whenReleased(new StartClimber(Climber));
+	}
+	
+	/**
+	 * Initializes the Elevator
+	 */
+	private void initElevator() {
+		Logger.info("Initializing Elevator...");
+		
+		// Elevator
+		EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
+		EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
+		// TODO: Set distance per pulse for elevator encoder
+		EleEnc.setDistancePerPulse(1);
+		EleLS = new DigitalInput(RobotMap.ELE_LS);
+		Elevator = new Elevator(EleMotor, EleEnc, EleLS);
+		Elevator.setNeutralMode(NeutralMode.Brake);
+
+		// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
+		JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
+		elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
+		elevateHigh.whenReleased(new StopElevator(Elevator));
+
+		// Button to set the elevator to the scale platform height when it's at its neutral point (no one has ownership)
+		JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
+		elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
+		elevateNeutral.whenReleased(new StopElevator(Elevator));
+		
+		// Button to set the elevator to the scale when it's at its lowest point (we have ownership)
+		JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
+		elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
+		elevateLow.whenReleased(new StopElevator(Elevator));
+		
+		// Button to set the elevator to the switch height
+		// Switch is opposite
+		JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
+		elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
+		elevateSwitch.whenPressed(new StopElevator(Elevator));
+		
+		// Button to set the elevator to its lowest point to pick up a cube
+		// Switch is opposite
+		JoystickButton elevateCube = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_PICKUP_CUBE);
+		elevateCube.whenReleased(new ElevatePickupCube(Elevator));
+		elevateCube.whenPressed(new StopElevator(Elevator));
+	}
+
+	/**
+	 * Initializes the Intake
+	 */
+	private void initIntake() {
+		Logger.info("Initializing Intake...");
+		
+		// Intake
+		IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+		Intake = new Intake(IntakeMotor);
+
+		// Switch to enable the intake for a cube
+		JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
+		intakeSwitch.whenPressed(new StartIntake(Intake));
+		intakeSwitch.whenReleased(new StopSubsystem(Intake));
+		
+		// Switch to enable reverse intake to release a cube
+		JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
+		releaseSwitch.whenPressed(new StartRelease(Intake));
+		releaseSwitch.whenReleased(new StopSubsystem(Intake));
 	}
 }
