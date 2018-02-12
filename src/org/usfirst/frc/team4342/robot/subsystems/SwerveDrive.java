@@ -604,6 +604,15 @@ public class SwerveDrive extends DriveTrainBase {
 			this.output = reverse ? -this.output : this.output;
 			drive.set(ControlMode.PercentOutput, this.output);
 		}
+
+		/**
+		 * Gets if the module has flipped its drive output
+		 * @return true if the module has flipped its drive output,
+		 * false otherwise
+		 */
+		public boolean isFlipDrive() {
+			return flipDrive;
+		}
 		
 		/**
 		 * Sets the pivot angle

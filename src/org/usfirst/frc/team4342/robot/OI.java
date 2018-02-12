@@ -60,7 +60,6 @@ public class OI {
 	public PowerDistributionPanel PDP;
 
 	// Joysticks
-	// TODO: Use Xbox controller for drive once we get one, use Joystick for now
 	public XboxController DriveController;
 	public Joystick SwitchBox;
 
