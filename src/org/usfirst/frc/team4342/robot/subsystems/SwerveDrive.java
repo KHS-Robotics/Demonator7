@@ -3,6 +3,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithXbox;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -21,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static boolean DEBUG;
+	private static boolean DEBUG = true;
 
 	// Dimensions in inches (vehicle's wheelbase and trackwidth)
 	// measurements are from one center of pivot to another center of pivot
@@ -70,13 +71,8 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-		// Only do this if the user isn't tuning PID
 		final OI oi = OI.getInstance();
-		if(!oi.SwitchBox.getRawButton(ButtonMap.SwitchBox.TUNE_PID)) {
-			this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
-		} else {
-			this.setDefaultCommand(null);
-		}
+		this.setDefaultCommand(new DriveSwerveWithJoystick/*Xbox*/(oi.DriveController, oi.Drive));
 	}
 	
 	/**
@@ -237,22 +233,22 @@ public class SwerveDrive extends DriveTrainBase {
 			fwd = TEMP;
 		}
 		
-		final double xNeg = str - (rcw*L_OVER_R);
-		final double xPos = str + (rcw*L_OVER_R);
-		final double yNeg = fwd - (rcw*W_OVER_R);
-		final double yPos = fwd + (rcw*W_OVER_R);
+		final double xNeg = str - (rcw*W_OVER_R);
+		final double xPos = str + (rcw*W_OVER_R);
+		final double yNeg = fwd - (rcw*L_OVER_R);
+		final double yPos = fwd + (rcw*L_OVER_R);
 		
-		double frSpeed = calcMagnitude(xPos, /*yNeg*/yPos);
-		double frPivot = calcAngle(xPos, /*yNeg*/yPos);
+		double frSpeed = calcMagnitude(xPos, yPos);
+		double frPivot = calcAngle(xPos, yPos);
 		
-		double flSpeed = calcMagnitude(/*xPos*/xNeg, yPos);
-		double flPivot = calcAngle(/*xPos*/xNeg, yPos);
+		double flSpeed = calcMagnitude(xNeg, yPos);
+		double flPivot = calcAngle(xNeg, yPos);
 		
-		double rlSpeed = calcMagnitude(xNeg, /*yPos*/yNeg);
-		double rlPivot = calcAngle(xNeg, /*yPos*/yNeg);
+		double rlSpeed = calcMagnitude(xNeg, yNeg);
+		double rlPivot = calcAngle(xNeg, yNeg);
 		
-		double rrSpeed = calcMagnitude(/*xNeg*/xPos, yNeg);
-		double rrPivot = calcAngle(/*xNeg*/xPos, yNeg);
+		double rrSpeed = calcMagnitude(xPos, yNeg);
+		double rrPivot = calcAngle(xPos, yNeg);
 		
 		// Make sure we don't use the arctan value
 		// with x=0
@@ -428,7 +424,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @return the angle of the polar coordinate
 	 */
 	private static double calcAngle(double x, double y) {
-		return Math.toDegrees(Math.atan2(x, -y)) + 180;
+		return (Math.toDegrees(Math.atan2(x, -y)) + 360) % 360;
 	}
 	
 	/**
@@ -628,13 +624,13 @@ public class SwerveDrive extends DriveTrainBase {
 
 			// TODO: Add this fancy thing after we get the rest working
 			// Check if complementary angle is closer
-			// double dAngle = Math.abs(angle - this.getAngle());
-			// flipDrive = dAngle >= 90 && dAngle <= 270;
-
-			// // if it is closer then use
-			// // complementary (e.g., add 180)
-			// if(flipDrive)
-			// 	angle += 180;
+//			double dAngle = Math.abs(angle - this.getAngle());
+//			flipDrive = dAngle >= 90 && dAngle <= 270;
+//
+//			// if it is closer then use
+//			// complementary (e.g., add 180)
+//			if(flipDrive)
+//				angle += 180;
 
 			if(DEBUG)
 				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);

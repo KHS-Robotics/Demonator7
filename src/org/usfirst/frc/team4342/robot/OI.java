@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.SwerveSetZ;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
@@ -60,7 +61,7 @@ public class OI {
 	public PowerDistributionPanel PDP;
 
 	// Joysticks
-	public XboxController DriveController;
+	public /*XboxController*/Joystick DriveController;
 	public Joystick SwitchBox;
 
 	// Drive
@@ -96,7 +97,7 @@ public class OI {
 		Logger.info("Connecting Xbox Controller and Switch Box...");
 		// Joysticks
 		// Xbox Controller
-		DriveController = new XboxController(RobotMap.XBOX_PORT);
+		DriveController = new Joystick(RobotMap.XBOX_PORT);
 		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick

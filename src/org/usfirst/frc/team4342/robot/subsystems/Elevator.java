@@ -84,15 +84,11 @@ public class Elevator extends PIDSubsystem
 	{
 		// Only do this if the user isn't tuning PID
 		final OI oi = OI.getInstance();
-		if(!oi.SwitchBox.getRawButton(ButtonMap.SwitchBox.TUNE_PID)) {
-			this.setDefaultCommand(new ElevateWithJoystick(
-				oi.SwitchBox, 
-				new JoystickButton(oi.SwitchBox, ButtonMap.SwitchBox.ELEVATOR_OVERIDE),
-				oi.Elevator
-			));
-		} else {
-			this.setDefaultCommand(null);
-		}
+		this.setDefaultCommand(new ElevateWithJoystick(
+			oi.SwitchBox, 
+			new JoystickButton(oi.SwitchBox, ButtonMap.SwitchBox.ELEVATOR_OVERIDE),
+			oi.Elevator
+		));
 	}
 
 	/**

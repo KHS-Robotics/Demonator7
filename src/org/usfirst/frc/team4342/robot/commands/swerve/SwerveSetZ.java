@@ -2,12 +2,12 @@ package org.usfirst.frc.team4342.robot.commands.swerve;
 
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * For testing
  */
-public class SwerveSetZ extends InstantCommand {
+public class SwerveSetZ extends Command {
     private SwerveDrive drive;
     private boolean backwards;
 
@@ -19,7 +19,12 @@ public class SwerveSetZ extends InstantCommand {
     }
 
     @Override
-    protected void execute() {
-        drive.set(0, 0, backwards ? -0.20 : 0.20);
+    protected void initialize() {
+        drive.set(0, 0, backwards ? -0.33 : 0.33);
+    }
+    
+    @Override
+    protected boolean isFinished() {
+    	return false;
     }
 }
