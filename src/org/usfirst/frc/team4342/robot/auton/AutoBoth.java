@@ -8,9 +8,9 @@ import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.IntakeCube;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Auto routine to place a cube on the switch and scale for the
@@ -39,7 +39,7 @@ public class AutoBoth extends AutonomousRoutine
 	 * @param i the intake
 	 * @see StartPosition
 	 */
-	public AutoBoth(StartPosition position, DriveTrainBase d, Elevator e, Intake i) {
+	public AutoBoth(StartPosition position, SwerveDrive d, Elevator e, Intake i) {
 		
 		super(position);
 

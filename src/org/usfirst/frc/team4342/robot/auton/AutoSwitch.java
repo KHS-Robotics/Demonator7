@@ -4,10 +4,11 @@ import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveTurn;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Auto routine to place a cube on the switch for the
@@ -38,7 +39,7 @@ public class AutoSwitch extends AutonomousRoutine
 	 * @param i the intake
 	 * @see StartPosition
 	 */
-	public AutoSwitch(StartPosition position, DriveTrainBase d, Elevator e, Intake i) 
+	public AutoSwitch(StartPosition position, SwerveDrive d, Elevator e, Intake i) 
 	{
 		super(position);
 		
@@ -89,13 +90,11 @@ public class AutoSwitch extends AutonomousRoutine
 			}
 			else if(position == StartPosition.CENTER)
 			{
-				final boolean turnRight = isSwitchRight();
+				final double speed = isSwitchRight() ? 0.5 : -0.5;
 				
 				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
-				this.addSequential(new DriveTurn(d, turnRight));
 				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveStraight(d, 0.5, CENTER_PANEL_ALIGN_DISTANCE));
-				this.addSequential(new DriveTurn(d, !turnRight));
+				this.addSequential(new DriveStraightSwerve(d, speed, CENTER_PANEL_ALIGN_DISTANCE, true));
 				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}

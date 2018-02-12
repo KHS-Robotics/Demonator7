@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Auto routine to cross the auto line
@@ -16,7 +16,7 @@ public class AutoBaseline extends AutonomousRoutine
 	 * @param drive the drive
 	 * @see StartPosition
 	 */
-	public AutoBaseline(StartPosition position, DriveTrainBase drive) 
+	public AutoBaseline(StartPosition position, SwerveDrive drive) 
 	{
 		super(position);
 		

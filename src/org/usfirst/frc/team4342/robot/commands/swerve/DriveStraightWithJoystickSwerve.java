@@ -30,6 +30,6 @@ public class DriveStraightWithJoystickSwerve extends DriveStraightWithJoystick {
     
     @Override
     protected void execute() {
-        drive.goStaight(getInput(), yaw, isXDirection);
+        drive.goStraight(getInput(), yaw, isXDirection);
     }
 }
