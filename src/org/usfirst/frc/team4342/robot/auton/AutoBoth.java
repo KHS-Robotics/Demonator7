@@ -1,12 +1,12 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.DriveStraight;
-import org.usfirst.frc.team4342.robot.commands.DriveTurn;
-import org.usfirst.frc.team4342.robot.commands.ElevatePickupCube;
-import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
-import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
-import org.usfirst.frc.team4342.robot.commands.IntakeCube;
-import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveTurn;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
+import org.usfirst.frc.team4342.robot.commands.intake.IntakeCube;
+import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -43,37 +43,44 @@ public class AutoBoth extends AutonomousRoutine
 		
 		super(position);
 
-		// Switch and Scale plates are on same side as start position
-		if((position == StartPosition.LEFT && isBothLeft()) || (position == StartPosition.RIGHT && isBothRight())) 
+		try
 		{
-			final boolean turnRight = isBothLeft();
+			// Switch and Scale plates are on same side as start position
+			if((position == StartPosition.LEFT && isBothLeft()) || (position == StartPosition.RIGHT && isBothRight())) 
+			{
+				final boolean turnRight = isBothLeft();
 
-			this.addParallel(new ElevateToSwitch(e));
-			this.addSequential(new DriveStraight(d, 0.5, START_MOVE_FORWARD));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SWTCH));
-			this.addSequential(new ReleaseCube(i));	
-			this.addParallel(new ElevatePickupCube(e));
-			this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SWTCH));
-			this.addSequential(new DriveTurn(d, !turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_CUBE_PART_1));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_CUBE_PART_2));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new IntakeCube(i));
-			this.addParallel(new ElevateToScaleNeutral(e));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_1));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_2));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_3));
-			this.addSequential(new ReleaseCube(i));
+				this.addParallel(new ElevateToSwitch(e));
+				this.addSequential(new DriveStraight(d, 0.5, START_MOVE_FORWARD));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SWTCH));
+				this.addSequential(new ReleaseCube(i));	
+				this.addParallel(new ElevatePickupCube(e));
+				this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SWTCH));
+				this.addSequential(new DriveTurn(d, !turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_CUBE_PART_1));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_CUBE_PART_2));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new IntakeCube(i));
+				this.addParallel(new ElevateToScaleNeutral(e));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_1));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_2));
+				this.addSequential(new DriveTurn(d, turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_PART_3));
+				this.addSequential(new ReleaseCube(i));
+			}
+			else
+			{
+				Logger.warning("No position provided for AutoBoth! Crossing Baseline...");
+				this.addSequential(new AutoBaseline(position, d));
+			}
 		}
-		else
+		catch(InvalidGameMessageException ex)
 		{
-			Logger.warning("No position provided for AutoBoth! Crossing Baseline...");
-			this.addSequential(new AutoBaseline(position, d));
+			Logger.error("Invalid game message!", ex);
 		}
 	}
 }

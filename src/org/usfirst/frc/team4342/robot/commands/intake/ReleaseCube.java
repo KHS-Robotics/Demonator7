@@ -1,12 +1,13 @@
-package org.usfirst.frc.team4342.robot.commands;
+package org.usfirst.frc.team4342.robot.commands.intake;
 
+import org.usfirst.frc.team4342.robot.commands.CommandBase;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 
 /**
  * Command to release a cube in autonomous. This command
  * will enable the release for 2 seconds.
  */
-public class ReleaseCube extends CommandBase 
+public class ReleaseCube extends CommandBase
 {
 	private Intake intake;
 	

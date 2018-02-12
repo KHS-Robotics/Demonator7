@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.DriveStraight;
-import org.usfirst.frc.team4342.robot.commands.DriveTurn;
-import org.usfirst.frc.team4342.robot.commands.ElevateToSwitch;
-import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveTurn;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
+import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -42,65 +42,72 @@ public class AutoSwitch extends AutonomousRoutine
 	{
 		super(position);
 		
-		if(position == StartPosition.LEFT)
+		try 
 		{
-			if(isSwitchLeft())
+			if(position == StartPosition.LEFT)
 			{
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
-				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
-				this.addSequential(new ReleaseCube(i));	
+				if(isSwitchLeft())
+				{
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
+					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
+					this.addSequential(new ReleaseCube(i));	
+				}
+				else
+				{
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
+					this.addSequential(new ReleaseCube(i));
+				}
+					
 			}
-			else
+			else if(position == StartPosition.RIGHT)
 			{
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
-				this.addSequential(new ReleaseCube(i));
+				if(isSwitchRight())
+				{
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
+					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
+					this.addSequential(new ReleaseCube(i));
+				}
+				else
+				{
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
+					this.addSequential(new ReleaseCube(i));
+				}
 			}
+			else if(position == StartPosition.CENTER)
+			{
+				final boolean turnRight = isSwitchRight();
 				
-		}
-		else if(position == StartPosition.RIGHT)
-		{
-			if(isSwitchRight())
-			{
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
+				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
+				this.addSequential(new DriveTurn(d, turnRight));
 				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
+				this.addSequential(new DriveStraight(d, 0.5, CENTER_PANEL_ALIGN_DISTANCE));
+				this.addSequential(new DriveTurn(d, !turnRight));
+				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}
 			else
 			{
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
-				this.addSequential(new ReleaseCube(i));
+				Logger.warning("No position provided for AutoSwitch! Crossing Baseline...");
+				this.addSequential(new AutoBaseline(position, d));
 			}
 		}
-		else if(position == StartPosition.CENTER)
+		catch(InvalidGameMessageException ex)
 		{
-			final boolean turnRight = isSwitchRight();
-			
-			this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
-			this.addSequential(new DriveTurn(d, turnRight));
-			this.addParallel(new ElevateToSwitch(e));
-			this.addSequential(new DriveStraight(d, 0.5, CENTER_PANEL_ALIGN_DISTANCE));
-			this.addSequential(new DriveTurn(d, !turnRight));
-			this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
-			this.addSequential(new ReleaseCube(i));
-		}
-		else
-		{
-			Logger.warning("No position provided for AutoSwitch! Crossing Baseline...");
-			this.addSequential(new AutoBaseline(position, d));
+			Logger.error("Invalid game message!", ex);
 		}
 	}
 }

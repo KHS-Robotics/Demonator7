@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.swerve;
 
-import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 import edu.wpi.first.wpilibj.Joystick;

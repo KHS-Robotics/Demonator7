@@ -3,7 +3,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
-import org.usfirst.frc.team4342.robot.commands.ElevateWithJoystick;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

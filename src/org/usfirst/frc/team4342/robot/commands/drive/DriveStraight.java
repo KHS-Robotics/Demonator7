@@ -1,5 +1,6 @@
-package org.usfirst.frc.team4342.robot.commands;
+package org.usfirst.frc.team4342.robot.commands.drive;
 
+import org.usfirst.frc.team4342.robot.commands.CommandBase;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 /**

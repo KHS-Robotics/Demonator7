@@ -32,7 +32,6 @@ public class Constants {
 
         // Swerve Pivot
         public static class PivotPID {
-            // TODO: Get PID values
 			public static final double FR_P = 1.2;
 			public static final double FR_I = 0.01;
 			public static final double FR_D = 0.005;

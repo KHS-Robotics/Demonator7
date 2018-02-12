@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 
 /**

@@ -32,64 +32,72 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	/**
 	 * Gets if our switch is left
 	 * @return true if left, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isSwitchLeft() {
+	protected static boolean isSwitchLeft() throws InvalidGameMessageException {
 		return getPlateLocations().charAt(0) == 'L';
 	}
 	
 	/**
 	 * Gets if our switch is right
 	 * @return true if right, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isSwitchRight() {
+	protected static boolean isSwitchRight() throws InvalidGameMessageException {
 		return !isSwitchLeft();
 	}
 	
 	/**
 	 * Gets if the scale is left
 	 * @return true if left, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isScaleLeft() {
+	protected static boolean isScaleLeft() throws InvalidGameMessageException {
 		return getPlateLocations().charAt(1) == 'L';
 	}
 	
 	/**
 	 * Gets if the scale is right
 	 * @return true if right, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isScaleRight() {
+	protected static boolean isScaleRight() throws InvalidGameMessageException {
 		return !isScaleLeft();
 	}
 	
 	/**
 	 * Gets if both the our switch and the scale are left
 	 * @return true if both are left, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isBothLeft() {
+	protected static boolean isBothLeft() throws InvalidGameMessageException {
 		return isSwitchLeft() && isScaleLeft();
 	}
 	
 	/**
 	 * Gets if both the our switch and the scale are right
 	 * @return true if both are right, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isBothRight() {
+	protected static boolean isBothRight() throws InvalidGameMessageException {
 		return isSwitchRight() && isScaleRight();
 	}
 	
 	/**
 	 * Gets if their switch is left
 	 * @return true if left, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isOpponentSwitchLeft() {
+	protected static boolean isOpponentSwitchLeft() throws InvalidGameMessageException {
 		return getPlateLocations().charAt(2) == 'L';
 	}
 	
 	/**
 	 * Gets if their switch is right
 	 * @return true if right, false otherwise
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	protected static boolean isOpponentSwitchRight() {
+	protected static boolean isOpponentSwitchRight() throws InvalidGameMessageException {
 		return !isOpponentSwitchLeft();
 	}
 	
@@ -97,8 +105,30 @@ public abstract class AutonomousRoutine extends CommandGroup {
 	 * Returns three characters (R or L) specifying which plate is ours,
 	 * starting with the closest plate.
 	 * @return a three character string indicating which plates are ours
+	 * @throws InvalidGameMessageException if the game message is malformed
 	 */
-	private static String getPlateLocations() {
-		return DriverStation.getInstance().getGameSpecificMessage();
+	private static String getPlateLocations() throws InvalidGameMessageException {
+		final String mssg = DriverStation.getInstance().getGameSpecificMessage();
+		if(mssg == null || mssg.length() != 3) {
+			throw new InvalidGameMessageException("Invalid game message: " + mssg);
+		}
+		for(char c : mssg.toCharArray()) {
+			c = Character.toUpperCase(c);
+			if(c != 'L' || c != 'R') {
+				throw new InvalidGameMessageException("Invalid game message: " + mssg);
+			}
+		}
+
+		return mssg;
+	}
+
+	/**
+	 * Exception for an invalid game message
+	 */
+	@SuppressWarnings("serial")
+	protected static class InvalidGameMessageException extends Exception {
+		public InvalidGameMessageException(String message) {
+			super(message);
+		}
 	}
 }

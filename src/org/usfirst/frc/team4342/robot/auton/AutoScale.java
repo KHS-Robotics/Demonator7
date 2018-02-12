@@ -1,9 +1,9 @@
 package org.usfirst.frc.team4342.robot.auton;
 
-import org.usfirst.frc.team4342.robot.commands.DriveStraight;
-import org.usfirst.frc.team4342.robot.commands.DriveTurn;
-import org.usfirst.frc.team4342.robot.commands.ElevateToScaleNeutral;
-import org.usfirst.frc.team4342.robot.commands.ReleaseCube;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.drive.DriveTurn;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
+import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
@@ -36,60 +36,67 @@ public class AutoScale extends AutonomousRoutine
 	{
 		super(position);
 		
-		if(position == StartPosition.LEFT)
+		try
 		{
-			if(isScaleLeft())
+			if(position == StartPosition.LEFT)
 			{
-				this.addParallel(new ElevateToScaleNeutral(e));
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-				this.addSequential(new ReleaseCube(i));	
+				if(isScaleLeft())
+				{
+					this.addParallel(new ElevateToScaleNeutral(e));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addSequential(new ReleaseCube(i));	
+				}
+				else
+				{
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d));
+					this.addParallel(new ElevateToScaleNeutral(e));
+					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new ReleaseCube(i));	
+				}
+			}
+			else if(position == StartPosition.RIGHT)
+			{
+				if(isScaleRight())
+				{
+					this.addParallel(new ElevateToScaleNeutral(e));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addSequential(new ReleaseCube(i));	
+				}
+				else
+				{
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d, false));
+					this.addParallel(new ElevateToScaleNeutral(e));
+					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveTurn(d));
+					this.addSequential(new ReleaseCube(i));
+				}
 			}
 			else
 			{
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d));
-				this.addParallel(new ElevateToScaleNeutral(e));
-				this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new ReleaseCube(i));	
-			}
-		}
-		else if(position == StartPosition.RIGHT)
-		{
-			if(isScaleRight())
-			{
-				this.addParallel(new ElevateToScaleNeutral(e));
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d, false));
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-				this.addSequential(new ReleaseCube(i));	
-			}
-			else
-			{
-				this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d, false));
-				this.addParallel(new ElevateToScaleNeutral(e));
-				this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
-				this.addSequential(new DriveTurn(d));
-				this.addSequential(new ReleaseCube(i));
-			}
-		}
-		else
-		{
-			String mssg;
-			if(position == StartPosition.CENTER)
-				mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
-			else
-				mssg = "No position provided for AutoScale! Crossing Auto Line...";
+				String mssg;
+				if(position == StartPosition.CENTER)
+					mssg = "Center position not allowed for AutoScale! Crossing Auto Line...";
+				else
+					mssg = "No position provided for AutoScale! Crossing Auto Line...";
 
-			Logger.warning(mssg);
-			this.addSequential(new AutoBaseline(position, d));
+				Logger.warning(mssg);
+				this.addSequential(new AutoBaseline(position, d));
+			}
+		}
+		catch(InvalidGameMessageException ex) 
+		{
+			Logger.error("Invalid game message!", ex);
 		}
 	}
 }
