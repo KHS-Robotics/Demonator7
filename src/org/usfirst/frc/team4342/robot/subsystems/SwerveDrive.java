@@ -169,7 +169,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void goStraight(double direction, double yaw) {
-		this.goStaight(direction, yaw, false);
+		this.goStraight(direction, yaw, false);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param yaw the heading of the robot to maintain
 	 * @param x whether the robot should move forward/backward or strafe (true to strafe)
 	 */
-	public void goStaight(double direction, double yaw, boolean x) {
+	public void goStraight(double direction, double yaw, boolean x) {
 		if(DEBUG)
 			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw + " x=" + x);
 

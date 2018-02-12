@@ -7,7 +7,6 @@ import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
  * Command to drive straight
  */
 public class DriveStraight extends CommandBase {
-    private double yaw;
     private double[] distances;
 
     private DriveTrainBase drive;
@@ -32,9 +31,8 @@ public class DriveStraight extends CommandBase {
 
     @Override
     protected void initialize() {
-        yaw = drive.getHeading();
         distances = drive.getAllDistances();
-        drive.goStraight(speed, yaw);
+        drive.goStraight(speed, drive.getHeading());
     }
 
     @Override
