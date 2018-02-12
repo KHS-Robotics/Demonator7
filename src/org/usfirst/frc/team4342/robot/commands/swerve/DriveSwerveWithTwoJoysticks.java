@@ -1,27 +1,31 @@
-package org.usfirst.frc.team4342.robot.commands;
+package org.usfirst.frc.team4342.robot.commands.swerve;
 
+import org.usfirst.frc.team4342.robot.commands.TeleopCommand;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Drive Swerve With Joystick
+ * Drive Swerve With Two Joysticks
  */
-public class DriveSwerveWithJoystick extends TeleopCommand {
+public class DriveSwerveWithTwoJoysticks extends TeleopCommand {
 	private static final double DEADBAND = 0.02;
 
 	private boolean idle;
 
-	private Joystick joystick;
+    private Joystick xy;
+    private Joystick z;
 	private SwerveDrive drive;
 	
 	/**
-	 * Drive Swerve With Joystick
-	 * @param joystick the joystick to control the swerve drive
+	 * Drive Swerve With Two Joysticks
+	 * @param xy the joystick to control the forward/backward and strafing
+     * @param z the joystick to control rotation
 	 * @param drive the swerve drive
 	 */
-	public DriveSwerveWithJoystick(Joystick joystick, SwerveDrive drive) {
-		this.joystick = joystick;
+	public DriveSwerveWithTwoJoysticks(Joystick xy, Joystick z, SwerveDrive drive) {
+        this.xy = xy;
+        this.z = z;
 		this.drive = drive;
 		
 		this.requires(drive.fr);
@@ -40,24 +44,24 @@ public class DriveSwerveWithJoystick extends TeleopCommand {
 		drive.stop();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected void execute() {
-		double xInput = joystick.getX();
-		double yInput = joystick.getY();
-		double zInput = joystick.getTwist();
+		double xInput = xy.getX();
+		double yInput = xy.getY();
+		double zInput = z.getTwist();
 
 		boolean x = Math.abs(xInput) > DEADBAND;
 		boolean y = Math.abs(yInput) > DEADBAND;
-		boolean z = Math.abs(zInput) > DEADBAND+0.03;
+		boolean Z = Math.abs(zInput) > DEADBAND;
 
 		xInput = x ? xInput : 0;
 		yInput = y ? yInput : 0;
-		zInput = z ? zInput : 0;
+		zInput = Z ? zInput : 0;
 
-		if(x || y || z) {
+		if(x || y || Z) {
 			drive.set(xInput, yInput, zInput);
 			idle = false;
 		}

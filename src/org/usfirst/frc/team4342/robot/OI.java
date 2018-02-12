@@ -3,7 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystick;
-import org.usfirst.frc.team4342.robot.commands.DriveStraightWithJoystickSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
 import org.usfirst.frc.team4342.robot.commands.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.ElevateToScaleLow;
@@ -61,7 +61,7 @@ public class OI {
 
 	// Joysticks
 	// TODO: Use Xbox controller for drive once we get one, use Joystick for now
-	public /*XboxController*/Joystick DriveController;
+	public XboxController DriveController;
 	public Joystick SwitchBox;
 
 	// Drive
@@ -97,7 +97,7 @@ public class OI {
 		Logger.info("Connecting Xbox Controller and Switch Box...");
 		// Joysticks
 		// Xbox Controller
-		DriveController = new /*XboxController*/Joystick(RobotMap.XBOX_PORT);
+		DriveController = new XboxController(RobotMap.XBOX_PORT);
 		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
@@ -200,7 +200,7 @@ public class OI {
 			);
 			RL.setReverse(true);
 			
-//			// Swerve
+			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
 			// Drive.setFieldOriented(true);

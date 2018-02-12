@@ -2,8 +2,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
-import org.usfirst.frc.team4342.robot.commands.DriveSwerveWithJoystick;
-import org.usfirst.frc.team4342.robot.commands.DriveSwerveWithXbox;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithXbox;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -72,9 +71,7 @@ public class SwerveDrive extends DriveTrainBase {
 	protected void initDefaultCommand() {
 //		super.initDefaultCommand();
 		OI oi = OI.getInstance();
-		// TODO: Switch back to DriveSwerveWithXbox when we get an Xbox Controller
-		//this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
-		this.setDefaultCommand(new DriveSwerveWithJoystick(oi.DriveController, oi.Drive));
+		this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
 	}
 	
 	/**
@@ -261,7 +258,10 @@ public class SwerveDrive extends DriveTrainBase {
 			rlPivot = rl.getAngle();
 		}
 		else if(xNeg == 0) {
-			frPivot = flPivot = rrPivot = rlPivot = 180;
+			if(fwd > 0)
+				frPivot = flPivot = rrPivot = rlPivot = 180;
+			else
+				frPivot = flPivot = rrPivot = rlPivot = 0;
 		}
 		
 		double max = frSpeed;
@@ -485,13 +485,17 @@ public class SwerveDrive extends DriveTrainBase {
 			pivotPID.setContinuous();
 		}
 		
+		/**
+		 * Sets the drive motor to be reversed
+		 * @param flag true to reverse, false otherwise
+		 */
 		public void setReverse(boolean flag) {
 			reverse = flag;
 		}
 
 		/**
 		 * No default command. Swerve Module only extends SubsystemBase for
-		 * command reasons
+		 * convenience reasons
 		 */
 		@Override
 		protected void initDefaultCommand() {
@@ -581,15 +585,20 @@ public class SwerveDrive extends DriveTrainBase {
 		
 		/**
 		 * Sets the speed for the drive motor
-		 * @param output the speed ranging from 0 to 1
+		 * @param output the speed ranging from -1 to 1
 		 */
 		protected void setDrive(double output) {
 			if(DEBUG)
 				Logger.debug("SwerveModule setDrive output=" + (flipDrive ? -output : output) + " flipDrive=" + flipDrive);
 			
+			double normalizedOutput = output;
 			if(Math.abs(output) > 1) {
-				output /= output;
+				normalizedOutput /= normalizedOutput;
 			}
+			if(output < -1) {
+				normalizedOutput *= -1;
+			}
+			output = normalizedOutput;
 			
 			this.output = flipDrive ? -output : output;
 			this.output = reverse ? -this.output : this.output;
@@ -603,14 +612,15 @@ public class SwerveDrive extends DriveTrainBase {
 		public void setPivot(double angle) {
 			angle %= 360;
 
+			// TODO: Add this fancy thing after we get the rest working
 			// Check if complementary angle is closer
-			double dAngle = Math.abs(angle - this.getAngle());
-			flipDrive = dAngle >= 90 && dAngle <= 270;
+			// double dAngle = Math.abs(angle - this.getAngle());
+			// flipDrive = dAngle >= 90 && dAngle <= 270;
 
-			// if it is closer then use
-			// complementary (e.g., add 180)
-			if(flipDrive)
-				angle += 180;
+			// // if it is closer then use
+			// // complementary (e.g., add 180)
+			// if(flipDrive)
+			// 	angle += 180;
 
 			if(DEBUG)
 				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);
