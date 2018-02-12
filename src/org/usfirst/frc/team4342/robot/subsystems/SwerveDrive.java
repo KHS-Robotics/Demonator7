@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
+import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithXbox;
@@ -69,9 +70,13 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	protected void initDefaultCommand() {
-//		super.initDefaultCommand();
-		OI oi = OI.getInstance();
-		this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
+		// Only do this if the user isn't tuning PID
+		final OI oi = OI.getInstance();
+		if(!oi.SwitchBox.getRawButton(ButtonMap.SwitchBox.TUNE_PID)) {
+			this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
+		} else {
+			this.setDefaultCommand(null);
+		}
 	}
 	
 	/**

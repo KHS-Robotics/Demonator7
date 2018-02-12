@@ -335,7 +335,7 @@ public class OI {
 			Logger.info("Initializing Drive PID Tuner...");
 
 			// Switch is opposite
-//			button.whenReleased(new DrivePIDTuner(Drive));
+			button.whenReleased(new DrivePIDTuner(Drive));
 			button.whenReleased(new PivotPIDTuner(FR, "FR", 
 				Constants.Drive.PivotPID.FR_P, 
 				Constants.Drive.PivotPID.FR_D, 
