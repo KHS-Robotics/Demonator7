@@ -239,16 +239,16 @@ public class SwerveDrive extends DriveTrainBase {
 		final double yPos = fwd + (rcw*L_OVER_R);
 		
 		double frSpeed = calcMagnitude(xPos, yPos);
-		double frPivot = calcAngle(xPos, yPos);
-		
-		double flSpeed = calcMagnitude(xNeg, yPos);
-		double flPivot = calcAngle(xNeg, yPos);
-		
-		double rlSpeed = calcMagnitude(xNeg, yNeg);
-		double rlPivot = calcAngle(xNeg, yNeg);
-		
-		double rrSpeed = calcMagnitude(xPos, yNeg);
-		double rrPivot = calcAngle(xPos, yNeg);
+        double frPivot = calcAngle(xPos, yPos);
+        
+        double flSpeed = calcMagnitude(xPos, yNeg);
+        double flPivot = calcAngle(xPos, yNeg);
+        
+        double rlSpeed = calcMagnitude(xNeg, yPos);
+        double rlPivot = calcAngle(xNeg, yPos);
+        
+        double rrSpeed = calcMagnitude(xNeg, yNeg);
+        double rrPivot = calcAngle(xNeg, yNeg);
 		
 		// Make sure we don't use the arctan value
 		// with x=0
@@ -259,7 +259,7 @@ public class SwerveDrive extends DriveTrainBase {
 			rlPivot = rl.getAngle();
 		}
 		else if(xNeg == 0) {
-			if(fwd > 0)
+			if(y > 0)
 				frPivot = flPivot = rrPivot = rlPivot = 180;
 			else
 				frPivot = flPivot = rrPivot = rlPivot = 0;
