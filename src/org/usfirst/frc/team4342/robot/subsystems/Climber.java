@@ -41,7 +41,7 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = true;
 		
-		motor.set(1);
+		motor.set(-1);
 	}
 	
 	/**
