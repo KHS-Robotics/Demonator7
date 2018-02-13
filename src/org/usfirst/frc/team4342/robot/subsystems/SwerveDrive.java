@@ -238,17 +238,17 @@ public class SwerveDrive extends DriveTrainBase {
 		final double yNeg = fwd - (rcw*L_OVER_R);
 		final double yPos = fwd + (rcw*L_OVER_R);
 		
-		double frSpeed = calcMagnitude(xPos, yPos);
-        double frPivot = calcAngle(xPos, yPos);
+		double frSpeed = calcMagnitude(xNeg, yPos);
+        double frPivot = calcAngle(xNeg, yPos);
         
-        double flSpeed = calcMagnitude(xPos, yNeg);
-        double flPivot = calcAngle(xPos, yNeg);
+        double flSpeed = calcMagnitude(xNeg, yNeg);
+        double flPivot = calcAngle(xNeg, yNeg);
         
-        double rlSpeed = calcMagnitude(xNeg, yPos);
-        double rlPivot = calcAngle(xNeg, yPos);
+        double rlSpeed = calcMagnitude(xPos, yPos);
+        double rlPivot = calcAngle(xPos, yPos);
         
-        double rrSpeed = calcMagnitude(xNeg, yNeg);
-        double rrPivot = calcAngle(xNeg, yNeg);
+        double rrSpeed = calcMagnitude(xPos, yNeg);
+        double rrPivot = calcAngle(xPos, yNeg);
 		
 		// Make sure we don't use the arctan value
 		// with x=0
