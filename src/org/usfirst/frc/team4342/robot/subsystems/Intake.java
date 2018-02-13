@@ -44,7 +44,7 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motor.set(1);
+		motor.set(0.30);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase
 		intaking = false;
 		releasing = true;
 		
-		motor.set(-1);
+		motor.set(-0.30);
 	}
 	
 	/**
