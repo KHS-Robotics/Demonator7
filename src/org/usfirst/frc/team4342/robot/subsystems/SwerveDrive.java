@@ -223,8 +223,8 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	public void set(double x, double y, double z) {
 		double fwd = -y;
-		double str = x;
-		final double rcw = z;
+		double str = -x;
+		final double rcw = -z;
 		
 		if(fieldOriented) {
 			final double currentAngle = -Math.toRadians(this.getAngle()); // make sure to use radians
@@ -244,11 +244,11 @@ public class SwerveDrive extends DriveTrainBase {
         double flSpeed = calcMagnitude(xPos, yNeg);
         double flPivot = calcAngle(xPos, yNeg);
         
-        double rlSpeed = calcMagnitude(xNeg, yPos);
-        double rlPivot = calcAngle(xNeg, yPos);
+        double rlSpeed = calcMagnitude(xNeg, yNeg);
+        double rlPivot = calcAngle(xNeg, yNeg);
         
-        double rrSpeed = calcMagnitude(xNeg, yNeg);
-        double rrPivot = calcAngle(xNeg, yNeg);
+        double rrSpeed = calcMagnitude(xNeg, yPos);
+        double rrPivot = calcAngle(xNeg, yPos);
 		
 		// Make sure we don't use the arctan value
 		// with x=0
