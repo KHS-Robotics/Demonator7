@@ -227,7 +227,7 @@ public class SwerveDrive extends DriveTrainBase {
 		final double rcw = z;
 		
 		if(fieldOriented) {
-			final double currentAngle = Math.toRadians(this.getAngle()); // make sure to use radians
+			final double currentAngle = -Math.toRadians(this.getAngle()); // make sure to use radians
 			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
 			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
 			fwd = TEMP;
