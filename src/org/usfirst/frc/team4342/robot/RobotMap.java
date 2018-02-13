@@ -48,8 +48,8 @@ public class RobotMap {
 	public static final int REAR_LEFT_PIVOT_CHANNEL = 3;
 
 	// Encoder and Limit Switch for Elevator
-	public static final int ELE_ENC_IN = 8;
-	public static final int ELE_ENC_OUT = 9;
+	public static final int ELE_ENC_A = 8;
+	public static final int ELE_ENC_B = 9;
 	public static final int ELE_LS = 10;
 
 	// RGB LEDs on PCM

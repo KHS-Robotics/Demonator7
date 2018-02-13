@@ -265,7 +265,7 @@ public class OI {
 			
 			// Elevator
 			EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
-			EleEnc = new Encoder(RobotMap.ELE_ENC_IN, RobotMap.ELE_ENC_OUT);
+			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
 			// TODO: Set distance per pulse for elevator encoder
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);
