@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 
 	// Dimensions in inches (vehicle's wheelbase and trackwidth)
 	// measurements are from one center of pivot to another center of pivot
@@ -227,7 +227,7 @@ public class SwerveDrive extends DriveTrainBase {
 		final double rcw = -z;
 		
 		if(fieldOriented) {
-			final double currentAngle = -Math.toRadians(this.getAngle()); // make sure to use radians
+			final double currentAngle = Math.toRadians(this.getAngle()); // make sure to use radians
 			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
 			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
 			fwd = TEMP;
