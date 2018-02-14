@@ -18,18 +18,18 @@ public class RobotMap {
 	public static final int SWITCH_BOX = 1;
 	
 	// Motors for Swerve
-	public static final int FRONT_RIGHT_DRIVE = 3;
-	public static final int FRONT_RIGHT_PIVOT = 13;
-	public static final int FRONT_LEFT_DRIVE = 11; 
-	public static final int FRONT_LEFT_PIVOT = 0;
-	public static final int REAR_RIGHT_DRIVE = 12;
-	public static final int REAR_RIGHT_PIVOT = 15;
-	public static final int REAR_LEFT_DRIVE = 14;
-	public static final int REAR_LEFT_PIVOT = 4; 
+	public static final int FRONT_RIGHT_DRIVE = 11;
+	public static final int FRONT_RIGHT_PIVOT = 0;
+	public static final int FRONT_LEFT_DRIVE = 3; 
+	public static final int FRONT_LEFT_PIVOT = 13;
+	public static final int REAR_RIGHT_DRIVE = 14;
+	public static final int REAR_RIGHT_PIVOT = 4;
+	public static final int REAR_LEFT_DRIVE = 12;
+	public static final int REAR_LEFT_PIVOT = 15; 
 
 	// Motors for Intake, Climber and Elevator
-	public static final int INTAKE_MOTOR = 8;
-	public static final int CLIMBER_MOTOR = 9;
+	public static final int INTAKE_MOTOR = 0;
+	public static final int CLIMBER_MOTOR = 1;
 	public static final int ELE_MOTOR = 1;
 	
 	// Drive/Translational Encoders for Swerve
@@ -50,7 +50,7 @@ public class RobotMap {
 	// Encoder and Limit Switch for Elevator
 	public static final int ELE_ENC_A = 8;
 	public static final int ELE_ENC_B = 9;
-	public static final int ELE_LS = 10;
+	public static final int ELE_LS = 11;
 
 	// RGB LEDs on PCM
 	public static final int LED_POWER = 0;
