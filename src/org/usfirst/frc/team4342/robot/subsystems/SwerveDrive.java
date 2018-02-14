@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 
 	// Dimensions in inches (vehicle's wheelbase and trackwidth)
 	// measurements are from one center of pivot to another center of pivot
