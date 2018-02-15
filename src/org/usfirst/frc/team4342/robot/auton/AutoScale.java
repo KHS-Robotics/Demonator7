@@ -10,8 +10,9 @@ import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
- * Auto routine to place a cube on the scale for the
- * specified position
+ * Auto routine to place a cube on the scale for the specified position
+ * 
+ * TODO: Start sideways?
  */
 public class AutoScale extends AutonomousRoutine
 {	

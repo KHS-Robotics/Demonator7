@@ -13,8 +13,7 @@ import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
- * Auto routine to place a cube on the switch and scale for the
- * specified position
+ * Auto routine to place a cube on the switch and scale for the specified position
  * 
  * TODO: When Switch/Scale positions are opposite of our position
  * TODO: When Switch/Scale are on opposite sides
