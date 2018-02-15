@@ -71,6 +71,6 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 		if(isXDirection) {
 			return xbox != null ? xbox.getX(Hand.kRight) : joystick.getX();
 		}
-		return xbox != null ? -xbox.getY(Hand.kLeft) : -joystick.getY();
+		return xbox != null ? xbox.getY(Hand.kLeft) : joystick.getY();
 	}
 }

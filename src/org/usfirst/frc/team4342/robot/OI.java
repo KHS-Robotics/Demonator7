@@ -111,7 +111,7 @@ public class OI {
 		// Button to tune PID via SmartDashboard
 		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
 		if(Drive != null) {
-			initDrivePIDTuner(tunePID);
+			//initDrivePIDTuner(tunePID);
 		}
 		if(Elevator != null) {
 			initElevatorPIDTuner(tunePID);
