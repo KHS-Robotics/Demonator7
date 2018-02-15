@@ -259,10 +259,17 @@ public class SwerveDrive extends DriveTrainBase {
 			rlPivot = rl.getAngle();
 		}
 		else if(xNeg == 0) {
-			if(y > 0)
+			if(fwd > 0)
 				frPivot = flPivot = rrPivot = rlPivot = 180;
-			else
+			else if(fwd < 0)
 				frPivot = flPivot = rrPivot = rlPivot = 0;
+			else {
+				frPivot = fr.getAngle();
+				flPivot = fl.getAngle();
+				rrPivot = rr.getAngle();
+				rlPivot = rl.getAngle();
+			}
+				
 		}
 		
 		double max = frSpeed;
@@ -624,13 +631,13 @@ public class SwerveDrive extends DriveTrainBase {
 
 			// TODO: Add this fancy thing after we get the rest working
 			// Check if complementary angle is closer
-//			double dAngle = Math.abs(angle - this.getAngle());
-//			flipDrive = dAngle >= 90 && dAngle <= 270;
-//
-//			// if it is closer then use
-//			// complementary (e.g., add 180)
-//			if(flipDrive)
-//				angle += 180;
+			double dAngle = Math.abs(angle - this.getAngle());
+			flipDrive = dAngle >= 90 && dAngle <= 270;
+
+			// if it is closer then use
+			// complementary (e.g., add 180)
+			if(flipDrive)
+				angle += 180;
 
 			if(DEBUG)
 				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);

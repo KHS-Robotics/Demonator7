@@ -59,7 +59,7 @@ public class DriveSwerveWithJoystick extends TeleopCommand {
 		zInput = z ? zInput : 0;
 
 		if(x || y || z) {
-			drive.set(xInput, -yInput, zInput);
+			drive.set(xInput, yInput, zInput);
 			idle = false;
 		}
 		else if(!idle) {
