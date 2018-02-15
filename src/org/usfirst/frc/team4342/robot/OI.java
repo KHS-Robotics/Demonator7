@@ -4,8 +4,6 @@ import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
-import org.usfirst.frc.team4342.robot.commands.swerve.SwerveSetY;
-import org.usfirst.frc.team4342.robot.commands.swerve.SwerveSetZ;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
