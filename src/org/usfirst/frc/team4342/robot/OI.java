@@ -60,7 +60,7 @@ public class OI {
 	public PowerDistributionPanel PDP;
 
 	// Joysticks
-	public /*XboxController*/Joystick DriveController;
+	public XboxController DriveController;
 	public Joystick SwitchBox;
 
 	// Drive
@@ -96,7 +96,7 @@ public class OI {
 		Logger.info("Connecting Xbox Controller and Switch Box...");
 		// Joysticks
 		// Xbox Controller
-		DriveController = new Joystick(RobotMap.XBOX_PORT);
+		DriveController = new XboxController(RobotMap.XBOX_PORT);
 		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick

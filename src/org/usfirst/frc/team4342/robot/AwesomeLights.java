@@ -20,20 +20,14 @@ public class AwesomeLights {
     public static void start() {
         if(running)
             return;
-        running = true;
         
         if(!started) {
-            started = true;
-
-            Logger.info("Creating the Awesome Lights...");
-            power = new Solenoid(RobotMap.LED_POWER);
-            red = new Solenoid(RobotMap.RED_LED);
-            green = new Solenoid(RobotMap.GREEN_LED);
-            blue = new Solenoid(RobotMap.BLUE_LED);
-
-            controller = new LightController();
+        	controller = new LightController();
             controller.start();
+            started = true;
         }
+        
+        running = true;
     }
 
     /**
@@ -60,6 +54,12 @@ public class AwesomeLights {
             boolean crashed = false;
             
             try {
+            	Logger.info("Creating the Awesome Lights...");
+                power = new Solenoid(RobotMap.LED_POWER);
+                red = new Solenoid(RobotMap.RED_LED);
+                green = new Solenoid(RobotMap.GREEN_LED);
+                blue = new Solenoid(RobotMap.BLUE_LED);
+                
                 Logger.info("Starting the Awesome Lights...");
                 power.set(true);
                 while(!crashed) {

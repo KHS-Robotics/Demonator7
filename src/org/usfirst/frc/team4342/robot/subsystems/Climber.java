@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Climber subsystem to climb the tower
@@ -19,18 +18,6 @@ public class Climber extends SubsystemBase
 	{
 		this.motor = motor;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initSendable(SendableBuilder builder) 
-	{
-		super.initSendable(builder);
-
-		builder.setSmartDashboardType("Climber");
-		builder.addBooleanProperty("Enabled", () -> enabled, null);
-	}
 	
 	/**
 	 * Enables the winch
@@ -41,7 +28,7 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = true;
 		
-		motor.set(-1);
+		motor.set(1);
 	}
 	
 	/**

@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Base class for a drive train
@@ -32,25 +31,6 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
 		yawPID.setAbsoluteTolerance(2);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-
-        builder.setSmartDashboardType("Drive");
-        builder.addDoubleProperty("Offset", this::getOffset, this::setHeadingOffset);
-        builder.addDoubleProperty("Angle", this::getAngle, null);
-        builder.addDoubleProperty("Heading", this::getHeading, null);
-        builder.addDoubleProperty("Setpoint", yawPID::getSetpoint, this::setHeading);
-        builder.addBooleanProperty("OnTarget", this::onTarget, null);
-        builder.addDoubleProperty("P", this::getP, this::setP);
-        builder.addDoubleProperty("I", this::getI, this::setI);
-        builder.addDoubleProperty("D", this::getD, this::setD);
-        builder.addDoubleArrayProperty("GetAllDistances", this::getAllDistances, null);
     }
 
     /**

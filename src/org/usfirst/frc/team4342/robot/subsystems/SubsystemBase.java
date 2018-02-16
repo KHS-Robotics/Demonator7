@@ -25,7 +25,6 @@ public abstract class SubsystemBase extends Subsystem {
 	 */
 	@Override
 	public void initSendable(SendableBuilder builder) {
-		super.initSendable(builder);
-		builder.setSafeState(this::stop);
+		
 	}
 }

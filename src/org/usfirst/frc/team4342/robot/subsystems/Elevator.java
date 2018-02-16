@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Elevator subsystem
@@ -90,26 +89,6 @@ public class Elevator extends PIDSubsystem
 			new JoystickButton(oi.SwitchBox, ButtonMap.SwitchBox.ELEVATOR_OVERIDE),
 			oi.Elevator
 		));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initSendable(SendableBuilder builder) 
-	{
-		// LEAVE THIS HERE
-//		super.initSendable(builder);
-//
-//		builder.setSmartDashboardType("Elevator");
-//		builder.setSafeState(this::stop);
-//		builder.addDoubleProperty("Height", this::getPosition, null);
-//		builder.addDoubleProperty("Setpoint", this::getSetpoint, this::setSetpoint);
-//		builder.addBooleanProperty("OnTarget", this::onTarget, null);
-//		builder.addDoubleProperty("P", this::getP, this::setP);
-//        builder.addDoubleProperty("I", this::getI, this::setI);
-//        builder.addDoubleProperty("D", this::getD, this::setD);
-//		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
 	}
 
 	/**

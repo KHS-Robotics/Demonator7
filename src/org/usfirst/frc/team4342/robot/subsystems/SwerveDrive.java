@@ -1,9 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
-import org.usfirst.frc.team4342.robot.ButtonMap;
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
-import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveWithXbox;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 
@@ -16,7 +14,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Swerve Drive subsystem
@@ -72,62 +69,7 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	protected void initDefaultCommand() {
 		final OI oi = OI.getInstance();
-		this.setDefaultCommand(new DriveSwerveWithJoystick/*Xbox*/(oi.DriveController, oi.Drive));
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void initSendable(SendableBuilder builder) {
-		super.initSendable(builder);
-
-		builder.setSmartDashboardType("Swerve");
-
-		builder.addBooleanProperty("DEBUG", () -> DEBUG, this::setDebug);
-		builder.addDoubleProperty("Direction", () -> direction, null);
-		builder.addBooleanProperty("FieldOriented", () -> fieldOriented, this::setFieldOriented);
-
-		builder.addDoubleProperty("FR-DriveOutput", fr::getDriveOutput, null);
-		builder.addDoubleProperty("FL-DriveOutput", fl::getDriveOutput, null);
-		builder.addDoubleProperty("RR-DriveOutput", rr::getDriveOutput, null);
-		builder.addDoubleProperty("RL-DriveOutput", rl::getDriveOutput, null);
-
-		builder.addDoubleProperty("FR-Angle", fr::getAngle, null);
-		builder.addDoubleProperty("FL-Angle", fl::getAngle, null);
-		builder.addDoubleProperty("RR-Angle", rr::getAngle, null);
-		builder.addDoubleProperty("RL-Angle", rl::getAngle, null);
-
-		builder.addDoubleProperty("FR-Setpoint", fr::getSetpoint, fr::setPivot);
-		builder.addDoubleProperty("FL-Setpoint", fl::getSetpoint, fl::setPivot);
-		builder.addDoubleProperty("RR-Setpoint", rr::getSetpoint, rr::setPivot);
-		builder.addDoubleProperty("RL-Setpoint", rl::getSetpoint, rl::setPivot);
-
-		builder.addBooleanProperty("FR-PivotAtSetpoint", fr::pivotAtSetpoint, null);
-		builder.addBooleanProperty("FL-PivotAtSetpoint", fl::pivotAtSetpoint, null);
-		builder.addBooleanProperty("RR-PivotAtSetpoint", rr::pivotAtSetpoint, null);
-		builder.addBooleanProperty("RL-PivotAtSetpoint", rl::pivotAtSetpoint, null);
-
-		builder.addDoubleProperty("FR-P", fr::getP, fr::setP);
-		builder.addDoubleProperty("FR-I", fr::getI, fr::setI);
-		builder.addDoubleProperty("FR-D", fr::getD, fr::setD);
-		
-		builder.addDoubleProperty("FL-P", fl::getP, fl::setP);
-		builder.addDoubleProperty("FL-I", fl::getI, fl::setI);
-		builder.addDoubleProperty("FL-D", fl::getD, fl::setD);
-		
-		builder.addDoubleProperty("RR-P", rr::getP, rr::setP);
-		builder.addDoubleProperty("RR-I", rr::getI, rr::setI);
-		builder.addDoubleProperty("RR-D", rr::getD, rr::setD);
-
-		builder.addDoubleProperty("RL-P", rl::getP, rl::setP);
-		builder.addDoubleProperty("RL-I", rl::getI, rl::setI);
-		builder.addDoubleProperty("RL-D", rl::getD, rl::setD);
-
-		builder.addDoubleProperty("FR-Voltage", fr::getVoltage, null);
-		builder.addDoubleProperty("FL-Voltage", fl::getVoltage, null);
-		builder.addDoubleProperty("RR-Voltage", rr::getVoltage, null);
-		builder.addDoubleProperty("RL-Voltage", rl::getVoltage, null);
+		this.setDefaultCommand(new DriveSwerveWithXbox(oi.DriveController, oi.Drive));
 	}
 
 	/**

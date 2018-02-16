@@ -2,7 +2,6 @@ package org.usfirst.frc.team4342.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -50,8 +49,6 @@ public class Robot extends TimedRobot {
 		priorityChooser.addObject("Scale", Priority.SCALE);
 		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
-
-		SmartDashboard.putData("Scheduler", Scheduler.getInstance());
 
 		Logger.info("Finished bootstrapping Demonator7.");
 	}
