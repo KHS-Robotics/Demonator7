@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,6 +36,8 @@ public class Robot extends TimedRobot {
 		OI.getInstance();
 		PDPLogger.start();
 		DemonDashboard.start();
+		
+		CameraServer.getInstance().startAutomaticCapture(0);
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();

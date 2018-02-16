@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 /**
  * Elevator subsystem
@@ -45,6 +46,15 @@ public class Elevator extends PIDSubsystem
 		this.motor = motor;
 		this.encoder = encoder;
 		this.ls = ls;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initSendable(SendableBuilder builder)
+	{
+		// DO NOT TOUCH ME
 	}
 
 	/**
