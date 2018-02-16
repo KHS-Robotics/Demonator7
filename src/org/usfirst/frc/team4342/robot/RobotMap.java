@@ -50,7 +50,7 @@ public class RobotMap {
 	// Encoder and Limit Switch for Elevator
 	public static final int ELE_ENC_A = 8;
 	public static final int ELE_ENC_B = 9;
-	public static final int ELE_LS = 11;
+	public static final int ELE_LS = 10;
 
 	// RGB LEDs on PCM
 	public static final int LED_POWER = 0;

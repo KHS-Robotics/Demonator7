@@ -102,9 +102,10 @@ public class OI {
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
 
 		initDrive();
-//		initClimber();
-//		initElevator();
 		initIntake();
+//		initClimber();
+		initElevator();
+		
 
 		// Button to tune PID via SmartDashboard
 		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);

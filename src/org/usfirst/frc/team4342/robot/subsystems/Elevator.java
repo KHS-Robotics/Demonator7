@@ -41,6 +41,7 @@ public class Elevator extends PIDSubsystem
 		setInputRange(0, 80);
 		setOutputRange(-1, 1);
 		setAbsoluteTolerance(1.0);
+		disable();
 
 		this.motor = motor;
 		this.encoder = encoder;
@@ -97,17 +98,18 @@ public class Elevator extends PIDSubsystem
 	@Override
 	public void initSendable(SendableBuilder builder) 
 	{
-		super.initSendable(builder);
-
-		builder.setSmartDashboardType("Elevator");
-		builder.setSafeState(this::stop);
-		builder.addDoubleProperty("Height", this::getPosition, null);
-		builder.addDoubleProperty("Setpoint", this::getSetpoint, this::setSetpoint);
-		builder.addBooleanProperty("OnTarget", this::onTarget, null);
-		builder.addDoubleProperty("P", this::getP, this::setP);
-        builder.addDoubleProperty("I", this::getI, this::setI);
-        builder.addDoubleProperty("D", this::getD, this::setD);
-		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
+		// LEAVE THIS HERE
+//		super.initSendable(builder);
+//
+//		builder.setSmartDashboardType("Elevator");
+//		builder.setSafeState(this::stop);
+//		builder.addDoubleProperty("Height", this::getPosition, null);
+//		builder.addDoubleProperty("Setpoint", this::getSetpoint, this::setSetpoint);
+//		builder.addBooleanProperty("OnTarget", this::onTarget, null);
+//		builder.addDoubleProperty("P", this::getP, this::setP);
+//        builder.addDoubleProperty("I", this::getI, this::setI);
+//        builder.addDoubleProperty("D", this::getD, this::setD);
+//		builder.addBooleanProperty("IsAtBottom", this::isAtBottom, null);
 	}
 
 	/**
