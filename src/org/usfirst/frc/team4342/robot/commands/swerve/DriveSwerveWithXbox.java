@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * Drive Swerve With Xbox Controller
  */
 public class DriveSwerveWithXbox extends TeleopCommand {
-    private static final double DEADBAND = 0.02;
+    private static final double YDEADBAND = 0.05;
+    private static final double DEADBAND = 0.05;
 
     private boolean idle;
     
@@ -52,7 +53,7 @@ public class DriveSwerveWithXbox extends TeleopCommand {
 		double zInput = controller.getX(Hand.kRight);
 
         boolean x = Math.abs(xInput) > DEADBAND;
-		boolean y = Math.abs(yInput) > DEADBAND;
+		boolean y = Math.abs(yInput) > YDEADBAND;
         boolean z = Math.abs(zInput) > DEADBAND;
         
         xInput = x ? xInput : 0;

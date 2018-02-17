@@ -205,9 +205,9 @@ public class OI {
 			//Drive.setFieldOriented(true); // TODO: Test and get FoD working
 
 			// Button to maintain heading
-			JoystickButton strafeStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
-			strafeStraight.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
-			strafeStraight.whenReleased(new StopSubsystem(Drive));
+			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
+			holdHeading.whenReleased(new StopSubsystem(Drive));
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 			JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);
