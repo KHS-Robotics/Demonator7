@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
+		// For Testing
 		if(OI.getInstance().SwitchBox.getRawButton(ButtonMap.SwitchBox.RESET)) {
 			OI.getInstance().Drive.resetNavX();
 		}
