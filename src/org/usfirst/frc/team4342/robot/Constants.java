@@ -4,7 +4,6 @@ package org.usfirst.frc.team4342.robot;
  * Constants such as Dimensions and PID
  */
 public class Constants {
-    // TODO: Verify Robot Dimensions
     /** Robot Length in inches */
     public static final double ROBOT_LENGTH = 27.5;
     /** Robot Width in inches */
