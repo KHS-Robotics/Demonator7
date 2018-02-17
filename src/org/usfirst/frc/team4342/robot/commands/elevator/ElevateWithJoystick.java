@@ -46,7 +46,9 @@ public class ElevateWithJoystick extends TeleopCommand {
 		// Emergency override in case sensors malfunction
 		if(!idle && OVERRIDE) {
 			elevator.disable();
-			elevator.set(INPUT);
+
+			double input = INPUT > 0 ? INPUT / 5.0 : INPUT / 100.0;
+			elevator.set(input);
 			return;
 		}
 		else if(OVERRIDE) {
@@ -65,7 +67,7 @@ public class ElevateWithJoystick extends TeleopCommand {
 		
 		final boolean IN_BOTTOM_WINDOW = elevator.getPosition() < BOTTOM_WINDOW;
 		final boolean IN_TOP_WINDOW = elevator.getPosition() > TOP_WINDOW;
-		
+
 		if(!IN_BOTTOM_WINDOW && idle && !initializedIdle) {
 			elevator.setSetpoint(elevator.getPosition()); // hold current height
 			elevator.enable();
