@@ -75,11 +75,13 @@ public class ElevateWithJoystick extends TeleopCommand {
 			double input = 0.0;
 
 			if(IN_TOP_WINDOW && INPUT > 0)
-				input = 0.12;
+				input = 0.05;
 			else if(IN_BOTTOM_WINDOW && INPUT < 0)
-				input = -0.06;
+				input = 0.0;
+			else if(INPUT > 0)
+				input = INPUT / 5.0;
 			else
-				input = INPUT;
+				input = INPUT / 100.0;
 
 			elevator.disable();
 			elevator.set(input);
