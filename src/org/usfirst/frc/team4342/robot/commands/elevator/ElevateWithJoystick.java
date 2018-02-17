@@ -63,15 +63,15 @@ public class ElevateWithJoystick extends TeleopCommand {
 			}
 		}
 		
-		if(!elevator.isAtBottom() && idle && !initializedIdle) {
+		final boolean IN_BOTTOM_WINDOW = elevator.getPosition() < BOTTOM_WINDOW;
+		final boolean IN_TOP_WINDOW = elevator.getPosition() > TOP_WINDOW;
+		
+		if(!IN_BOTTOM_WINDOW && idle && !initializedIdle) {
 			elevator.setSetpoint(elevator.getPosition()); // hold current height
 			elevator.enable();
 			initializedIdle = true;
 		} 
 		else if(!idle) {
-			final boolean IN_BOTTOM_WINDOW = elevator.getPosition() < BOTTOM_WINDOW;
-			final boolean IN_TOP_WINDOW = elevator.getPosition() > TOP_WINDOW;
-
 			double input = 0.0;
 
 			if(IN_TOP_WINDOW && INPUT > 0)
