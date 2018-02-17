@@ -5,6 +5,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * Drive Straight with Joystick with Swerve
@@ -12,24 +13,26 @@ import edu.wpi.first.wpilibj.XboxController;
 public class DriveStraightWithJoystickSwerve extends DriveStraightWithJoystick {
     private SwerveDrive drive;
 
-    public DriveStraightWithJoystickSwerve(XboxController xbox, SwerveDrive drive, boolean x) {
-        super(xbox, drive, x);
-        
-        this.requires(drive.fr);
-		this.requires(drive.fl);
-		this.requires(drive.rr);
-		this.requires(drive.rl);
-		
+    public DriveStraightWithJoystickSwerve(XboxController xbox, SwerveDrive drive) {
+        super(xbox, drive);
         this.drive = drive;
     }
     
-    public DriveStraightWithJoystickSwerve(Joystick joystick, SwerveDrive drive, boolean x) {
-        super(joystick, drive, x);
+    public DriveStraightWithJoystickSwerve(Joystick joystick, SwerveDrive drive) {
+        super(joystick, drive);
         this.drive = drive;
 	}
     
     @Override
     protected void execute() {
-        drive.goStraight(getInput(), yaw, isXDirection);
+        drive.goStraight(getYInput(), yaw, getXInput());
+    }
+
+    /**
+	 * Gets the x-input of the joystick or xbox controller
+	 * @return the x-input of the joystick or xbox controller
+	 */
+    protected double getXInput() {
+        return xbox != null ? xbox.getX(Hand.kRight) : joystick.getX();
     }
 }

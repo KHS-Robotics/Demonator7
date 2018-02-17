@@ -13,7 +13,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 /**
  * Auto routine to place a cube on the switch for the specified position
  * 
- * * TODO: Start sideways?
+ * TODO: Start sideways?
  */
 public class AutoSwitch extends AutonomousRoutine 
 {	
@@ -90,11 +90,11 @@ public class AutoSwitch extends AutonomousRoutine
 			}
 			else if(position == StartPosition.CENTER)
 			{
-				final double speed = isSwitchRight() ? 0.5 : -0.5;
+				final double xSpeed = isSwitchRight() ? 0.5 : -0.5;
 				
 				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
-				this.addSequential(new DriveStraightSwerve(d, speed, CENTER_PANEL_ALIGN_DISTANCE, true));
+				this.addSequential(new DriveStraightSwerve(d, xSpeed, 0, CENTER_PANEL_ALIGN_DISTANCE));
 				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
 			}
