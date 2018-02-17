@@ -109,7 +109,7 @@ public class OI {
 		// Button to tune PID via SmartDashboard
 		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
 		if(Drive != null) {
-			//initDrivePIDTuner(tunePID);
+			initDrivePIDTuner(tunePID);
 		}
 		if(Elevator != null) {
 			initElevatorPIDTuner(tunePID);
@@ -202,7 +202,6 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
-			//Drive.setFieldOriented(true); // TODO: Test and get FoD working
 
 			// Button to maintain heading
 			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
@@ -330,31 +329,31 @@ public class OI {
 
 			// Switch is opposite
 			button.whenReleased(new DrivePIDTuner(Drive));
-			button.whenReleased(new PivotPIDTuner(FR, "FR", 
-				Constants.Drive.PivotPID.FR_P, 
-				Constants.Drive.PivotPID.FR_D, 
-				Constants.Drive.PivotPID.FR_D)
-			);
-			button.whenReleased(new PivotPIDTuner(FL, "FL", 
-				Constants.Drive.PivotPID.FL_P, 
-				Constants.Drive.PivotPID.FL_D, 
-				Constants.Drive.PivotPID.FL_D)
-			);
-			button.whenReleased(new PivotPIDTuner(RR, "RR", 
-				Constants.Drive.PivotPID.RR_P, 
-				Constants.Drive.PivotPID.RR_D, 
-				Constants.Drive.PivotPID.RR_D)
-			);
-			button.whenReleased(new PivotPIDTuner(RL, "RL", 
-				Constants.Drive.PivotPID.RL_P, 
-				Constants.Drive.PivotPID.RL_D, 
-				Constants.Drive.PivotPID.RL_D)
-			);
+//			button.whenReleased(new PivotPIDTuner(FR, "FR", 
+//				Constants.Drive.PivotPID.FR_P, 
+//				Constants.Drive.PivotPID.FR_D, 
+//				Constants.Drive.PivotPID.FR_D)
+//			);
+//			button.whenReleased(new PivotPIDTuner(FL, "FL", 
+//				Constants.Drive.PivotPID.FL_P, 
+//				Constants.Drive.PivotPID.FL_D, 
+//				Constants.Drive.PivotPID.FL_D)
+//			);
+//			button.whenReleased(new PivotPIDTuner(RR, "RR", 
+//				Constants.Drive.PivotPID.RR_P, 
+//				Constants.Drive.PivotPID.RR_D, 
+//				Constants.Drive.PivotPID.RR_D)
+//			);
+//			button.whenReleased(new PivotPIDTuner(RL, "RL", 
+//				Constants.Drive.PivotPID.RL_P, 
+//				Constants.Drive.PivotPID.RL_D, 
+//				Constants.Drive.PivotPID.RL_D)
+//			);
 			button.whenPressed(new StopSubsystem(Drive));
-			button.whenPressed(new StopSubsystem(FR));
-			button.whenPressed(new StopSubsystem(FL));
-			button.whenPressed(new StopSubsystem(RR));
-			button.whenPressed(new StopSubsystem(RL));
+//			button.whenPressed(new StopSubsystem(FR));
+//			button.whenPressed(new StopSubsystem(FL));
+//			button.whenPressed(new StopSubsystem(RR));
+//			button.whenPressed(new StopSubsystem(RL));
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Drive PID Tuner!", ex);
 		}

@@ -65,6 +65,7 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
+		OI.getInstance().Drive.setFieldOriented(true);
 	}
 
 	/**
@@ -73,6 +74,10 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		if(OI.getInstance().SwitchBox.getRawButton(ButtonMap.SwitchBox.RESET)) {
+			OI.getInstance().Drive.resetNavX();
+		}
 	}
 	
 	/**

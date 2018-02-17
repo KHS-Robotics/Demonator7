@@ -159,14 +159,18 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param z the z input (e.g., twist)
 	 */
 	public void set(double x, double y, double z) {
+		if(!fieldOriented)
+			x = -x;
+		
 		double fwd = -y;
-		double str = -x;
+		double str = x;
 		final double rcw = -z;
 		
 		if(fieldOriented) {
 			final double currentAngle = Math.toRadians(this.getAngle()); // make sure to use radians
 			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
 			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
+			str = -str;
 			fwd = TEMP;
 		}
 		
@@ -189,17 +193,19 @@ public class SwerveDrive extends DriveTrainBase {
 		
 		// Make sure we don't use the arctan value
 		// with x=0
-		if((xNeg == 0 && Math.abs(fwd) < 0.001) || (x == 0 && y == 0 && z == 0)) {
+		if((xNeg == 0 && Math.abs(fwd) < 0.005) || (Math.abs(x) < 0.005 && Math.abs(y) < 0.005 && Math.abs(z) < 0.005)) {
 			frPivot = fr.getAngle();
 			flPivot = fl.getAngle();
 			rrPivot = rr.getAngle();
 			rlPivot = rl.getAngle();
 		}
 		else if(xNeg == 0) {
-			if(fwd > 0)
+			if(fwd > 0.02) {
 				frPivot = flPivot = rrPivot = rlPivot = 180;
-			else if(fwd < 0)
+			}
+			else if(fwd < -0.15) {
 				frPivot = flPivot = rrPivot = rlPivot = 0;
+			}
 			else {
 				frPivot = fr.getAngle();
 				flPivot = fl.getAngle();
