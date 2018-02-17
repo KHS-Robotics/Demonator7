@@ -2,7 +2,6 @@ package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveGoToAngle;
-import org.usfirst.frc.team4342.robot.commands.drive.DriveStraightWithJoystick;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
@@ -94,13 +93,13 @@ public class OI {
 		SmartDashboard.putData("PDP", PDP);
 
 		Logger.info("Connecting Xbox Controller and Switch Box...");
+
 		// Joysticks
-		// Xbox Controller
 		DriveController = new XboxController(RobotMap.XBOX_PORT);
-		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
 
+		// Subsystems
 		initDrive();
 		initIntake();
 //		initClimber();
@@ -203,16 +202,11 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
-//			Drive.setFieldOriented(true);
+			//Drive.setFieldOriented(true); // TODO: Test and get FoD working
 
-			// Button to maintain heading and move forward/backward
-			JoystickButton driveStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_Y);
-			driveStraight.whenPressed(new DriveStraightWithJoystick(DriveController, Drive));
-			driveStraight.whenReleased(new StopSubsystem(Drive));
-
-			// Button to maintain heading and strafe
-			JoystickButton strafeStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT_X);
-			strafeStraight.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive, true));
+			// Button to maintain heading
+			JoystickButton strafeStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+			strafeStraight.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
 			strafeStraight.whenReleased(new StopSubsystem(Drive));
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
@@ -266,7 +260,6 @@ public class OI {
 			// Elevator
 			EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
-			// TODO: Set distance per pulse for elevator encoder
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);
 			Elevator = new Elevator(EleMotor, EleEnc, EleLS);

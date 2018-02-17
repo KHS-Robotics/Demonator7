@@ -12,14 +12,12 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Auto routine to place a cube on the switch for the specified position
- * 
- * * TODO: Start sideways?
  */
 public class AutoSwitch extends AutonomousRoutine 
 {	
 	// Center Switch
-	private static final double CENTER_STRAIGHT_DISTANCE = (144 - (ROBOT_Y / 2)) / 2;
-	private static final double CENTER_PANEL_ALIGN_DISTANCE = 72 - (ROBOT_X / 2);
+	// TODO: Calculate diagonal distance to switch plate
+	private static final double CENTER_DIAGONAL_DISTANCE = 0.0;
 
 	// Left or Right Switch
 	// Start Position and Switch location are the same
@@ -47,56 +45,61 @@ public class AutoSwitch extends AutonomousRoutine
 		{
 			if(position == StartPosition.LEFT)
 			{
+				// Starting turned 90 deg clockwise
+				d.setHeadingOffset(90);
+
 				if(isSwitchLeft())
 				{
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
-					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraightSwerve(d, -0.5, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
-					this.addSequential(new ReleaseCube(i));	
+					this.addSequential(new ReleaseCube(i));
+					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 				else
 				{
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-					this.addSequential(new DriveTurn(d));
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+					this.addSequential(new DriveStraightSwerve(d, -0.5, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 					this.addSequential(new DriveTurn(d));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
+					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 					
 			}
 			else if(position == StartPosition.RIGHT)
 			{
+				// Starting turned 90 deg counterclockwise
+				d.setHeadingOffset(-90);
+
 				if(isSwitchRight())
 				{
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
-					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraightSwerve(d, 0.5, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
+					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 				else
 				{
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
-					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+					this.addSequential(new DriveStraightSwerve(d, 0.5, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
 					this.addSequential(new DriveTurn(d, false));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
+					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 			}
 			else if(position == StartPosition.CENTER)
 			{
-				final double speed = isSwitchRight() ? 0.5 : -0.5;
+				final double xSpeed = isSwitchRight() ? 0.5 : -0.5;
 				
 				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
-				this.addSequential(new DriveStraightSwerve(d, speed, CENTER_PANEL_ALIGN_DISTANCE, true));
-				this.addSequential(new DriveStraight(d, 0.5, CENTER_STRAIGHT_DISTANCE));
+				this.addSequential(new DriveStraightSwerve(d, xSpeed, 0.5, CENTER_DIAGONAL_DISTANCE));
 				this.addSequential(new ReleaseCube(i));
+				// TODO: Pick up another cube and put in on our switch plate
 			}
 			else
 			{

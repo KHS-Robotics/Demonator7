@@ -36,8 +36,8 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double MAX_VOLTAGE = 4.76;
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
-	private double direction;
-	private boolean fieldOriented, directionIsX;
+	private double xDirection, yDirection;
+	private boolean fieldOriented;
 	
 	public final SwerveModule fr;
 	public final SwerveModule fl;
@@ -97,14 +97,9 @@ public class SwerveDrive extends DriveTrainBase {
 	@Override
 	public void pidWrite(double output) {
 		if(DEBUG)
-			Logger.debug("Swerve Drive pidWrite direction: " + direction + " output=" + output + " directionIsX=" + directionIsX);
+			Logger.debug("Swerve Drive pidWrite yDirection: " + yDirection + " output=" + output);
 
-		if(directionIsX) {
-			this.set(direction, 0, output);
-		} else {
-			this.set(0, direction, output);
-		}
-		
+		this.set(xDirection, yDirection, output);
 	}
 
 	/**
@@ -112,21 +107,21 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	@Override
 	public void goStraight(double direction, double yaw) {
-		this.goStraight(direction, yaw, false);
+		this.goStraight(direction, yaw, 0);
 	}
 
 	/**
 	 * Go straight
-	 * @param direction -1 to 1
+	 * @param yDirection forward/backward (-1 to 1)
 	 * @param yaw the heading of the robot to maintain
-	 * @param x whether the robot should move forward/backward or strafe (true to strafe)
+	 * @param xDirection strage (-1 to 1)
 	 */
-	public void goStraight(double direction, double yaw, boolean x) {
+	public void goStraight(double yDirection, double yaw, double xDirection) {
 		if(DEBUG)
-			Logger.debug("SwerveDrive goStraight direction=" + direction + " yaw=" + yaw + " x=" + x);
+			Logger.debug("SwerveDrive goStraight direction=" + yDirection + " yaw=" + yaw + " xDirection=" + xDirection);
 
-		this.direction = direction;
-		this.directionIsX = x;
+		this.yDirection = yDirection;
+		this.xDirection = xDirection;
 		this.setHeading(yaw);
 	}
 	
@@ -311,8 +306,7 @@ public class SwerveDrive extends DriveTrainBase {
 		rr.stop();
 		rl.stop();
 
-		direction = 0;
-		directionIsX = false;
+		xDirection = yDirection = 0;
 	}
 
 	/**
@@ -571,7 +565,6 @@ public class SwerveDrive extends DriveTrainBase {
 		public void setPivot(double angle) {
 			angle %= 360;
 
-			// TODO: Add this fancy thing after we get the rest working
 			// Check if complementary angle is closer
 			double dAngle = Math.abs(angle - this.getAngle());
 			flipDrive = dAngle >= 90 && dAngle <= 270;

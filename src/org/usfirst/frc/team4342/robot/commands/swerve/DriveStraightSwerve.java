@@ -8,26 +8,25 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
  */
 public class DriveStraightSwerve extends DriveStraight {
     private SwerveDrive drive;
-    private double speed;
-    private boolean x;
+    private double xSpeed, ySpeed;
 
     /**
      * Drive Straight with Swerve
      * @param drive the drive
-     * @param speed the speed
-     * @param distance the distance
-     * @param x true if speed is for x-input (strafe), false for y-input (forward/backward)
+     * @param xSpeed the strafe speed (-1 to 1)
+     * @param ySpeed the foward/backward speed (-1 to 1)
+     * @param distance the distance in inches
      */
-    public DriveStraightSwerve(SwerveDrive drive, double speed, double distance, boolean x) {
-        super(drive, speed, distance);
+    public DriveStraightSwerve(SwerveDrive drive, double xSpeed, double ySpeed, double distance) {
+        super(drive, ySpeed, distance);
         this.drive = drive;
-        this.speed = speed;
-        this.x = x;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
     }
 
     @Override
     protected void initialize() {
         super.initialize();
-        drive.goStraight(speed, drive.getHeading(), x);
+        drive.goStraight(xSpeed, drive.getHeading(), ySpeed);
     }
 }

@@ -13,39 +13,27 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 public class DriveStraightWithJoystick extends TeleopCommand {
 	protected double yaw;
 
-	private Joystick joystick;
-	private XboxController xbox;
-	private DriveTrainBase drive;
-	protected boolean isXDirection;
+	protected Joystick joystick;
+	protected XboxController xbox;
+	protected final DriveTrainBase drive;
 	
 	/**
 	 * Command to drive straight with a joystick
 	 * @param joystick the joystick
 	 * @param drive the drive
-	 * @param x true to use go straight with x, false to use y
 	 */
-	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive, boolean x) {
+	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
 		this.joystick = joystick;
 		this.drive = drive;
-		this.isXDirection = x;
-		
-		this.requires(drive);
-	}
-
-	public DriveStraightWithJoystick(Joystick joystick, DriveTrainBase drive) {
-		this(joystick, drive, false);
-	}
-
-	public DriveStraightWithJoystick(XboxController xbox, DriveTrainBase drive, boolean x) {
-		this.xbox = xbox;
-		this.drive = drive;
-		this.isXDirection = x;
 		
 		this.requires(drive);
 	}
 
 	public DriveStraightWithJoystick(XboxController xbox, DriveTrainBase drive) {
-		this(xbox, drive, false);
+		this.xbox = xbox;
+		this.drive = drive;
+		
+		this.requires(drive);
 	}
 
 	@Override
@@ -55,7 +43,7 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 
 	@Override
 	protected void execute() {
-		drive.goStraight(getInput(), yaw);
+		drive.goStraight(getYInput(), yaw);
 	}
 
 	@Override
@@ -64,13 +52,10 @@ public class DriveStraightWithJoystick extends TeleopCommand {
 	}
 
 	/**
-	 * Gets the input of the joystick or xbox controller
-	 * @return the input of the joystick or xbox controller
+	 * Gets the y-input of the joystick or xbox controller
+	 * @return the y-input of the joystick or xbox controller
 	 */
-	protected double getInput() {
-		if(isXDirection) {
-			return xbox != null ? xbox.getX(Hand.kRight) : joystick.getX();
-		}
+	protected double getYInput() {
 		return xbox != null ? xbox.getY(Hand.kLeft) : joystick.getY();
 	}
 }

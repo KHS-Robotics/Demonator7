@@ -4,6 +4,7 @@ import org.usfirst.frc.team4342.robot.commands.drive.DriveStraight;
 import org.usfirst.frc.team4342.robot.commands.drive.DriveTurn;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
@@ -11,8 +12,6 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Auto routine to place a cube on the scale for the specified position
- * 
- * TODO: Start sideways?
  */
 public class AutoScale extends AutonomousRoutine
 {	
@@ -21,8 +20,9 @@ public class AutoScale extends AutonomousRoutine
 	private static final double MOVE_TO_SCALE_DISTANCE = 42 - ROBOT_X;
 	// Left or Right Scale when Position != Scale Side
 	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 210;
-	private static final double ALIGN_TO_SCALE_DISTANCE = 222;
-	private static final double AJUST_TO_SCALE_DISTANCE = 114;
+	// TODO: calculate plate distance
+	private static final double ALIGN_TO_SCALE_DISTANCE = 0;
+	private static final double AJUST_TO_SCALE_DISTANCE = 0;
 
 	/**
 	 * Auto routine to place a cube on the scale for the
@@ -41,46 +41,50 @@ public class AutoScale extends AutonomousRoutine
 		{
 			if(position == StartPosition.LEFT)
 			{
+				// Starting turned 90 deg clockwise
+				d.setHeadingOffset(90);
+
 				if(isScaleLeft())
 				{
 					this.addParallel(new ElevateToScaleNeutral(e));
-					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraightSwerve(d, -0.5, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
 					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-					this.addSequential(new ReleaseCube(i));	
+					this.addSequential(new ReleaseCube(i));
+					// TODO: Get another cube and place it on switch or scale
 				}
 				else
 				{
-					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveStraightSwerve(d, -0.5, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 					this.addParallel(new ElevateToScaleNeutral(e));
 					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 					this.addSequential(new DriveTurn(d, false));
 					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
-					this.addSequential(new ReleaseCube(i));	
+					this.addSequential(new ReleaseCube(i));
+					// TODO: Get another cube and place it on switch or scale
 				}
 			}
 			else if(position == StartPosition.RIGHT)
 			{
+				// Starting turned 90 deg counterclockwise
+				d.setHeadingOffset(-90);
+
 				if(isScaleRight())
 				{
 					this.addParallel(new ElevateToScaleNeutral(e));
-					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraightSwerve(d, 0.5, 0.0, MOVE_STRAIGHT_SCALE_DISTANCE));
 					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-					this.addSequential(new ReleaseCube(i));	
+					this.addSequential(new ReleaseCube(i));
+					// TODO: Get another cube and place it on switch or scale
 				}
 				else
 				{
-					this.addSequential(new DriveStraight(d, 0.5, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveStraightSwerve(d, 0.5, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 					this.addParallel(new ElevateToScaleNeutral(e));
 					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
 					this.addSequential(new DriveTurn(d));
 					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d));
 					this.addSequential(new ReleaseCube(i));
+					// TODO: Get another cube and place it on switch or scale
 				}
 			}
 			else
