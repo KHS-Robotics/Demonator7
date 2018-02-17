@@ -20,9 +20,8 @@ public class AutoScale extends AutonomousRoutine
 	private static final double MOVE_TO_SCALE_DISTANCE = 42 - ROBOT_X;
 	// Left or Right Scale when Position != Scale Side
 	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 210;
-	// TODO: calculate plate distance
-	private static final double ALIGN_TO_SCALE_DISTANCE = 0;
-	private static final double AJUST_TO_SCALE_DISTANCE = 0;
+	private static final double ALIGN_TO_SCALE_DISTANCE = 204;
+	private static final double AJUST_TO_SCALE_DISTANCE = 90;
 
 	/**
 	 * Auto routine to place a cube on the scale for the
