@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -73,11 +74,11 @@ public class OI {
 
 	// Climber
 	public Climber Climber;
-	private Spark ClimberMotor;
+	private TalonSRX ClimberMotor;
 
 	// Elevator
 	public Elevator Elevator;
-	private TalonSRX EleMotor;
+	private Spark EleMotor;
 	private Encoder EleEnc;
 	private DigitalInput EleLS;
 	
@@ -102,7 +103,7 @@ public class OI {
 		// Subsystems
 		initDrive();
 		initIntake();
-//		initClimber();
+		initClimber();
 		initElevator();
 		
 
@@ -202,11 +203,12 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
-
+			
 			// Button to maintain heading
-			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
-			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
-			holdHeading.whenReleased(new StopSubsystem(Drive));
+			// TODO: Get this working
+//			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+//			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
+//			holdHeading.whenReleased(new StopSubsystem(Drive));
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 			JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);
@@ -236,7 +238,8 @@ public class OI {
 			Logger.info("Initializing Climber...");
 
 			// Climber
-			ClimberMotor = new Spark(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor.setNeutralMode(NeutralMode.Brake);
 			Climber = new Climber(ClimberMotor);
 
 			// Climbing button to enable the winch
@@ -257,12 +260,11 @@ public class OI {
 			Logger.info("Initializing Elevator...");
 			
 			// Elevator
-			EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
+			EleMotor = new Spark(RobotMap.ELE_MOTOR);
 			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);
 			Elevator = new Elevator(EleMotor, EleEnc, EleLS);
-			Elevator.setNeutralMode(NeutralMode.Brake);
 
 			// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
 			JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);

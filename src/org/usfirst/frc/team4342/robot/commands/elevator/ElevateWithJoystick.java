@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * Command to control the elevator with a joystick
  */
 public class ElevateWithJoystick extends TeleopCommand {
-	private static final double DEADBAND = 0.03, TOP_WINDOW = 70.0, BOTTOM_WINDOW = 5.0;
+	private static final double DEADBAND = 0.03;
 	
 	private boolean idle, initializedIdle;
 	
@@ -47,7 +47,7 @@ public class ElevateWithJoystick extends TeleopCommand {
 		if(!idle && OVERRIDE) {
 			elevator.disable();
 
-			double input = INPUT > 0 ? INPUT / 1.5 : INPUT / 10.0;
+			double input = INPUT > 0 ? INPUT / 1.5 : INPUT / 5.0;
 			elevator.set(input);
 			return;
 		}
@@ -64,11 +64,8 @@ public class ElevateWithJoystick extends TeleopCommand {
 				return;
 			}
 		}
-		
-		final boolean IN_BOTTOM_WINDOW = elevator.getPosition() < BOTTOM_WINDOW;
-		final boolean IN_TOP_WINDOW = elevator.getPosition() > TOP_WINDOW;
 
-		if(!IN_BOTTOM_WINDOW && idle && !initializedIdle) {
+		if(!elevator.isAtBottom() && idle && !initializedIdle) {
 			elevator.setSetpoint(elevator.getPosition()); // hold current height
 			elevator.enable();
 			initializedIdle = true;
@@ -76,14 +73,10 @@ public class ElevateWithJoystick extends TeleopCommand {
 		else if(!idle) {
 			double input = 0.0;
 
-			if(IN_TOP_WINDOW && INPUT > 0)
-				input = 0.05;
-			else if(IN_BOTTOM_WINDOW && INPUT < 0)
-				input = 0.0;
-			else if(INPUT > 0)
+			if(INPUT > 0)
 				input = INPUT / 1.5;
 			else
-				input = INPUT / 10.0;
+				input = INPUT / 5.0;
 
 			elevator.disable();
 			elevator.set(input);

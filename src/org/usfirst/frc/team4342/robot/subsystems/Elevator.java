@@ -5,12 +5,9 @@ import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateWithJoystick;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -23,7 +20,7 @@ public class Elevator extends PIDSubsystem
 	private double p, i, d;
 	private boolean override;
 	
-	private TalonSRX motor;
+	private Spark motor;
 	private Encoder encoder;
 	private DigitalInput ls;
 	
@@ -33,14 +30,14 @@ public class Elevator extends PIDSubsystem
 	 * @param encoder the encoder to keep track of the elevator's height
 	 * @param ls the limit switch at the bottom of the elevator
 	 */
-	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
+	public Elevator(Spark motor, Encoder encoder, DigitalInput ls) 
 	{
 		super(0, 0, 0);
 		
 		setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
-		setInputRange(0, 80);
-		setOutputRange(-1, 1);
-		setAbsoluteTolerance(1.0);
+		setInputRange(0, 3210);
+		setOutputRange(-0.20, 0.67);
+		setAbsoluteTolerance(100);
 		disable();
 
 		this.motor = motor;
@@ -176,15 +173,6 @@ public class Elevator extends PIDSubsystem
 	}
 	
 	/**
-	 * Sets the neutral mode for the motor
-	 * @see com.ctre.phoenix.motorcontrol.NeutralMode
-	 */
-	public void setNeutralMode(NeutralMode mode)
-	{
-		motor.setNeutralMode(mode);
-	}
-	
-	/**
 	 * Sets the output of the elevator motor
 	 * @param output the desired output ranging from -1 to 1 (negative
 	 * for down, positive for up)
@@ -192,9 +180,9 @@ public class Elevator extends PIDSubsystem
 	public void set(double output)
 	{
 		if(!override && ls.get() && output < 0)
-			motor.set(ControlMode.PercentOutput, 0);
+			motor.set(0);
 		
-		motor.set(ControlMode.PercentOutput, output);
+		motor.set(output);
 	}
 
 	/**
