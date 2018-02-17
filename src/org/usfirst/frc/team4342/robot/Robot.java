@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4342.robot;
 
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -37,7 +38,9 @@ public class Robot extends TimedRobot {
 		PDPLogger.start();
 		DemonDashboard.start();
 		
-		CameraServer.getInstance().startAutomaticCapture(0);
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
+		camera.setFPS(30);
+		camera.setResolution(640, 380);
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();
