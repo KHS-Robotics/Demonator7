@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
 		PDPLogger.start();
 		DemonDashboard.start();
 		
+		Logger.info("Starting USB Camera on dev0...");
 		CameraServer.getInstance().startAutomaticCapture(0);
 		
 		Logger.info("Initializing autonomous choosers...");
