@@ -94,13 +94,13 @@ public class OI {
 		SmartDashboard.putData("PDP", PDP);
 
 		Logger.info("Connecting Xbox Controller and Switch Box...");
+
 		// Joysticks
-		// Xbox Controller
 		DriveController = new XboxController(RobotMap.XBOX_PORT);
-		// Switch Box
 		SwitchBox = new Joystick(RobotMap.SWITCH_BOX);
 		SwitchBox.setTwistChannel(3); // twist channel for y input for right thumbstick
 
+		// Subsystems
 		initDrive();
 		initIntake();
 //		initClimber();

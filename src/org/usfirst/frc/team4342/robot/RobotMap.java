@@ -51,10 +51,4 @@ public class RobotMap {
 	public static final int ELE_ENC_A = 8;
 	public static final int ELE_ENC_B = 9;
 	public static final int ELE_LS = 10;
-
-	// RGB LEDs on PCM
-	public static final int LED_POWER = 0;
-	public static final int RED_LED = 1;
-	public static final int GREEN_LED = 2;
-	public static final int BLUE_LED = 3;
 }
