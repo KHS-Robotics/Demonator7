@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4342.robot.auton.AutoBaseline;
-import org.usfirst.frc.team4342.robot.auton.AutoBoth;
 import org.usfirst.frc.team4342.robot.auton.AutoScale;
 import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
@@ -51,7 +50,6 @@ public class Robot extends TimedRobot {
 		priorityChooser.addDefault("Baseline", Priority.BASELINE);
 		priorityChooser.addObject("Switch", Priority.SWITCH);
 		priorityChooser.addObject("Scale", Priority.SCALE);
-		priorityChooser.addObject("Both", Priority.BOTH);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 
 		Logger.info("Finished bootstrapping Demonator7.");
@@ -100,11 +98,6 @@ public class Robot extends TimedRobot {
 			case SCALE:
 				routine = "AutoScale";
 				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
-			break;
-				
-			case BOTH:
-				routine = "AutoBoth";
-				autonomousRoutine = new AutoBoth(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:
