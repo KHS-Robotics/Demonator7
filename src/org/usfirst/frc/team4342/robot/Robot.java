@@ -15,7 +15,6 @@ import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
 import org.usfirst.frc.team4342.robot.logging.DemonDashboard;
 import org.usfirst.frc.team4342.robot.logging.Logger;
-import org.usfirst.frc.team4342.robot.logging.PDPLogger;
 
 /**
  * Main Robot Class
