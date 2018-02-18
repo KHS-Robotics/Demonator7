@@ -30,7 +30,7 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
         yawPID.setInputRange(-180.0, 180.0);
 		yawPID.setOutputRange(-1.0, 1.0);
 		yawPID.setContinuous();
-		yawPID.setAbsoluteTolerance(2);
+		yawPID.setAbsoluteTolerance(4);
     }
 
     /**
@@ -55,6 +55,14 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
      * @return the distances of each encoder on the drive train
      */
     public abstract double[] getAllDistances();
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stop() {
+    	disablePID();
+    }
 
     /**
      * Sets the PID values for the internal PID controller for yaw.

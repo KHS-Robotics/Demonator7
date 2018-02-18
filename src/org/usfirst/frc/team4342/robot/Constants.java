@@ -14,9 +14,9 @@ public class Constants {
      */
     public static class Elevator {
         // TODO: Get PID values
-        public static final double P = 0.0;
-        public static final double I = 0.0;
-        public static final double D = 0.0;
+        public static final double P = 0.01;
+        public static final double I = 0.000075;
+        public static final double D = 0.0001;
     }
 
     /**
@@ -24,10 +24,9 @@ public class Constants {
      */
     public static class Drive {
         // Heading
-        // TODO: Get PID values
-        public static final double P = 0.0;
-        public static final double I = 0.0;
-        public static final double D = 0.0;
+        public static final double P = 0.02;
+        public static final double I = 0.000005;
+        public static final double D = 0.00004;
 
         // Swerve Pivot
         public static class PivotPID {

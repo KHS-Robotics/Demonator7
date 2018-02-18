@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.commands.elevator.ElevateWithJoystick;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -20,7 +20,7 @@ public class Elevator extends PIDSubsystem
 	private double p, i, d;
 	private boolean override;
 	
-	private Spark motor;
+	private Talon motor;
 	private Encoder encoder;
 	private DigitalInput ls;
 	
@@ -30,7 +30,7 @@ public class Elevator extends PIDSubsystem
 	 * @param encoder the encoder to keep track of the elevator's height
 	 * @param ls the limit switch at the bottom of the elevator
 	 */
-	public Elevator(Spark motor, Encoder encoder, DigitalInput ls) 
+	public Elevator(Talon motor, Encoder encoder, DigitalInput ls) 
 	{
 		super(0, 0, 0);
 		

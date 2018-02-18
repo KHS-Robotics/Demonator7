@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.drive;
 
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Command to turn the robot a specified number of degrees
@@ -16,7 +16,7 @@ public class DriveTurn extends DriveGoToAngle {
      * @param clockwise true to turn clockwise (right), false to
      * turn counterclockwise (left)
      */
-    public DriveTurn(DriveTrainBase drive, double offset, boolean clockwise) {
+    public DriveTurn(SwerveDrive drive, double offset, boolean clockwise) {
         super(drive, 0);
 
         this.offset = offset;
@@ -29,7 +29,7 @@ public class DriveTurn extends DriveGoToAngle {
      * @param clockwise true to turn clockwise (right), false to
      * turn counterclockwise (left)
      */
-    public DriveTurn(DriveTrainBase drive, boolean clockwise) {
+    public DriveTurn(SwerveDrive drive, boolean clockwise) {
         this(drive, 90, clockwise);
     }
 
@@ -37,7 +37,7 @@ public class DriveTurn extends DriveGoToAngle {
      * Command to turn the robot 90 degrees right
      * @param drive the drive
      */
-    public DriveTurn(DriveTrainBase drive) {
+    public DriveTurn(SwerveDrive drive) {
         this(drive, 90, true);
     }
 

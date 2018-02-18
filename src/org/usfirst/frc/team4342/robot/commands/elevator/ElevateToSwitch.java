@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
  * on the switch
  */
 public class ElevateToSwitch extends Elevate {
-	private static final double SWITCH_HEIGHT = 15; // TODO: Get encoder distance
+	private static final double SWITCH_HEIGHT = 750;
 
 	/**
 	 * Sets the height of the elevator to place a cube

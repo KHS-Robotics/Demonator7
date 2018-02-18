@@ -1,13 +1,13 @@
 package org.usfirst.frc.team4342.robot.commands.drive;
 
 import org.usfirst.frc.team4342.robot.commands.CommandBase;
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
+import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
  * Command to change the robot's heading
  */
 public class DriveGoToAngle extends CommandBase {
-	protected final DriveTrainBase drive;
+	protected final SwerveDrive drive;
 	protected double yaw;
 	
 	/**
@@ -15,7 +15,7 @@ public class DriveGoToAngle extends CommandBase {
 	 * @param drive the drive
 	 * @param yaw the yaw (-180 to 180)
 	 */
-	public DriveGoToAngle(DriveTrainBase drive, double yaw) {
+	public DriveGoToAngle(SwerveDrive drive, double yaw) {
 		super(3);
 		
 		this.drive = drive;

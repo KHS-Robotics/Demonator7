@@ -39,10 +39,12 @@ public class ElevatorPIDTuner extends PIDTuner {
         final double position = elevator.getPosition();
         SmartDashboard.putNumber("Elevator-Distance", position);
         elevator.setSetpoint(SmartDashboard.getNumber("Elevator-Setpoint", position));
+        elevator.enable();
     }
 
     @Override
     protected void resetPIDValues() {
         elevator.setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
+        elevator.disable();
     }
 }

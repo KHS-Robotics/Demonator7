@@ -310,6 +310,8 @@ public class SwerveDrive extends DriveTrainBase {
 	 * Stops drive motor on all modules
 	 */
 	public void stop() {
+		super.stop();
+		
 		fr.stop();
 		fl.stop();
 		rr.stop();

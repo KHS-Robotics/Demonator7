@@ -14,7 +14,6 @@ import org.usfirst.frc.team4342.robot.commands.intake.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.StopSubsystem;
 import org.usfirst.frc.team4342.robot.commands.tuning.DrivePIDTuner;
 import org.usfirst.frc.team4342.robot.commands.tuning.ElevatorPIDTuner;
-import org.usfirst.frc.team4342.robot.commands.tuning.PivotPIDTuner;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
@@ -31,9 +30,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -78,13 +76,13 @@ public class OI {
 
 	// Elevator
 	public Elevator Elevator;
-	private Spark EleMotor;
+	private Talon EleMotor;
 	private Encoder EleEnc;
 	private DigitalInput EleLS;
 	
 	// Intake
 	public Intake Intake;
-	private Spark IntakeMotor;
+	private Talon IntakeMotor;
 	
 	private OI() {
 		Logger.info("Connecting to PDP...");
@@ -105,16 +103,15 @@ public class OI {
 		initIntake();
 		initClimber();
 		initElevator();
-		
 
 		// Button to tune PID via SmartDashboard
-		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
-		if(Drive != null) {
-			initDrivePIDTuner(tunePID);
-		}
-		if(Elevator != null) {
-			initElevatorPIDTuner(tunePID);
-		}
+//		JoystickButton tunePID = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.TUNE_PID);
+//		if(Drive != null) {
+//			//initDrivePIDTuner(tunePID);
+//		}
+//		if(Elevator != null) {
+//			//initElevatorPIDTuner(tunePID);
+//		}
 	}
 
 	/**
@@ -205,10 +202,9 @@ public class OI {
 			Drive.setNeutralMode(NeutralMode.Brake);
 			
 			// Button to maintain heading
-			// TODO: Get this working
-//			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
-//			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
-//			holdHeading.whenReleased(new StopSubsystem(Drive));
+			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
+			holdHeading.whenReleased(new StopSubsystem(Drive));
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 			JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);
@@ -260,7 +256,7 @@ public class OI {
 			Logger.info("Initializing Elevator...");
 			
 			// Elevator
-			EleMotor = new Spark(RobotMap.ELE_MOTOR);
+			EleMotor = new Talon(RobotMap.ELE_MOTOR);
 			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);
@@ -305,7 +301,7 @@ public class OI {
 			Logger.info("Initializing Intake...");
 			
 			// Intake
-			IntakeMotor = new Spark(RobotMap.INTAKE_MOTOR);
+			IntakeMotor = new Talon(RobotMap.INTAKE_MOTOR);
 			Intake = new Intake(IntakeMotor);
 
 			// Switch to enable the intake for a cube

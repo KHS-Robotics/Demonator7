@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
  * no one has ownership
  */
 public class ElevateToScaleNeutral extends Elevate {
-	private static final double SCALE_HEIGHT = 66; // TODO: Get encoder distance
+	private static final double SCALE_HEIGHT = 2500;
 
 	/**
 	 * Sets the height of the elevator to place a cube on the scale when
