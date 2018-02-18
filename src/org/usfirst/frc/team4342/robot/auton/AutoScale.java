@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot.auton;
 
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraight;
-import org.usfirst.frc.team4342.robot.commands.swerve.DriveTurn;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
@@ -56,7 +56,7 @@ public class AutoScale extends AutonomousRoutine
 					this.addSequential(new DriveStraightSwerve(d, -0.5, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 					this.addParallel(new ElevateToScaleNeutral(e));
 					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Get another cube and place it on switch or scale
@@ -80,7 +80,7 @@ public class AutoScale extends AutonomousRoutine
 					this.addSequential(new DriveStraightSwerve(d, 0.5, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
 					this.addParallel(new ElevateToScaleNeutral(e));
 					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
-					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addSequential(new DriveStraight(d, 0.5, AJUST_TO_SCALE_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Get another cube and place it on switch or scale

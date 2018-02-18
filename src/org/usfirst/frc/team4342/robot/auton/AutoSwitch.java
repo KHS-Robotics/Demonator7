@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4342.robot.auton;
 
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraight;
-import org.usfirst.frc.team4342.robot.commands.swerve.DriveTurn;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
@@ -59,7 +59,7 @@ public class AutoSwitch extends AutonomousRoutine
 					this.addSequential(new DriveStraightSwerve(d, -0.5, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveTurn(d));
+					this.addSequential(new DriveGoToAngle(d, 180));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate or scale
@@ -84,7 +84,7 @@ public class AutoSwitch extends AutonomousRoutine
 					this.addSequential(new DriveStraightSwerve(d, 0.5, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveTurn(d, false));
+					this.addSequential(new DriveGoToAngle(d, 180));
 					this.addSequential(new DriveStraight(d, 0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate or scale
