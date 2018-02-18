@@ -100,7 +100,9 @@ public class AutoScale extends AutonomousRoutine
 		}
 		catch(InvalidGameMessageException ex) 
 		{
-			Logger.error("Invalid game message!", ex);
+			Logger.error(ex.getMessage(), ex);
+			Logger.warning("Invalid Game Message! Corssing Baseline...");
+			this.addSequential(new AutoBaseline(position, d));
 		}
 	}
 }
