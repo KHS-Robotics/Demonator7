@@ -116,12 +116,12 @@ public abstract class AutonomousRoutine extends CommandGroup {
 		}
 		for(char c : mssg.toCharArray()) {
 			c = Character.toUpperCase(c);
-			if(c != 'L' || c != 'R') {
+			if(c != 'L' && c != 'R') {
 				throw new InvalidGameMessageException("Invalid game message: " + mssg);
 			}
 		}
 
-		return mssg;
+		return mssg.toUpperCase();
 	}
 
 	/**
