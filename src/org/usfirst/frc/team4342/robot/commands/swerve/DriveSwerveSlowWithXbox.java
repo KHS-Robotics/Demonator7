@@ -13,7 +13,7 @@ public class DriveSwerveSlowWithXbox extends TeleopCommand {
     // Multiplier to divide input
     private static final double INPUT_MULTIPLYER = 0.20;
     // Deadbands
-    private static final double YDEADBAND = 0.05;
+    private static final double YDEADBAND = 0.08;
     private static final double DEADBAND = 0.05;
 
     private boolean idle;

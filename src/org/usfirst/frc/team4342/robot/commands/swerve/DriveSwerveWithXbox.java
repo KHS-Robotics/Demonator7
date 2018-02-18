@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  * Drive Swerve With Xbox Controller
  */
 public class DriveSwerveWithXbox extends TeleopCommand {
-    private static final double YDEADBAND = 0.05;
+    private static final double YDEADBAND = 0.08;
     private static final double DEADBAND = 0.05;
 
     private boolean idle;
