@@ -10,6 +10,7 @@ public class ButtonMap
 	 */
 	public static class DriveController
 	{
+		public static final int GO_SLOW = XboxButton.kBumperLeft.value;
 		public static final int GO_STRAIGHT = XboxButton.kBumperRight.value;
 		public static final int GO_TO_ZERO = XboxButton.kY.value;
 		public static final int GO_TO_LEFT = XboxButton.kX.value;

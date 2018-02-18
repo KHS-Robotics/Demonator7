@@ -1,8 +1,9 @@
 package org.usfirst.frc.team4342.robot;
 
 import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
-import org.usfirst.frc.team4342.robot.commands.drive.DriveGoToAngle;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveSlowWithXbox;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
@@ -200,6 +201,11 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
+
+			// Button to go slow
+			JoystickButton goSlow = new JoystickButton(DriveController, ButtonMap.DriveController.GO_SLOW);
+			goSlow.whenPressed(new DriveSwerveSlowWithXbox(DriveController, Drive));
+			goSlow.whenReleased(new StopSubsystem(Drive));
 			
 			// Button to maintain heading
 			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);

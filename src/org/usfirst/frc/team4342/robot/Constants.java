@@ -13,7 +13,6 @@ public class Constants {
      * Elevator Constants
      */
     public static class Elevator {
-        // TODO: Get PID values
         public static final double P = 0.01;
         public static final double I = 0.000075;
         public static final double D = 0.0001;
