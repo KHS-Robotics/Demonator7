@@ -34,7 +34,6 @@ public class Robot extends TimedRobot {
 		Logger.info("Bootstrapping Demonator7...");
 		
 		OI.getInstance();
-		PDPLogger.start();
 		DemonDashboard.start();
 		
 		Logger.info("Starting USB Camera on dev0...");
