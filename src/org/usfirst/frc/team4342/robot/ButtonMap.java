@@ -36,6 +36,7 @@ public class ButtonMap
 		public static final int ELEVATE_PICKUP_CUBE = 3;
 		public static final int ELEVATOR_OVERIDE = 9;
 		public static final int TUNE_PID = 8;
+		public static final int DRIVE_SLOW_OVERRIDE = 6;
 	}
 
 	/**

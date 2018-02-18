@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
  */
 public class DriveSwerveSlowWithXbox extends TeleopCommand {
     // Multiplier to divide input
-    private static final double INPUT_MULTIPLYER = 0.20;
+    private static final double INPUT_MULTIPLYER = 0.60;
     // Deadbands
     private static final double YDEADBAND = 0.08;
     private static final double DEADBAND = 0.05;
@@ -64,7 +64,7 @@ public class DriveSwerveSlowWithXbox extends TeleopCommand {
 		zInput = z ? zInput : 0;
 
         if(x || y || z) {
-            drive.set(xInput*INPUT_MULTIPLYER, yInput*INPUT_MULTIPLYER, xInput*INPUT_MULTIPLYER);
+            drive.set(xInput*INPUT_MULTIPLYER, yInput*INPUT_MULTIPLYER, zInput*INPUT_MULTIPLYER);
             idle = false;
         }
         else if(!idle) {

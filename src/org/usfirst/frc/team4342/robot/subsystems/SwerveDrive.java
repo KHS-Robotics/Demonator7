@@ -387,7 +387,7 @@ public class SwerveDrive extends DriveTrainBase {
 	public static class SwerveModule extends SubsystemBase {
 		private PIDController pivotPID;
 		private double output, offset;
-		private boolean flipDrive, reverse;
+		private boolean flipDrive, reverse, slowOverride;
 
 		private TalonSRX drive, pivot;
 		private Encoder driveEnc;
@@ -438,6 +438,14 @@ public class SwerveDrive extends DriveTrainBase {
 			pivotPID.setOutputRange(-1, 1);
 			pivotPID.setAbsoluteTolerance(toVoltage(TOLERANCE));
 			pivotPID.setContinuous();
+		}
+		
+		/**
+		 * Sets if the drive motor is overriding elevator height
+		 * @param flag true to override, false otherwise
+		 */
+		public void setSlowOverride(boolean flag) {
+			slowOverride = flag;
 		}
 		
 		/**
@@ -555,9 +563,23 @@ public class SwerveDrive extends DriveTrainBase {
 			}
 			output = normalizedOutput;
 			
+			double mult = 1.0, elevPosition = OI.getInstance().Elevator.getPosition();
+	    	if(slowOverride) {
+	    		mult = 1;
+	    	}
+	    	else if(elevPosition > 1300) {
+	    		mult = 0.6;
+	    	}
+	    	else if(elevPosition > 2150) {
+	    		mult = 0.4;
+	    	}
+	    	else if(elevPosition > 2500) {
+	    		mult = 0.25;
+	    	}
+			
 			this.output = flipDrive ? -output : output;
 			this.output = reverse ? -this.output : this.output;
-			drive.set(ControlMode.PercentOutput, this.output*DRIVE_OUTPUT_LIMITER);
+			drive.set(ControlMode.PercentOutput, this.output*DRIVE_OUTPUT_LIMITER*mult);
 		}
 
 		/**

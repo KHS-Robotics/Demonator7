@@ -3,7 +3,7 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
-import org.usfirst.frc.team4342.robot.commands.swerve.DriveSwerveSlowWithXbox;
+import org.usfirst.frc.team4342.robot.commands.swerve.SetSwerveOverride;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
@@ -201,11 +201,6 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
-
-			// Button to go slow
-			JoystickButton goSlow = new JoystickButton(DriveController, ButtonMap.DriveController.GO_SLOW);
-			goSlow.whenPressed(new DriveSwerveSlowWithXbox(DriveController, Drive));
-			goSlow.whenReleased(new StopSubsystem(Drive));
 			
 			// Button to maintain heading
 			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
@@ -267,6 +262,11 @@ public class OI {
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);
 			Elevator = new Elevator(EleMotor, EleEnc, EleLS);
+			
+			// Button to override driving slow when elevator is raised high enough
+			JoystickButton slowOverride = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.DRIVE_SLOW_OVERRIDE);
+			slowOverride.whenPressed(new SetSwerveOverride(Drive, true));
+			slowOverride.whenPressed(new SetSwerveOverride(Drive, false));
 
 			// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
 			JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
