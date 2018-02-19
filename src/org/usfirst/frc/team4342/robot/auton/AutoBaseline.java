@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
@@ -8,7 +9,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
  */
 public class AutoBaseline extends AutonomousRoutine
 {
-	private final double BASELINE_DISTANCE = 120 - ROBOT_Y;
+	private final double BASELINE_DISTANCE = 140 - ROBOT_X;
 
 	/**
 	 * Auto routine to cross the auto line
@@ -20,6 +21,6 @@ public class AutoBaseline extends AutonomousRoutine
 	{
 		super(position);
 		
-		this.addSequential(new DriveStraight(drive, 0.5, BASELINE_DISTANCE));
+		this.addSequential(new DriveStraightSwerve(drive, -0.8, 0.0, BASELINE_DISTANCE));
 	}
 }

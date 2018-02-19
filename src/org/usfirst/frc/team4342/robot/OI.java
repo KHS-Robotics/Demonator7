@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -90,7 +91,7 @@ public class OI {
 
 		// Power Distribution Panel
 		PDP = new PowerDistributionPanel();
-		SmartDashboard.putData("PDP", PDP);
+		LiveWindow.disableTelemetry(PDP);
 
 		Logger.info("Connecting Xbox Controller and Switch Box...");
 
@@ -143,8 +144,9 @@ public class OI {
 			RearRightDriveEnc = new Encoder(RobotMap.REAR_RIGHT_DRIVE_ENC_A, RobotMap.REAR_RIGHT_DRIVE_ENC_B);
 			RearLeftDriveEnc = new Encoder(RobotMap.REAR_LEFT_DRIVE_ENC_A, RobotMap.REAR_LEFT_DRIVE_ENC_B);
 
-			// (18 input teeth * 6 inch diameter wheels * PI) / (2048 pulses per rev * 54 output teeth)
-			final double distancePerPulse = (18*6*Math.PI) / (2048*54);
+			// (18 input teeth * 4 inch diameter wheels * PI) / (2048 pulses per rev * 54 output teeth)
+//			final double distancePerPulse = ((4*Math.PI * (18) / (256 )); //when tested, off by a factor of 4.5   18*4*Math.PI) / (2048*32
+			final double distancePerPulse = ((4*Math.PI * 12 * 19) / (2048 * 32 * 60)); //* (19/60) * (12/32);
 			FrontRightDriveEnc.setDistancePerPulse(distancePerPulse);
 			FrontLeftDriveEnc.setDistancePerPulse(distancePerPulse);
 			RearRightDriveEnc.setDistancePerPulse(distancePerPulse);
@@ -201,11 +203,6 @@ public class OI {
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
 			Drive.setNeutralMode(NeutralMode.Brake);
-			
-			// Button to maintain heading
-			JoystickButton holdHeading = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
-			holdHeading.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
-			holdHeading.whenReleased(new StopSubsystem(Drive));
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
 			JoystickButton goToZero = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_ZERO);

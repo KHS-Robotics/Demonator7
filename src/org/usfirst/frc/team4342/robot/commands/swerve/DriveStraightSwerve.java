@@ -26,6 +26,6 @@ public class DriveStraightSwerve extends DriveStraight {
     @Override
     protected void initialize() {
         super.initialize();
-        drive.goStraight(xSpeed, drive.getHeading(), ySpeed);
+        drive.goStraight(ySpeed, drive.getHeading(), xSpeed);
     }
 }

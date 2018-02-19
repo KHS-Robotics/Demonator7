@@ -1,7 +1,6 @@
 package org.usfirst.frc.team4342.robot.commands.swerve;
 
 import org.usfirst.frc.team4342.robot.commands.CommandBase;
-import org.usfirst.frc.team4342.robot.subsystems.DriveTrainBase;
 import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 
 /**
@@ -10,7 +9,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 public class DriveStraight extends CommandBase {
     private double[] distances;
 
-    private DriveTrainBase drive;
+    private SwerveDrive drive;
     private double speed;
     private double distance;
 

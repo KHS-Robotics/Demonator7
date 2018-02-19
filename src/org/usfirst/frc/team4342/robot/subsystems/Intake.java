@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motor.set(0.70);
+		motor.set(.75);
 	}
 	
 	/**
