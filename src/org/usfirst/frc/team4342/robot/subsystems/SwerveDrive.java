@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Swerve Drive subsystem
@@ -359,6 +360,7 @@ public class SwerveDrive extends DriveTrainBase {
 		final double AVERAGE = (dFR + dFL + dRR + dRL) / 4;
 		final double REMAINING = distance - AVERAGE;
 
+		SmartDashboard.putNumber("REMAINING ", REMAINING);
 		return REMAINING;
 	}
 
@@ -568,7 +570,7 @@ public class SwerveDrive extends DriveTrainBase {
 	    	if(slowOverride) {
 	    		mult = 1;
 	    	}
-	    	else if(elevPosition > 1300) {
+	    	else if(elevPosition > 1800) {
 	    		mult = 0.6;
 	    	}
 	    	else if(elevPosition > 2150) {
@@ -645,6 +647,13 @@ public class SwerveDrive extends DriveTrainBase {
 		 */
 		public double getDistance() {
 			return driveEnc.getDistance();
+		}
+		
+		/**
+		 * sets the drive distance to 0
+		 */
+		public void reset() {
+			driveEnc.reset();
 		}
 
 		/**

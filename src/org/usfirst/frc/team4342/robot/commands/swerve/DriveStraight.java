@@ -20,7 +20,7 @@ public class DriveStraight extends CommandBase {
      * @param distance the distance
      */
     public DriveStraight(SwerveDrive drive, double speed, double distance) {
-        super(10);
+        super(5);
         
         this.drive = drive;
         this.speed = speed;
@@ -42,7 +42,7 @@ public class DriveStraight extends CommandBase {
 
     @Override
     protected boolean isFinished() {
-        return drive.remainingDistance(distance, distances) <= 0;
+        return drive.remainingDistance(distance, distances) <= 0 || this.isTimedOut();
     }
 
     @Override

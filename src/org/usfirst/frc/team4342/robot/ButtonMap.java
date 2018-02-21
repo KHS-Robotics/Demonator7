@@ -26,8 +26,8 @@ public class ButtonMap
 	{
 		public static final int INTAKE = 5;
 		public static final int RELEASE = 4;
-		public static final int CLIMB = 7;
-		public static final int RESET = 10;
+		public static final int CLIMB = 10;
+		public static final int RESET = 7;
 		public static final int ELEVATE_SCALE_HIGH = 2;
 		public static final int ELEVATE_SCLALE_NEUTRAL = 11;
 		public static final int ELEVATE_SCALE_LOW = 1;

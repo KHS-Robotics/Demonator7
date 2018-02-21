@@ -33,7 +33,10 @@ public class ElevateWithJoystick extends TeleopCommand {
 
 	@Override
 	protected void initialize() {
-		
+		if(!elevator.isAtBottom()) {
+			elevator.setSetpoint(elevator.getPosition());
+			elevator.enable();
+		}
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public class ElevateWithJoystick extends TeleopCommand {
 		if(!idle && OVERRIDE) {
 			elevator.disable();
 
-			double input = INPUT > 0 ? INPUT / 1.5 : INPUT / 5.0;
+			double input = INPUT > 0 ? INPUT / 1.5 : INPUT / 4.0;
 			elevator.set(input);
 			return;
 		}

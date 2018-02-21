@@ -36,7 +36,7 @@ public class Elevator extends PIDSubsystem
 		
 		setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
 		setInputRange(0, 3210);
-		setOutputRange(-0.25, 0.67);
+		setOutputRange(-0.30, 0.72);
 		setAbsoluteTolerance(100);
 		disable();
 

@@ -202,6 +202,12 @@ public class OI {
 			
 			// Swerve
 			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
+			
+			FL.setOffset(0);
+			FR.setOffset(0);
+			RL.setOffset(0);
+			RR.setOffset(0);
+			
 			Drive.setNeutralMode(NeutralMode.Brake);
 			
 			// Button on the right drive stick to go to zero heading (facing towards opponent's alliance wall)
@@ -237,10 +243,9 @@ public class OI {
 			Climber = new Climber(ClimberMotor);
 
 			// Climbing button to enable the winch
-			// Switch is opposite
 			JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
-			climbButton.whenPressed(new StopSubsystem(Climber));
-			climbButton.whenReleased(new StartClimber(Climber));
+			climbButton.whenPressed(new StartClimber(Climber));
+			climbButton.whenReleased(new StopSubsystem(Climber));
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Climber!", ex);
 		}
