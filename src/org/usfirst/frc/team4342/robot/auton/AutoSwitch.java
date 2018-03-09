@@ -16,15 +16,15 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 public class AutoSwitch extends AutonomousRoutine 
 {	
 	// Center Switch
-	private static final double CENTER_DIAGONAL_DISTANCE = 108 + ROBOT_Y;
+	private static final double CENTER_DIAGONAL_DISTANCE = 98 + ROBOT_Y;
 	// Left or Right Switch
 	// Start Position and Switch location are the same
 	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 168 - ROBOT_X;
 	private static final double LEFT_RIGHT_SWITCH_DISTANCE = 40 - (ROBOT_Y);
 	// Start Position and Switch location are opposite
-	private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 218;
-	private static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 200 - (ROBOT_X/2);
-	private static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 18;
+	private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
+	private static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 155 - (ROBOT_X/2);
+	private static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 50;
 
 	/**
 	 * Auto routine to place a cube on the switch for the
@@ -61,7 +61,7 @@ public class AutoSwitch extends AutonomousRoutine
 					this.addSequential(new DriveStraightSwerve(d, -0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
 					this.addParallel(new ElevateToSwitch(e));
 					this.addSequential(new DriveStraight(d, -0.7, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveGoToAngle(d, 90));
+					this.addSequential(new DriveGoToAngle(d, 150));
 					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate or scale
@@ -85,10 +85,10 @@ public class AutoSwitch extends AutonomousRoutine
 				else
 				{
 					this.addSequential(new DriveStraightSwerve(d, 0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-					this.addSequential(new DriveStraight(d, -0.7, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveGoToAngle(d, 180));
-					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
+					this.addSequential(new DriveStraight(d, -0.8, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+					this.addSequential(new DriveGoToAngle(d, -142));
 					this.addParallel(new ElevateToSwitch(e));
+					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
@@ -96,7 +96,7 @@ public class AutoSwitch extends AutonomousRoutine
 			else if(position == StartPosition.CENTER)
 			{
 				final double xSpeed = isSwitchRight() ? 0.2 : -0.35;
-				final double offset = isSwitchRight() ? -10 : 0;
+				final double offset = isSwitchRight() ? -15 : 0;
 				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
 				this.addSequential(new ReleaseCube(i));
