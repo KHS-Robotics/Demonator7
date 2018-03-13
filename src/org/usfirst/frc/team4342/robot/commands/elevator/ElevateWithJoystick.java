@@ -50,7 +50,7 @@ public class ElevateWithJoystick extends TeleopCommand {
 		if(!idle && OVERRIDE) {
 			elevator.disable();
 
-			double input = INPUT > 0 ? INPUT / 1.5 : INPUT / 4.0;
+			double input = INPUT > 0 ? INPUT : INPUT *0.4;
 			elevator.set(input);
 			return;
 		}
@@ -76,11 +76,11 @@ public class ElevateWithJoystick extends TeleopCommand {
 		else if(!idle) {
 			double input = 0.0;
 
-			if(INPUT > 0)
-				input = INPUT ;
-			else
-				input = INPUT / 2.0;
-
+			if(INPUT > 0 && elevator.getPosition() < 3600)
+				input = INPUT;
+			else if(INPUT < 0)
+				input = INPUT * 0.4;
+			
 			elevator.disable();
 			elevator.set(input);
 			initializedIdle = false;

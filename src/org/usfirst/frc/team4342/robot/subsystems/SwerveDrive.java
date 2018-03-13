@@ -38,7 +38,7 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	// Saves battery
-	private static final double DRIVE_OUTPUT_LIMITER = 0.75;
+	private static final double DRIVE_OUTPUT_LIMITER = 0.85;
 	
 	private double xDirection, yDirection;
 	private boolean fieldOriented;
@@ -571,13 +571,13 @@ public class SwerveDrive extends DriveTrainBase {
 	    		mult = 1;
 	    	}
 	    	else if(elevPosition > 1800) {
-	    		mult = 0.6;
+	    		mult = 0.5;
 	    	}
 	    	else if(elevPosition > 2150) {
-	    		mult = 0.4;
+	    		mult = 0.3;
 	    	}
 	    	else if(elevPosition > 2500) {
-	    		mult = 0.25;
+	    		mult = 0.2;
 	    	}
 			
 			this.output = flipDrive ? -output : output;

@@ -37,8 +37,8 @@ public class Robot extends TimedRobot {
 		
 		Logger.info("Starting USB Camera on dev0...");
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
-		camera.setFPS(30);
-		camera.setResolution(640, 380);
+		camera.setFPS(20);
+		camera.setResolution(320, 200);
 		
 		Logger.info("Initializing autonomous choosers...");
 		startPositionChooser = new SendableChooser<StartPosition>();

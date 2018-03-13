@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.logging.Logger;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -29,6 +30,12 @@ public abstract class AutonomousRoutine extends CommandGroup {
 		final OI oi = OI.getInstance();
 		oi.Drive.resetNavX();
 		oi.Drive.setFieldOriented(false);
+		
+		try {
+			Logger.info("GAME MESSAGE: " + getPlateLocations().toString());
+		} catch (InvalidGameMessageException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

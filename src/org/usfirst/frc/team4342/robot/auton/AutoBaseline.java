@@ -21,6 +21,6 @@ public class AutoBaseline extends AutonomousRoutine
 	{
 		super(position);
 		
-		this.addSequential(new DriveStraightSwerve(drive, -0.8, 0.0, BASELINE_DISTANCE));
+		this.addSequential(new DriveStraight(drive, -0.8, BASELINE_DISTANCE));
 	}
 }

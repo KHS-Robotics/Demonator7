@@ -16,10 +16,10 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 public class AutoSwitch extends AutonomousRoutine 
 {	
 	// Center Switch
-	private static final double CENTER_DIAGONAL_DISTANCE = 98 + ROBOT_Y;
+	private static final double CENTER_DIAGONAL_DISTANCE = 88 + ROBOT_Y;
 	// Left or Right Switch
 	// Start Position and Switch location are the same
-	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 168 - ROBOT_X;
+	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 155 - ROBOT_X;
 	private static final double LEFT_RIGHT_SWITCH_DISTANCE = 40 - (ROBOT_Y);
 	// Start Position and Switch location are opposite
 	private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
@@ -95,8 +95,8 @@ public class AutoSwitch extends AutonomousRoutine
 			}
 			else if(position == StartPosition.CENTER)
 			{
-				final double xSpeed = isSwitchRight() ? 0.2 : -0.35;
-				final double offset = isSwitchRight() ? -15 : 0;
+				final double xSpeed = isSwitchRight() ? 0.3 : -0.35;
+				final double offset = isSwitchRight() ? -7 : 0;
 				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
 				this.addSequential(new ReleaseCube(i));
