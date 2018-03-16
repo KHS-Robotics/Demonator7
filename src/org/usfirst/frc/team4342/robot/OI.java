@@ -3,13 +3,18 @@ package org.usfirst.frc.team4342.robot;
 import org.usfirst.frc.team4342.robot.commands.climber.StartClimber;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightWithJoystickSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.SetFOD;
 import org.usfirst.frc.team4342.robot.commands.swerve.SetSwerveOverride;
+import org.usfirst.frc.team4342.robot.commands.swerve.SwerveSetX;
+import org.usfirst.frc.team4342.robot.commands.swerve.SwerveSetY;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.elevator.StopElevator;
+import org.usfirst.frc.team4342.robot.commands.intake.FastRelease;
+import org.usfirst.frc.team4342.robot.commands.intake.SlowRelease;
 import org.usfirst.frc.team4342.robot.commands.intake.StartIntake;
 import org.usfirst.frc.team4342.robot.commands.intake.StartRelease;
 import org.usfirst.frc.team4342.robot.commands.StopSubsystem;
@@ -32,6 +37,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -71,6 +77,7 @@ public class OI {
 	private TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
 	private Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
 	private AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
+	private Ultrasonic CubeUltra;
 
 	// Climber
 	public Climber Climber;
@@ -225,6 +232,15 @@ public class OI {
 			// Button on the right drive stick to go to 180 degree heading (facing towards our alliance wall)
 			JoystickButton go180 = new JoystickButton(DriveController, ButtonMap.DriveController.GO_TO_180);
 			go180.whenPressed(new DriveGoToAngle(Drive, 180));
+			
+			JoystickButton setFOD = new JoystickButton(DriveController, ButtonMap.DriveController.ROBOT_ORIENT);
+			setFOD.whenPressed(new SetFOD(Drive, true));
+			setFOD.whenReleased(new SetFOD(Drive, false));
+			
+//			JoystickButton test = new JoystickButton(DriveController, 7);
+//			test.whenPressed(new SwerveSetY(Drive, false));
+//			test.whenReleased(new StopSubsystem(Drive));
+			
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Drive!", ex);
 		}
@@ -271,25 +287,25 @@ public class OI {
 			slowOverride.whenPressed(new SetSwerveOverride(Drive, false));
 
 			// Button to set the elevator to the scale platform height when it's at its highest point (they have ownership)
-			JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
-			elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
-			elevateHigh.whenReleased(new StopElevator(Elevator));
+			//JoystickButton elevateHigh = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_HIGH);
+			//elevateHigh.whenPressed(new ElevateToScaleHigh(Elevator));
+			//elevateHigh.whenReleased(new StopElevator(Elevator));
 
 			// Button to set the elevator to the scale platform height when it's at its neutral point (no one has ownership)
-			JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
-			elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
-			elevateNeutral.whenReleased(new StopElevator(Elevator));
+			//JoystickButton elevateNeutral = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCLALE_NEUTRAL);
+			//elevateNeutral.whenPressed(new ElevateToScaleNeutral(Elevator));
+			//elevateNeutral.whenReleased(new StopElevator(Elevator));
 			
 			// Button to set the elevator to the scale when it's at its lowest point (we have ownership)
-			JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
-			elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
-			elevateLow.whenReleased(new StopElevator(Elevator));
+			//JoystickButton elevateLow = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SCALE_LOW);
+			//elevateLow.whenPressed(new ElevateToScaleLow(Elevator));
+			//elevateLow.whenReleased(new StopElevator(Elevator));
 			
 			// Button to set the elevator to the switch height
 			// Switch is opposite
-			JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
-			elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
-			elevateSwitch.whenPressed(new StopElevator(Elevator));
+			//JoystickButton elevateSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.ELEVATE_SWITCH);
+			//elevateSwitch.whenReleased(new ElevateToSwitch(Elevator));
+			//elevateSwitch.whenPressed(new StopElevator(Elevator));
 			
 			// Button to set the elevator to its lowest point to pick up a cube
 			// Switch is opposite
@@ -310,7 +326,9 @@ public class OI {
 			
 			// Intake
 			IntakeMotor = new Talon(RobotMap.INTAKE_MOTOR);
-			Intake = new Intake(IntakeMotor);
+//			CubeUltra = new Ultrasonic(RobotMap.ULTRA_OUT, RobotMap.ULTRA_IN);
+//			CubeUltra.setAutomaticMode(true);
+			Intake = new Intake(IntakeMotor, CubeUltra);
 
 			// Switch to enable the intake for a cube
 			JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
@@ -318,9 +336,15 @@ public class OI {
 			intakeSwitch.whenReleased(new StopSubsystem(Intake));
 			
 			// Switch to enable reverse intake to release a cube
+			JoystickButton slowReleaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.SLOW_RELEASE);
+			slowReleaseSwitch.whenPressed(new SlowRelease(Intake));
+			slowReleaseSwitch.whenReleased(new FastRelease(Intake));
+						
+			// Switch to enable reverse intake to release a cube
 			JoystickButton releaseSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.RELEASE);
 			releaseSwitch.whenPressed(new StartRelease(Intake));
 			releaseSwitch.whenReleased(new StopSubsystem(Intake));
+			
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Intake!", ex);
 		}

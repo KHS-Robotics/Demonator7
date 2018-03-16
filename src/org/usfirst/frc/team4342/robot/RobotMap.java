@@ -51,4 +51,8 @@ public class RobotMap {
 	public static final int ELE_ENC_A = 8;
 	public static final int ELE_ENC_B = 9;
 	public static final int ELE_LS = 10;
+	
+	// Ultrasonic
+	public static final int ULTRA_IN = 12;
+	public static final int ULTRA_OUT = 14;
 }

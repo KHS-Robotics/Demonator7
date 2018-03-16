@@ -7,6 +7,7 @@ import org.usfirst.frc.team4342.robot.commands.elevator.ElevateWithJoystick;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class Elevator extends PIDSubsystem
 {
 	private double p, i, d;
-	private boolean override;
+	private boolean override, shouldReset = true;
 	
 	private Talon motor;
 	private Encoder encoder;
@@ -36,7 +37,7 @@ public class Elevator extends PIDSubsystem
 		
 		setPID(Constants.Elevator.P, Constants.Elevator.I, Constants.Elevator.D);
 		setInputRange(0, 3460);
-		setOutputRange(-0.50, 0.90);
+		setOutputRange(-0.50, 0.80);
 		setAbsoluteTolerance(100);
 		disable();
 
@@ -202,12 +203,16 @@ public class Elevator extends PIDSubsystem
 		encoder.reset();
 	}
 	
+	public void setResetFlag(boolean flag) {
+		shouldReset = flag;
+	}
+	
 	/**
 	 * Gets if the elevator is at the bottom
 	 * @return true if the elevator is at the bottom, false otherwise
 	 */
 	public boolean isAtBottom()
 	{
-		return ls.get();
+		return ls.get() && shouldReset;
 	}
 }

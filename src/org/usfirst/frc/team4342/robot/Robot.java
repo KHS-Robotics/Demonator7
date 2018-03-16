@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team4342.robot.auton.AutoBaseline;
 import org.usfirst.frc.team4342.robot.auton.AutoScale;
 import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
+import org.usfirst.frc.team4342.robot.auton.AutoSwitchExchange;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
@@ -51,6 +52,7 @@ public class Robot extends TimedRobot {
 		priorityChooser.addDefault("Baseline", Priority.BASELINE);
 		priorityChooser.addObject("Switch", Priority.SWITCH);
 		priorityChooser.addObject("Scale", Priority.SCALE);
+		priorityChooser.addObject("Switch-Exchange", Priority.SWITCH_EXCHANGE);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 
 		Logger.info("Finished bootstrapping Demonator7.");
@@ -63,6 +65,9 @@ public class Robot extends TimedRobot {
 	public void teleopInit() {
 		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
+		
+		//OI.getInstance().Elevator.setResetFlag(true);
+		OI.getInstance().Drive.setFieldOriented(false);
 	}
 
 	/**
@@ -82,6 +87,7 @@ public class Robot extends TimedRobot {
 		stopAutonomousRoutine();
 
 		final OI oi = OI.getInstance();
+		//oi.Elevator.setResetFlag(false);
 		
 		String routine;
 		final StartPosition position = startPositionChooser.getSelected();
@@ -99,6 +105,11 @@ public class Robot extends TimedRobot {
 			case SCALE:
 				routine = "AutoScale";
 				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
+			break;
+			
+			case SWITCH_EXCHANGE:
+				routine = "AutoSwitchExchange";
+				autonomousRoutine = new AutoSwitchExchange(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:
@@ -129,6 +140,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
+		//OI.getInstance().Elevator.setResetFlag(false);
 	}
 	
 	@Override
@@ -157,7 +169,7 @@ public class Robot extends TimedRobot {
 		if(autonomousRoutine != null) {
 			Logger.info("Stopping autonomous routine...");
 			autonomousRoutine.cancel();
-			Scheduler.getInstance().run();
+			//Scheduler.getInstance().run();
 		}
 	}
 }

@@ -15,6 +15,7 @@ public class ButtonMap
 		public static final int GO_TO_LEFT = XboxButton.kX.value;
 		public static final int GO_TO_RIGHT = XboxButton.kB.value;
 		public static final int GO_TO_180 = XboxButton.kA.value;
+		public static final int ROBOT_ORIENT = XboxButton.kBumperLeft.value;
 	}
 	
 	/**
@@ -24,15 +25,16 @@ public class ButtonMap
 	 */
 	public static class SwitchBox
 	{
-		public static final int INTAKE = 5;
-		public static final int RELEASE = 4;
+		public static final int INTAKE = 1;
+		public static final int RELEASE = 2;
+		public static final int SLOW_RELEASE = 3;
 		public static final int CLIMB = 10;
 		public static final int RESET = 7;
-		public static final int ELEVATE_SCALE_HIGH = 2;
-		public static final int ELEVATE_SCLALE_NEUTRAL = 11;
-		public static final int ELEVATE_SCALE_LOW = 1;
-		public static final int ELEVATE_SWITCH = 12;
-		public static final int ELEVATE_PICKUP_CUBE = 3;
+		//public static final int ELEVATE_SCALE_HIGH = 5;
+		//public static final int ELEVATE_SCLALE_NEUTRAL = 11;
+		//public static final int ELEVATE_SCALE_LOW = 4;
+		//public static final int ELEVATE_SWITCH = 12;
+		public static final int ELEVATE_PICKUP_CUBE = 12;
 		public static final int ELEVATOR_OVERIDE = 9;
 		public static final int TUNE_PID = 8;
 		public static final int DRIVE_SLOW_OVERRIDE = 6;

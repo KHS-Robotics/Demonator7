@@ -38,7 +38,7 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	// Saves battery
-	private static final double DRIVE_OUTPUT_LIMITER = 0.85;
+	private static final double DRIVE_OUTPUT_LIMITER = 0.90;
 	
 	private double xDirection, yDirection;
 	private boolean fieldOriented;
@@ -171,7 +171,7 @@ public class SwerveDrive extends DriveTrainBase {
 		final double rcw = -z;
 		
 		if(fieldOriented) {
-			final double currentAngle = Math.toRadians(this.getAngle()); // make sure to use radians
+			final double currentAngle = Math.toRadians(this.getHeading()); // make sure to use radians
 			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
 			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
 			str = -str;
@@ -574,10 +574,10 @@ public class SwerveDrive extends DriveTrainBase {
 	    		mult = 0.5;
 	    	}
 	    	else if(elevPosition > 2150) {
-	    		mult = 0.3;
+	    		mult = 0.25;
 	    	}
 	    	else if(elevPosition > 2500) {
-	    		mult = 0.2;
+	    		mult = 0.15;
 	    	}
 			
 			this.output = flipDrive ? -output : output;

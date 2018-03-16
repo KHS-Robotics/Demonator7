@@ -16,7 +16,8 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 public class AutoSwitch extends AutonomousRoutine 
 {	
 	// Center Switch
-	private static final double CENTER_DIAGONAL_DISTANCE = 88 + ROBOT_Y;
+	//private static final double CENTER_DIAGONAL_DISTANCE = 88 + ROBOT_Y;
+	private static final double CENTER_DIAGONAL_DISTANCE = 97 + ROBOT_Y;
 	// Left or Right Switch
 	// Start Position and Switch location are the same
 	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 155 - ROBOT_X;

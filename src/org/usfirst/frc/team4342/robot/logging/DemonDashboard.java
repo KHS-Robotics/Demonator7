@@ -71,6 +71,11 @@ public class DemonDashboard
                         SmartDashboard.putNumber("Elev-Dist", oi.Elevator.getPosition());
                         SmartDashboard.putBoolean("Elev-LS", oi.Elevator.isAtBottom());
                     }
+                    
+                    if(oi.Intake != null) {
+//                    	SmartDashboard.putNumber("Intake-Ultra", oi.Intake.getUltraRange());
+//                    	SmartDashboard.putBoolean("Intake-HasCube", oi.Intake.hasCube());
+                    }
 
 					Thread.sleep(50);
 				}
