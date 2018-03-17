@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
 		Logger.info("Entering teleop...");
 		stopAutonomousRoutine();
 		
-		//OI.getInstance().Elevator.setResetFlag(true);
+		OI.getInstance().Elevator.setResetFlag(true);
 		OI.getInstance().Drive.setFieldOriented(false);
 	}
 
@@ -87,7 +87,7 @@ public class Robot extends TimedRobot {
 		stopAutonomousRoutine();
 
 		final OI oi = OI.getInstance();
-		//oi.Elevator.setResetFlag(false);
+		oi.Elevator.setResetFlag(false);
 		
 		String routine;
 		final StartPosition position = startPositionChooser.getSelected();
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Logger.info("Entering disabled...");
 		stopAutonomousRoutine();
-		//OI.getInstance().Elevator.setResetFlag(false);
+		OI.getInstance().Elevator.setResetFlag(false);
 	}
 	
 	@Override

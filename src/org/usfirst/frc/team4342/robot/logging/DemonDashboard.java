@@ -69,7 +69,8 @@ public class DemonDashboard
                     
                     if(oi.Elevator != null) {
                         SmartDashboard.putNumber("Elev-Dist", oi.Elevator.getPosition());
-                        SmartDashboard.putBoolean("Elev-LS", oi.Elevator.isAtBottom());
+                        SmartDashboard.putBoolean("Elev-Bottom", oi.Elevator.isAtBottom());
+                        SmartDashboard.putBoolean("Elev-LS", oi.Elevator.getLS());
                     }
                     
                     if(oi.Intake != null) {

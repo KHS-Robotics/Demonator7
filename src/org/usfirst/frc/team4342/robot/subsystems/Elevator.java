@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 public class Elevator extends PIDSubsystem
 {
 	private double p, i, d;
-	private boolean override, shouldReset = true;
+	private boolean override, shouldReset;
 	
 	private Talon motor;
 	private Encoder encoder;
@@ -90,7 +90,6 @@ public class Elevator extends PIDSubsystem
 	@Override
 	protected void initDefaultCommand()
 	{
-		// Only do this if the user isn't tuning PID
 		final OI oi = OI.getInstance();
 		this.setDefaultCommand(new ElevateWithJoystick(
 			oi.SwitchBox, 
@@ -213,6 +212,10 @@ public class Elevator extends PIDSubsystem
 	 */
 	public boolean isAtBottom()
 	{
-		return ls.get() && shouldReset;
+		return !getLS() && shouldReset;
+	}
+	
+	public boolean getLS() {
+		return ls.get();
 	}
 }

@@ -252,6 +252,52 @@ public class SwerveDrive extends DriveTrainBase {
 	}
 	
 	/**
+	 * Sets the x, y and z for the drive train. For information
+	 * on the math, see Either's Derivation of swerve formulas
+	 * using Inverse Kinematics: http://www.chiefdelphi.com/media/papers/download/3028
+	 * @param x the x input (e.g., strafe)
+	 * @param y the y input (e.g., forward/backward)
+	 * @param z the z input (e.g., twist)
+	 */
+	public void testSet(double x, double y, double z) {
+		
+		    double r = Math.sqrt ((L * L) + (W * W));
+		    y *= -1;
+
+		    double a = x - z * (L / r);
+		    double b = x + z * (L / r);
+		    double c = y - z * (W / r);
+		    double d = y + z * (W / r);
+
+		    double rrSpeed = Math.sqrt ((a * a) + (d * d));
+		    double rlSpeed = Math.sqrt ((a * a) + (c * c));
+		    double frSpeed = Math.sqrt ((b * b) + (d * d));
+		    double flSpeed = Math.sqrt ((b * b) + (c * c));
+
+		    double rrPivot = Math.atan2 (a, d) / Math.PI;
+		    double rlPivot = Math.atan2 (a, c) / Math.PI;
+		    double frPivot = Math.atan2 (b, d) / Math.PI;
+		    double flPivot = Math.atan2 (b, c) / Math.PI;
+
+
+		fr.setPivot(frPivot);
+		fl.setPivot(flPivot);
+		rl.setPivot(rlPivot);
+		rr.setPivot(rrPivot);
+		
+		fr.setDrive(frSpeed);
+		fl.setDrive(flSpeed);
+		rl.setDrive(rlSpeed);
+		rr.setDrive(rrSpeed);
+
+		if(DEBUG) {
+			Logger.debug("SwerveDrive set x=" + x + " y=" + y + " z=" + z);
+			Logger.debug("FL speed=" + flSpeed + " pivot=" + flPivot + " :: FR speed=" + frSpeed + " pivot=" + frPivot);
+			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rrSpeed + " pivot=" + rrPivot);
+		}
+	}
+	
+	/**
 	 * Sets all modues to the specified output and pivot angle
 	 * @param output the speed ranging from 0 to 1
 	 * @param angle the angle ranging from 0 to 360
