@@ -81,11 +81,11 @@ public class OI {
 
 	// Climber
 	public Climber Climber;
-	private TalonSRX ClimberMotor1, ClimberMotor2;
+	private Talon ClimberMotor1, ClimberMotor2;
 
 	// Elevator
 	public Elevator Elevator;
-	private Talon EleMotor;
+	private TalonSRX EleMotor;
 	private Encoder EleEnc;
 	private DigitalInput EleLS;
 	
@@ -254,10 +254,10 @@ public class OI {
 			Logger.info("Initializing Climber...");
 
 			// Climber
-			ClimberMotor1 = new TalonSRX(RobotMap.CLIMBER_MOTOR);
-			ClimberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR);
-			ClimberMotor1.setNeutralMode(NeutralMode.Brake);
-			ClimberMotor2.setNeutralMode(NeutralMode.Brake);
+			ClimberMotor1 = new Talon(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor2 = new Talon(RobotMap.CLIMBER_MOTOR);
+//			ClimberMotor1.setNeutralMode(NeutralMode.Brake);
+//			ClimberMotor2.setNeutralMode(NeutralMode.Brake);
 			Climber = new Climber(ClimberMotor1, ClimberMotor2);
 
 			// Climbing button to enable the winch
@@ -283,7 +283,7 @@ public class OI {
 			Logger.info("Initializing Elevator...");
 			
 			// Elevator
-			EleMotor = new Talon(RobotMap.ELE_MOTOR);
+			EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
 			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);

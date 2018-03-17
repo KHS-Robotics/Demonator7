@@ -29,9 +29,9 @@ public class RobotMap {
 
 	// Motors for Intake, Climber and Elevator
 	public static final int INTAKE_MOTOR_RIGHT = 0;
-	public static final int INTAKE_MOTOR_LEFT = 0;
-	public static final int CLIMBER_MOTOR = 1;
-	public static final int CLIMBER_MOTOR_2 = 0;
+	public static final int INTAKE_MOTOR_LEFT = 1;
+	public static final int CLIMBER_MOTOR = 2;
+	public static final int CLIMBER_MOTOR_2 = 3;
 	public static final int ELE_MOTOR= 1;
 	
 	// Drive/Translational Encoders for Swerve

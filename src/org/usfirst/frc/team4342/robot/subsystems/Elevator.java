@@ -5,6 +5,9 @@ import org.usfirst.frc.team4342.robot.Constants;
 import org.usfirst.frc.team4342.robot.OI;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateWithJoystick;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotState;
@@ -21,7 +24,7 @@ public class Elevator extends PIDSubsystem
 	private double p, i, d;
 	private boolean override, shouldReset;
 	
-	private Talon motor;
+	private TalonSRX motor;
 	private Encoder encoder;
 	private DigitalInput ls;
 	
@@ -31,7 +34,7 @@ public class Elevator extends PIDSubsystem
 	 * @param encoder the encoder to keep track of the elevator's height
 	 * @param ls the limit switch at the bottom of the elevator
 	 */
-	public Elevator(Talon motor, Encoder encoder, DigitalInput ls) 
+	public Elevator(TalonSRX motor, Encoder encoder, DigitalInput ls) 
 	{
 		super(0, 0, 0);
 		
@@ -180,9 +183,9 @@ public class Elevator extends PIDSubsystem
 	public void set(double output)
 	{
 		if(!override && ls.get() && output < 0)
-			motor.set(0);
+			motor.set(ControlMode.PercentOutput, 0);
 		
-		motor.set(output);
+		motor.set(ControlMode.PercentOutput, output);
 	}
 
 	/**
