@@ -9,15 +9,16 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Climber extends SubsystemBase 
 {
 	private boolean enabled;
-	private TalonSRX motor;
+	private TalonSRX motor1, motor2;
 	
 	/**
 	 * Creates a new <code>Climber</code> subsystem
 	 * @param motor the motor to control the winch
 	 */
-	public Climber(TalonSRX motor)
+	public Climber(TalonSRX motor1, TalonSRX motor2)
 	{
-		this.motor = motor;
+		this.motor1 = motor1;
+		this.motor2 = motor2;
 	}
 	
 	/**
@@ -29,7 +30,8 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = true;
 		
-		motor.set(ControlMode.PercentOutput, 1);
+		motor1.set(ControlMode.PercentOutput, 1);
+		motor2.set(ControlMode.PercentOutput, 1);
 	}
 	
 	/**
@@ -42,6 +44,7 @@ public class Climber extends SubsystemBase
 			return;
 		enabled = false;
 		
-		motor.set(ControlMode.PercentOutput, 0);
+		motor1.set(ControlMode.PercentOutput, 0);
+		motor2.set(ControlMode.PercentOutput, 0);
 	}
 }

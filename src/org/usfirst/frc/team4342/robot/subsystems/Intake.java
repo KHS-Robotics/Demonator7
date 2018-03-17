@@ -14,16 +14,17 @@ public class Intake extends SubsystemBase
 	private boolean intaking;
 	private boolean releasing;
 	private boolean slow;
-	private Talon motor;
+	private Talon motorLeft, motorRight;
 	private Ultrasonic ultra;
 	
 	/**
 	 * Creates a new <code>Intake</code> subsystem
 	 * @param motor the intake motor
 	 */
-	public Intake(Talon motor, Ultrasonic ultra)
+	public Intake(Talon motorLeft, Talon motorRight, Ultrasonic ultra)
 	{
-		this.motor = motor;
+		this.motorLeft = motorLeft;
+		this.motorRight = motorRight;
 		this.ultra = ultra;
 	}
 	
@@ -41,7 +42,8 @@ public class Intake extends SubsystemBase
 		if(intaking || releasing)
 			return;
 		
-		motor.set(output);
+		motorLeft.set(output);
+		motorRight.set(output);
 	}
 	/**
 	 * Enables the intake motor to pick up a cube
@@ -53,7 +55,9 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motor.set(.75);
+		motorLeft.set(.75);
+		motorRight.set(.75);
+		
 	}
 	
 	/**
@@ -67,9 +71,15 @@ public class Intake extends SubsystemBase
 		releasing = true;
 		
 		if(slow)
-			motor.set(-0.70);
+		{
+			motorLeft.set(-0.70);
+			motorRight.set(-0.70);
+		}
 		else
-			motor.set(-0.40);
+		{
+			motorLeft.set(-0.40);
+			motorRight.set(-0.40);
+		}
 	}
 	
 	/**
@@ -107,6 +117,7 @@ public class Intake extends SubsystemBase
 			return;
 		intaking = releasing = false;
 		
-		motor.set(0);
+		motorLeft.set(0);
+		motorRight.set(0);
 	}
 }

@@ -81,7 +81,7 @@ public class OI {
 
 	// Climber
 	public Climber Climber;
-	private TalonSRX ClimberMotor;
+	private TalonSRX ClimberMotor1, ClimberMotor2;
 
 	// Elevator
 	public Elevator Elevator;
@@ -91,7 +91,7 @@ public class OI {
 	
 	// Intake
 	public Intake Intake;
-	private Talon IntakeMotor;
+	private Talon IntakeMotorLeft, IntakeMotorRight;
 	
 	private OI() {
 		Logger.info("Connecting to PDP...");
@@ -254,9 +254,11 @@ public class OI {
 			Logger.info("Initializing Climber...");
 
 			// Climber
-			ClimberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR);
-			ClimberMotor.setNeutralMode(NeutralMode.Brake);
-			Climber = new Climber(ClimberMotor);
+			ClimberMotor1 = new TalonSRX(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor1.setNeutralMode(NeutralMode.Brake);
+			ClimberMotor2.setNeutralMode(NeutralMode.Brake);
+			Climber = new Climber(ClimberMotor1, ClimberMotor2);
 
 			// Climbing button to enable the winch
 			JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
@@ -331,10 +333,11 @@ public class OI {
 			Logger.info("Initializing Intake...");
 			
 			// Intake
-			IntakeMotor = new Talon(RobotMap.INTAKE_MOTOR);
+			IntakeMotorLeft = new Talon(RobotMap.INTAKE_MOTOR_LEFT);
+			IntakeMotorRight = new Talon(RobotMap.INTAKE_MOTOR_RIGHT);
 //			CubeUltra = new Ultrasonic(RobotMap.ULTRA_OUT, RobotMap.ULTRA_IN);
 //			CubeUltra.setAutomaticMode(true);
-			Intake = new Intake(IntakeMotor, CubeUltra);
+			Intake = new Intake(IntakeMotorLeft, IntakeMotorRight, CubeUltra);
 
 			// Switch to enable the intake for a cube
 			JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
