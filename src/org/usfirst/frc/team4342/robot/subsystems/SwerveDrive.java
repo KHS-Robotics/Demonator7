@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Swerve Drive subsystem
  */
 public class SwerveDrive extends DriveTrainBase {
-	private static boolean DEBUG = false;
+	private static boolean DEBUG = true;
 
 	// Dimensions in inches (vehicle's wheelbase and trackwidth)
 	// measurements are from one center of pivot to another center of pivot
@@ -38,7 +38,7 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	// Saves battery
-	private static final double DRIVE_OUTPUT_LIMITER = 0.90;
+	private static final double DRIVE_OUTPUT_LIMITER = 0.85;
 	
 	private double xDirection, yDirection;
 	private boolean fieldOriented;
@@ -260,26 +260,91 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param z the z input (e.g., twist)
 	 */
 	public void testSet(double x, double y, double z) {
+		if(!fieldOriented)
+			x = -x;
 		
-		    double r = Math.sqrt ((L * L) + (W * W));
-		    y *= -1;
+		double fwd = -y;
+		double str = x;
+		final double rcw = -z;
+		
+		if(fieldOriented) {
+			final double currentAngle = Math.toRadians(this.getHeading()); // make sure to use radians
+			final double TEMP = fwd*Math.cos(currentAngle) + str*Math.sin(currentAngle);
+			str = -fwd*Math.sin(currentAngle) + str*Math.cos(currentAngle);
+			str = -str;
+			fwd = TEMP;
+		}
+		
+		final double xNeg = str - (rcw*W_OVER_R);
+		final double xPos = str + (rcw*W_OVER_R);
+		final double yNeg = fwd - (rcw*L_OVER_R);
+		final double yPos = fwd + (rcw*L_OVER_R);
+		
+		double frSpeed = calcMagnitude(xPos, yPos);
+        double frPivot = calcAngle(xPos, yPos);
+        
+        double flSpeed = calcMagnitude(xPos, yNeg);
+        double flPivot = calcAngle(xPos, yNeg);
+        
+        double rlSpeed = calcMagnitude(xNeg, yNeg);
+        double rlPivot = calcAngle(xNeg, yNeg);
+        
+        double rrSpeed = calcMagnitude(xNeg, yPos);
+        double rrPivot = calcAngle(xNeg, yPos);
+		
+		// Make sure we don't use the arctan value
+		// with x=0
+		if((xNeg == 0 && Math.abs(fwd) < 0.005) || (Math.abs(x) < 0.005 && Math.abs(y) < 0.005 && Math.abs(z) < 0.005)) {
+			frPivot = fr.getAngle();
+			flPivot = fl.getAngle();
+			rrPivot = rr.getAngle();
+			rlPivot = rl.getAngle();
+		}
+		else if(xNeg == 0) {
+			if(fwd > 0.02) {
+				frPivot = flPivot = rrPivot = rlPivot = 180;
+			}
+			else if(fwd < -0.15) {
+				frPivot = flPivot = rrPivot = rlPivot = 0;
+			}
+			else {
+				frPivot = fr.getAngle();
+				flPivot = fl.getAngle();
+				rrPivot = rr.getAngle();
+				rlPivot = rl.getAngle();
+			}
+				
+		}
+		
+		double max = frSpeed;
+		if(flSpeed > max)
+			max = flSpeed;
+		if(rlSpeed > max)
+			max = rlSpeed;
+		if(rrSpeed > max)
+			max = rrSpeed;
+		
+		if(max > 1) {
+			frSpeed /= max;
+			flSpeed /= max;
+			rlSpeed /= max;
+			rrSpeed /= max;
+		}
 
-		    double a = x - z * (L / r);
-		    double b = x + z * (L / r);
-		    double c = y - z * (W / r);
-		    double d = y + z * (W / r);
-
-		    double rrSpeed = Math.sqrt ((a * a) + (d * d));
-		    double rlSpeed = Math.sqrt ((a * a) + (c * c));
-		    double frSpeed = Math.sqrt ((b * b) + (d * d));
-		    double flSpeed = Math.sqrt ((b * b) + (c * c));
-
-		    double rrPivot = Math.atan2 (a, d) / Math.PI;
-		    double rlPivot = Math.atan2 (a, c) / Math.PI;
-		    double frPivot = Math.atan2 (b, d) / Math.PI;
-		    double flPivot = Math.atan2 (b, c) / Math.PI;
-
-
+		if(y < 0 && (Math.abs(x) < 0.005) && !(Math.abs(y) < 0.01))
+		{
+			fr.setPivot(frPivot);
+			fl.setPivot(flPivot);
+			rl.setPivot(-rlPivot);
+			rr.setPivot(rrPivot);
+			
+			fr.setDrive(frSpeed);
+			fl.setDrive(flSpeed);
+			rl.setDrive(-rlSpeed);
+			rr.setDrive(rrSpeed);
+		}
+		else
+		{
 		fr.setPivot(frPivot);
 		fl.setPivot(flPivot);
 		rl.setPivot(rlPivot);
@@ -289,11 +354,14 @@ public class SwerveDrive extends DriveTrainBase {
 		fl.setDrive(flSpeed);
 		rl.setDrive(rlSpeed);
 		rr.setDrive(rrSpeed);
+		}
+		
+		
 
 		if(DEBUG) {
 			Logger.debug("SwerveDrive set x=" + x + " y=" + y + " z=" + z);
 			Logger.debug("FL speed=" + flSpeed + " pivot=" + flPivot + " :: FR speed=" + frSpeed + " pivot=" + frPivot);
-			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RL speed=" + rrSpeed + " pivot=" + rrPivot);
+			Logger.debug("RL speed=" + rlSpeed + " pivot=" + rlPivot + " :: RR speed=" + rrSpeed + " pivot=" + rrPivot);
 		}
 	}
 	
@@ -656,8 +724,8 @@ public class SwerveDrive extends DriveTrainBase {
 			if(flipDrive)
 				angle += 180;
 
-			if(DEBUG)
-				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);
+//			if(DEBUG)
+//				Logger.debug("SwerveModule setPivot flipDrive=" + flipDrive + " angle=" + angle%360);
 
 			pivotPID.setSetpoint(toVoltage(angle));
 			pivotPID.enable();

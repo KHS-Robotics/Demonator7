@@ -262,6 +262,12 @@ public class OI {
 			JoystickButton climbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.CLIMB);
 			climbButton.whenPressed(new StartClimber(Climber));
 			climbButton.whenReleased(new StopSubsystem(Climber));
+			
+			// Back up climb button in case other button breaks
+			// switch it opposite
+			JoystickButton backupClimbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.BACKUP_CLIMB);
+			backupClimbButton.whenReleased(new StartClimber(Climber));
+			backupClimbButton.whenPressed(new StopSubsystem(Climber));
 		} catch(Exception ex) {
 			Logger.error("Failed to initialize Climber!", ex);
 		}
