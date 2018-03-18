@@ -19,12 +19,12 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 public class AutoScale extends AutonomousRoutine
 {	
 	// Left or Right Scale when Position = Scale Side
-	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 288;
-	private static final double MOVE_STRAIGHT_SCALE_DISTANCE_PART2 = 18;
-	private static final double MOVE_TO_SCALE_DISTANCE = 12;
+	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
+	//private static final double MOVE_STRAIGHT_SCALE_DISTANCE_PART2 = 18;
+	private static final double MOVE_TO_SCALE_DISTANCE = 10;
 	// Left or Right Scale when Position != Scale Side
-	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 260;
-	private static final double ALIGN_TO_SCALE_DISTANCE = 204;
+	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 220;
+	private static final double ALIGN_TO_SCALE_DISTANCE = 225;
 	private static final double AJUST_TO_SCALE_DISTANCE = 90;
 
 	/**
@@ -49,8 +49,8 @@ public class AutoScale extends AutonomousRoutine
 
 				if(isScaleLeft())
 				{
-					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					// TODO: Get another cube and place it on switch or scale
@@ -58,7 +58,7 @@ public class AutoScale extends AutonomousRoutine
 				else
 				{
 					this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveStraight(d, -0.5, ALIGN_TO_SCALE_DISTANCE));
 					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraight(d, -0.5, AJUST_TO_SCALE_DISTANCE));
@@ -82,7 +82,7 @@ public class AutoScale extends AutonomousRoutine
 				else
 				{
 					this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_HALF_SCALE_DISTANCE));
-					this.addSequential(new DriveStraight(d, 0.5, ALIGN_TO_SCALE_DISTANCE));
+					this.addSequential(new DriveStraight(d, -0.5, ALIGN_TO_SCALE_DISTANCE));
 					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraight(d, -0.5, AJUST_TO_SCALE_DISTANCE));
