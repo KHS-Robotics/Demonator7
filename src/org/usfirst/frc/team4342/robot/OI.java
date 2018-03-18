@@ -255,7 +255,7 @@ public class OI {
 
 			// Climber
 			ClimberMotor1 = new Talon(RobotMap.CLIMBER_MOTOR);
-			ClimberMotor2 = new Talon(RobotMap.CLIMBER_MOTOR);
+			ClimberMotor2 = new Talon(RobotMap.CLIMBER_MOTOR_2);
 //			ClimberMotor1.setNeutralMode(NeutralMode.Brake);
 //			ClimberMotor2.setNeutralMode(NeutralMode.Brake);
 			Climber = new Climber(ClimberMotor1, ClimberMotor2);
@@ -267,6 +267,7 @@ public class OI {
 			
 			// Back up climb button in case other button breaks
 			// switch it opposite
+			
 			JoystickButton backupClimbButton = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.BACKUP_CLIMB);
 			backupClimbButton.whenReleased(new StartClimber(Climber));
 			backupClimbButton.whenPressed(new StopSubsystem(Climber));
@@ -284,6 +285,7 @@ public class OI {
 			
 			// Elevator
 			EleMotor = new TalonSRX(RobotMap.ELE_MOTOR);
+			EleMotor.setNeutralMode(NeutralMode.Brake);
 			EleEnc = new Encoder(RobotMap.ELE_ENC_A, RobotMap.ELE_ENC_B);
 			EleEnc.setDistancePerPulse(1);
 			EleLS = new DigitalInput(RobotMap.ELE_LS);

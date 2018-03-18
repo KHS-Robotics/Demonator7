@@ -26,7 +26,8 @@ public class IntakeWithJoystick extends CommandBase {
 	@Override
 	protected void execute() {
 		double input = joystick.getX();
-		intake.set(Math.abs(input) > DEADBAND ? input : 0);
+		double inputY = joystick.getY();
+		intake.set(Math.abs(input) > DEADBAND ? input : 0, Math.abs(inputY) > DEADBAND ? inputY : 0 );
 	}
 
 	@Override

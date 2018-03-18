@@ -38,12 +38,20 @@ public class Intake extends SubsystemBase
 		this.setDefaultCommand(new IntakeWithJoystick(oi.Intake,oi.SwitchBox));
 	}
 	
-	public void set(double output) {
+	public void set(double output, double x) {
 		if(intaking || releasing)
 			return;
 		
-		motorLeft.set(output);
-		motorRight.set(output);
+		if(x < 0)
+		{
+			motorLeft.set(output + Math.abs(x));
+			motorRight.set(output);
+		}
+		else
+		{
+			motorLeft.set(output);
+			motorRight.set(output + Math.abs(x));
+		}
 	}
 	/**
 	 * Enables the intake motor to pick up a cube
