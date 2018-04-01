@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4342.robot.auton.AutoBaseline;
+import org.usfirst.frc.team4342.robot.auton.AutoCenter2Cube;
 import org.usfirst.frc.team4342.robot.auton.AutoScale;
+import org.usfirst.frc.team4342.robot.auton.AutoScale2Cube;
 import org.usfirst.frc.team4342.robot.auton.AutoSwitch;
-import org.usfirst.frc.team4342.robot.auton.AutoSwitchExchange;
 import org.usfirst.frc.team4342.robot.auton.AutonomousRoutine;
 import org.usfirst.frc.team4342.robot.auton.Priority;
 import org.usfirst.frc.team4342.robot.auton.StartPosition;
@@ -52,7 +53,8 @@ public class Robot extends TimedRobot {
 		priorityChooser.addDefault("Baseline", Priority.BASELINE);
 		priorityChooser.addObject("Switch", Priority.SWITCH);
 		priorityChooser.addObject("Scale", Priority.SCALE);
-		priorityChooser.addObject("Switch-Exchange", Priority.SWITCH_EXCHANGE);
+		priorityChooser.addObject("Two-Cube Switch", Priority.TWO_SWITCH);
+		priorityChooser.addObject("Two-Cube Scale", Priority.TWO_SCALE);
 		SmartDashboard.putData("Priority Chooser", priorityChooser);
 
 		Logger.info("Finished bootstrapping Demonator7.");
@@ -107,9 +109,14 @@ public class Robot extends TimedRobot {
 				autonomousRoutine = new AutoScale(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
-			case SWITCH_EXCHANGE:
+			case TWO_SWITCH:
 				routine = "AutoSwitchExchange";
-				autonomousRoutine = new AutoSwitchExchange(position, oi.Drive, oi.Elevator, oi.Intake);
+				autonomousRoutine = new AutoCenter2Cube(position, oi.Drive, oi.Elevator, oi.Intake);
+			break;
+			
+			case TWO_SCALE:
+				routine = "AutoSwitchExchange";
+				autonomousRoutine = new AutoScale2Cube(position, oi.Drive, oi.Elevator, oi.Intake);
 			break;
 			
 			default:

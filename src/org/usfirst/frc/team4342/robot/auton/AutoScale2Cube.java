@@ -2,10 +2,12 @@ package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevatePickupCube;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleLow;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleNeutral;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
+import org.usfirst.frc.team4342.robot.commands.intake.IntakeCube;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
 import org.usfirst.frc.team4342.robot.logging.Logger;
@@ -16,7 +18,7 @@ import org.usfirst.frc.team4342.robot.subsystems.SwerveDrive;
 /**
  * Auto routine to place a cube on the scale for the specified position
  */
-public class AutoScale extends AutonomousRoutine
+public class AutoScale2Cube extends AutonomousRoutine
 {	
 	// Left or Right Scale when Position = Scale Side
 	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
@@ -26,6 +28,7 @@ public class AutoScale extends AutonomousRoutine
 	private static final double MOVE_STRAIGHT_HALF_SCALE_DISTANCE = 220;
 	private static final double ALIGN_TO_SCALE_DISTANCE = 225;
 	private static final double AJUST_TO_SCALE_DISTANCE = 90;
+	private static final double NEW_CUBE_DISTANCE = 80;
 
 	/**
 	 * Auto routine to place a cube on the scale for the
@@ -36,7 +39,7 @@ public class AutoScale extends AutonomousRoutine
 	 * @param i the intake
 	 * @see StartPosition
 	 */
-	public AutoScale(StartPosition position, SwerveDrive d, Elevator e, Intake i) 
+	public AutoScale2Cube(StartPosition position, SwerveDrive d, Elevator e, Intake i) 
 	{
 		super(position);
 		
@@ -54,6 +57,17 @@ public class AutoScale extends AutonomousRoutine
 					this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addParallel(new ElevatePickupCube(e));
+					this.addSequential(new DriveStraight(d, 1, NEW_CUBE_DISTANCE));
+					this.addParallel(new DriveGoToAngle(d, 135));
+					this.addSequential(new IntakeCube(i));
+					this.addSequential(new DriveGoToAngle(d, 90));
+					this.addSequential(new DriveStraight(d, -1, NEW_CUBE_DISTANCE));
+					this.addParallel(new ElevateToScaleHigh(e));
+					this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addSequential(new ReleaseCube(i));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					
 					// TODO: Get another cube and place it on switch or scale
 				}
 				else
@@ -74,8 +88,18 @@ public class AutoScale extends AutonomousRoutine
 
 				if(isScaleRight())
 				{
-					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+					this.addParallel(new ElevateToScaleHigh(e));
+					this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addSequential(new ReleaseCube(i));
+					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					this.addParallel(new ElevatePickupCube(e));
+					this.addSequential(new DriveStraight(d, -1, NEW_CUBE_DISTANCE));
+					this.addParallel(new DriveGoToAngle(d, -135));
+					this.addSequential(new IntakeCube(i));
+					this.addSequential(new DriveGoToAngle(d, -90));
+					this.addSequential(new DriveStraight(d, 1, NEW_CUBE_DISTANCE));
+					this.addParallel(new ElevateToScaleHigh(e));
 					this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
 					this.addSequential(new ReleaseCube(i));
 					this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));

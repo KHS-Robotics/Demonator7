@@ -53,6 +53,7 @@ public class Intake extends SubsystemBase
 			motorRight.set(output + Math.abs(x));
 		}
 	}
+	
 	/**
 	 * Enables the intake motor to pick up a cube
 	 */
@@ -65,6 +66,30 @@ public class Intake extends SubsystemBase
 		
 		motorLeft.set(.75);
 		motorRight.set(.75);
+		
+	}
+	
+	/**
+	 * Enables the intake motor to pick up a cube (w/ profiling)
+	 */
+	public void profilingEnable()
+	{
+		if(intaking)
+			return;
+		intaking = true;
+		releasing = false;
+		
+		motorLeft.set(.75);
+		motorRight.set(.75);
+		
+//		if(motorLeft)
+//		{
+//			
+//		}
+//		else if(motorRight)
+//		{
+//			
+//		}
 		
 	}
 	

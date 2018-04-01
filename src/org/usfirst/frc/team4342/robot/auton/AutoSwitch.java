@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.auton;
 
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveGoToAngle;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraight;
+import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
@@ -26,6 +27,9 @@ public class AutoSwitch extends AutonomousRoutine
 	private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
 	private static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 155 - (ROBOT_X/2);
 	private static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 50;
+	
+	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
+	private static final double MOVE_TO_SCALE_DISTANCE = 10;
 
 	/**
 	 * Auto routine to place a cube on the switch for the
@@ -59,12 +63,25 @@ public class AutoSwitch extends AutonomousRoutine
 				}
 				else
 				{
-					this.addSequential(new DriveStraightSwerve(d, -0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-					this.addParallel(new ElevateToSwitch(e));
-					this.addSequential(new DriveStraight(d, -0.7, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveGoToAngle(d, 150));
-					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
-					this.addSequential(new ReleaseCube(i));
+//					this.addSequential(new DriveStraightSwerve(d, -0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
+//					this.addParallel(new ElevateToSwitch(e));
+//					this.addSequential(new DriveStraight(d, -0.7, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+//					this.addSequential(new DriveGoToAngle(d, 150));
+//					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
+//					this.addSequential(new ReleaseCube(i));
+					
+					if(isScaleLeft())
+					{
+						this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+						this.addParallel(new ElevateToScaleHigh(e));
+						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+						this.addSequential(new ReleaseCube(i));
+						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					}
+					else
+					{
+						this.addSequential(new DriveStraightSwerve(d, -0.8, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
+					}
 					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 					
@@ -85,12 +102,25 @@ public class AutoSwitch extends AutonomousRoutine
 				}
 				else
 				{
-					this.addSequential(new DriveStraightSwerve(d, 0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
-					this.addSequential(new DriveStraight(d, -0.8, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
-					this.addSequential(new DriveGoToAngle(d, -142));
-					this.addParallel(new ElevateToSwitch(e));
-					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
-					this.addSequential(new ReleaseCube(i));
+//					this.addSequential(new DriveStraightSwerve(d, 0.9, 0.0, LEFT_RIGHT_PAST_SWITCH_DISTANCE));
+//					this.addSequential(new DriveStraight(d, -0.8, LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE));
+//					this.addSequential(new DriveGoToAngle(d, -142));
+//					this.addParallel(new ElevateToSwitch(e));
+//					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
+//					this.addSequential(new ReleaseCube(i));
+					
+					if(isScaleRight())
+					{
+						this.addParallel(new ElevateToScaleHigh(e));
+						this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+						this.addSequential(new ReleaseCube(i));
+						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+					}
+					else
+					{
+						this.addSequential(new DriveStraightSwerve(d, 0.8, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
+					}
 					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 			}
