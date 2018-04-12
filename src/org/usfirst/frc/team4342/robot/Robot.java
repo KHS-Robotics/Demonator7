@@ -66,7 +66,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		Logger.info("Entering teleop...");
-		stopAutonomousRoutine();
+		if(autonomousRoutine != null)
+			stopAutonomousRoutine();
 		
 		OI.getInstance().Elevator.setResetFlag(true);
 		OI.getInstance().Drive.setFieldOriented(false);
@@ -155,7 +156,7 @@ public class Robot extends TimedRobot {
 		// For Testing
 		if(OI.getInstance().SwitchBox.getRawButton(ButtonMap.SwitchBox.RESET)) {
 			OI.getInstance().Drive.resetNavX();
-			OI.getInstance().Elevator.reset();
+			//OI.getInstance().Elevator.reset();
 		}
 	}
 	
@@ -173,10 +174,13 @@ public class Robot extends TimedRobot {
 	 * Stops the autonomous routine
 	 */
 	private void stopAutonomousRoutine() {
-		if(autonomousRoutine != null) {
+		if(autonomousRoutine != null) 
+		{
 			Logger.info("Stopping autonomous routine...");
 			autonomousRoutine.cancel();
-			//Scheduler.getInstance().run();
 		}
+		Scheduler.getInstance().run();
+		
+		OI.getInstance().Drive.resetAllEncoders();
 	}
 }

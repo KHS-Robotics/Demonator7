@@ -38,7 +38,7 @@ public class SwerveDrive extends DriveTrainBase {
 	private static final double DELTA_VOLTAGE = MAX_VOLTAGE - MIN_VOLTAGE;
 	
 	// Saves battery
-	private static final double DRIVE_OUTPUT_LIMITER = 0.85;
+	private static final double DRIVE_OUTPUT_LIMITER = 0.88;
 	
 	private double xDirection, yDirection;
 	private boolean fieldOriented;
@@ -496,6 +496,14 @@ public class SwerveDrive extends DriveTrainBase {
 	 */
 	private static double calcAngle(double x, double y) {
 		return (Math.toDegrees(Math.atan2(x, -y)) + 360) % 360;
+	}
+	
+	public void resetAllEncoders()
+	{
+		fr.reset();
+		fl.reset();
+		rr.reset();
+		rl.reset();
 	}
 	
 	/**

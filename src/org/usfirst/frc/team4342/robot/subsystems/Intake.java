@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4342.robot.subsystems;
 
 import org.usfirst.frc.team4342.robot.OI;
+import org.usfirst.frc.team4342.robot.RobotMap;
 import org.usfirst.frc.team4342.robot.commands.intake.IntakeWithJoystick;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -16,6 +17,8 @@ public class Intake extends SubsystemBase
 	private boolean slow;
 	private Talon motorLeft, motorRight;
 	private Ultrasonic ultra;
+	
+	private double limiter;
 	
 	/**
 	 * Creates a new <code>Intake</code> subsystem
@@ -42,15 +45,24 @@ public class Intake extends SubsystemBase
 		if(intaking || releasing)
 			return;
 		
-		if(x < 0)
+		if(OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_LEFT)> 8)
 		{
-			motorLeft.set(output + Math.abs(x));
-			motorRight.set(output);
+			limiter = .8;
 		}
 		else
 		{
-			motorLeft.set(output);
-			motorRight.set(output + Math.abs(x));
+			limiter = 1;
+		}
+		
+		if(x < 0)
+		{
+			motorLeft.set((output + Math.abs(x))*limiter);
+			motorRight.set(output * limiter);
+		}
+		else
+		{
+			motorLeft.set(output * limiter);
+			motorRight.set((output + Math.abs(x))*limiter);
 		}
 	}
 	
@@ -64,8 +76,16 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motorLeft.set(.75);
-		motorRight.set(.75);
+		if(OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_LEFT)>10)
+		{
+			motorRight.set(.65);
+			motorLeft.set(.65);
+		}
+		else
+		{
+			motorLeft.set(.75);
+			motorRight.set(.75);
+		}
 		
 	}
 	
@@ -79,17 +99,24 @@ public class Intake extends SubsystemBase
 		intaking = true;
 		releasing = false;
 		
-		motorLeft.set(.75);
-		motorRight.set(.75);
-		
-//		if(motorLeft)
-//		{
-//			
-//		}
-//		else if(motorRight)
-//		{
-//			
-//		}
+		if((Math.abs(OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_LEFT) - OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_RIGHT))/20) <= 0.1)
+		{
+			if(OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_LEFT) > OI.getInstance().PDP.getCurrent(RobotMap.INTAKE_MOTOR_RIGHT))
+			{
+				motorRight.set(.85);
+				motorLeft.set(.75);
+			}
+			else
+			{
+				motorRight.set(.75);
+				motorLeft.set(.85);
+			}
+		}
+		else
+		{
+			motorLeft.set(.75);
+			motorRight.set(.75);
+		}
 		
 	}
 	

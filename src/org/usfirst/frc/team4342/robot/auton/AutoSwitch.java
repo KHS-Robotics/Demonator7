@@ -18,18 +18,18 @@ public class AutoSwitch extends AutonomousRoutine
 {	
 	// Center Switch
 	//private static final double CENTER_DIAGONAL_DISTANCE = 88 + ROBOT_Y;
-	private static final double CENTER_DIAGONAL_DISTANCE = 97 + ROBOT_Y;
+	private static final double CENTER_DIAGONAL_DISTANCE = 95 + ROBOT_Y;
 	// Left or Right Switch
 	// Start Position and Switch location are the same
-	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 155 - ROBOT_X;
+	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 145 - ROBOT_X;
 	private static final double LEFT_RIGHT_SWITCH_DISTANCE = 40 - (ROBOT_Y);
 	// Start Position and Switch location are opposite
-	private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
-	private static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 155 - (ROBOT_X/2);
-	private static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 50;
+	//private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
+	//private static final double LEFT_RIGHT_PAST_SWITCH_ALIGN_DISTANCE = 155 - (ROBOT_X/2);
+	//private static final double LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE = 50;
 	
-	private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
-	private static final double MOVE_TO_SCALE_DISTANCE = 10;
+	//private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
+	//private static final double MOVE_TO_SCALE_DISTANCE = 10;
 
 	/**
 	 * Auto routine to place a cube on the switch for the
@@ -72,11 +72,13 @@ public class AutoSwitch extends AutonomousRoutine
 					
 					if(isScaleLeft())
 					{
-						this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
-						this.addParallel(new ElevateToScaleHigh(e));
-						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
-						this.addSequential(new ReleaseCube(i));
-						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+//						this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+//						this.addParallel(new ElevateToScaleHigh(e));
+//						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+//						this.addSequential(new ReleaseCube(i));
+//						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+						
+						this.addSequential(new AutoScale(position, d, e, i));
 					}
 					else
 					{
@@ -111,11 +113,13 @@ public class AutoSwitch extends AutonomousRoutine
 					
 					if(isScaleRight())
 					{
-						this.addParallel(new ElevateToScaleHigh(e));
-						this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
-						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
-						this.addSequential(new ReleaseCube(i));
-						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+//						this.addParallel(new ElevateToScaleHigh(e));
+//						this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+//						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+//						this.addSequential(new ReleaseCube(i));
+//						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+						
+						this.addSequential(new AutoScale(position, d, e, i));
 					}
 					else
 					{
@@ -126,7 +130,7 @@ public class AutoSwitch extends AutonomousRoutine
 			}
 			else if(position == StartPosition.CENTER)
 			{
-				final double xSpeed = isSwitchRight() ? 0.3 : -0.35;
+				final double xSpeed = isSwitchRight() ? 0.28 : -0.32;
 				final double offset = isSwitchRight() ? -7 : 0;
 				this.addParallel(new ElevateToSwitch(e));
 				this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));

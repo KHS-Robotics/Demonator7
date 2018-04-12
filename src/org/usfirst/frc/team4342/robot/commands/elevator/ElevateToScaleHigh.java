@@ -7,7 +7,7 @@ import org.usfirst.frc.team4342.robot.subsystems.Elevator;
  * the opponent has ownership
  */
 public class ElevateToScaleHigh extends Elevate {
-	private static final double SCALE_HEIGHT = 3100;
+	private static final double SCALE_HEIGHT = 3500;
 
 	/**
 	 * Sets the height of the elevator to place a cube on the scale when

@@ -16,7 +16,7 @@ public class DriveGoToAngle extends CommandBase {
 	 * @param yaw the yaw (-180 to 180)
 	 */
 	public DriveGoToAngle(SwerveDrive drive, double yaw) {
-		super(3);
+		super(2.5);
 		
 		this.drive = drive;
 		this.yaw = yaw;

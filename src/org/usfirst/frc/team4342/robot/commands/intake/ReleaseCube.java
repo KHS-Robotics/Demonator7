@@ -18,7 +18,7 @@ public class ReleaseCube extends CommandBase
 	 */
 	public ReleaseCube(Intake intake)
 	{
-		super(2);
+		super(1.5);
 		
 		this.intake = intake;
 		this.requires(intake);
