@@ -59,13 +59,13 @@ public class AutoCenter2Cube extends AutonomousRoutine
 				{
 					final double xSpeed = isSwitchRight() ? 0.28 : -0.32;
 					final double offset = isSwitchRight() ? -7 : 0;
-					final double offset2 = isSwitchRight() ? -11 : 0;
+					final double offset2 = isSwitchRight() ? -8 : 0;
 					final double offset3 = isSwitchRight() ? 0 : 0;
 					this.addParallel(new ElevateToSwitch(e));
 					this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
 					this.addSequential(new ReleaseCube(i));
-					//this.addSequential(new DriveStraight(d, 0.75, CENTER_MOVE_BACKWARDS + offset2));
-					this.addSequential(new DriveStraightSwerveWithUltraAway(d, 0, 0.75, CENTER_MOVE_BACKWARDS + offset2, 64 + offset2));
+					this.addSequential(new DriveStraight(d, 0.75, CENTER_MOVE_BACKWARDS + offset2));
+					//this.addSequential(new DriveStraightSwerveWithUltraAway(d, 0, 0.75, CENTER_MOVE_BACKWARDS + offset2, 64 + offset2));
 					this.addParallel(new ElevatePickupCube(e));
 					this.addSequential(new DriveGoToAngle(d, (isSwitchRight() ? -45 : 45)));
 					this.addParallel(new IntakeCube(i));
@@ -74,8 +74,8 @@ public class AutoCenter2Cube extends AutonomousRoutine
 					this.addSequential(new DriveStraight(d, 0.6, MOVE_TO_SECOND_CUBE + offset3));
 					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addParallel(new ElevateToSwitch(e));
-					//this.addSequential(new DriveStraight(d, -0.5, (CENTER_MOVE_BACKWARDS + offset2 + 4)));
-					this.addSequential(new DriveStraightSwerveWithUltra(d, 0, -0.5, CENTER_MOVE_BACKWARDS + offset2 + 4, 8));
+					this.addSequential(new DriveStraight(d, -0.5, (CENTER_MOVE_BACKWARDS + offset2 + 4)));
+					//this.addSequential(new DriveStraightSwerveWithUltra(d, 0, -0.5, CENTER_MOVE_BACKWARDS + offset2 + 4, 8));
 					this.addParallel(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate
 				}
