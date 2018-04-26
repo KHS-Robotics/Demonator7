@@ -52,6 +52,7 @@ public class DriveSwerveWithXbox extends TeleopCommand {
         double xInput = controller.getX(Hand.kLeft);
 		double yInput = controller.getY(Hand.kLeft);
 		double zInput = controller.getX(Hand.kRight);
+		//double trigger = controller.getTriggerAxis(Hand.kRight);
 
         boolean x = Math.abs(xInput) > XDEADBAND;
 		boolean y = Math.abs(yInput) > YDEADBAND;

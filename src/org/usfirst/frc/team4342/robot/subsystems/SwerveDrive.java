@@ -56,8 +56,8 @@ public class SwerveDrive extends DriveTrainBase {
 	 * @param rl the rear left swerve module
 	 * @param navx the NavX
 	 */
-	public SwerveDrive(SwerveModule fr, SwerveModule fl, SwerveModule rr, SwerveModule rl, AHRS navx) {
-		super(navx);
+	public SwerveDrive(SwerveModule fr, SwerveModule fl, SwerveModule rr, SwerveModule rl, AnalogInput ultraL, AnalogInput ultraR, AHRS navx) {
+		super(navx, ultraL, ultraR);
 
 		this.fr = fr;
 		this.fl = fl;
@@ -506,6 +506,7 @@ public class SwerveDrive extends DriveTrainBase {
 		rl.reset();
 	}
 	
+
 	/**
 	 * Swerve Module
 	 */

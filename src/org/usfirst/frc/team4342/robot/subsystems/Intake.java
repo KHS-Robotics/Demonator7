@@ -16,7 +16,6 @@ public class Intake extends SubsystemBase
 	private boolean releasing;
 	private boolean slow;
 	private Talon motorLeft, motorRight;
-	private Ultrasonic ultra;
 	
 	private double limiter;
 	
@@ -24,16 +23,12 @@ public class Intake extends SubsystemBase
 	 * Creates a new <code>Intake</code> subsystem
 	 * @param motor the intake motor
 	 */
-	public Intake(Talon motorLeft, Talon motorRight, Ultrasonic ultra)
+	public Intake(Talon motorLeft, Talon motorRight)
 	{
 		this.motorLeft = motorLeft;
 		this.motorRight = motorRight;
-		this.ultra = ultra;
 	}
 	
-	public double getUltraRange() {
-		return ultra.getRangeInches();
-	}
 
 	@Override 
 	protected void initDefaultCommand() {
@@ -157,14 +152,6 @@ public class Intake extends SubsystemBase
 	{
 		slow = false;
 		
-	}
-	
-	/**
-	 * tells if the cube is intook already
-	 */
-	public boolean hasCube()
-	{
-		return (ultra.getRangeInches() <= 4);
 	}
 	
 	/**

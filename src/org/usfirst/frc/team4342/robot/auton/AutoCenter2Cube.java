@@ -9,6 +9,8 @@ import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.IntakeCube;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerveWithUltra;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerveWithUltraAway;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
@@ -62,7 +64,8 @@ public class AutoCenter2Cube extends AutonomousRoutine
 					this.addParallel(new ElevateToSwitch(e));
 					this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
 					this.addSequential(new ReleaseCube(i));
-					this.addSequential(new DriveStraight(d, 0.75, CENTER_MOVE_BACKWARDS + offset2));
+					//this.addSequential(new DriveStraight(d, 0.75, CENTER_MOVE_BACKWARDS + offset2));
+					this.addSequential(new DriveStraightSwerveWithUltraAway(d, 0, 0.75, CENTER_MOVE_BACKWARDS + offset2, 64 + offset2));
 					this.addParallel(new ElevatePickupCube(e));
 					this.addSequential(new DriveGoToAngle(d, (isSwitchRight() ? -45 : 45)));
 					this.addParallel(new IntakeCube(i));
@@ -71,7 +74,8 @@ public class AutoCenter2Cube extends AutonomousRoutine
 					this.addSequential(new DriveStraight(d, 0.6, MOVE_TO_SECOND_CUBE + offset3));
 					this.addSequential(new DriveGoToAngle(d, 0));
 					this.addParallel(new ElevateToSwitch(e));
-					this.addSequential(new DriveStraight(d, -0.5, (CENTER_MOVE_BACKWARDS + offset2 + 4)));
+					//this.addSequential(new DriveStraight(d, -0.5, (CENTER_MOVE_BACKWARDS + offset2 + 4)));
+					this.addSequential(new DriveStraightSwerveWithUltra(d, 0, -0.5, CENTER_MOVE_BACKWARDS + offset2 + 4, 8));
 					this.addParallel(new ReleaseCube(i));
 					// TODO: Pick up another cube and put in on our switch plate
 				}

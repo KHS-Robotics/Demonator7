@@ -6,6 +6,7 @@ import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToScaleHigh;
 import org.usfirst.frc.team4342.robot.commands.elevator.ElevateToSwitch;
 import org.usfirst.frc.team4342.robot.commands.intake.ReleaseCube;
 import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerve;
+import org.usfirst.frc.team4342.robot.commands.swerve.DriveStraightSwerveWithUltra;
 import org.usfirst.frc.team4342.robot.logging.Logger;
 import org.usfirst.frc.team4342.robot.subsystems.Elevator;
 import org.usfirst.frc.team4342.robot.subsystems.Intake;
@@ -133,7 +134,8 @@ public class AutoSwitch extends AutonomousRoutine
 				final double xSpeed = isSwitchRight() ? 0.28 : -0.32;
 				final double offset = isSwitchRight() ? -7 : 0;
 				this.addParallel(new ElevateToSwitch(e));
-				this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
+				//this.addSequential(new DriveStraightSwerve(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset));
+				this.addSequential(new DriveStraightSwerveWithUltra(d, xSpeed, -0.6, CENTER_DIAGONAL_DISTANCE + offset, 8));
 				this.addSequential(new ReleaseCube(i));
 				// TODO: Pick up another cube and put in on our switch plate
 			}

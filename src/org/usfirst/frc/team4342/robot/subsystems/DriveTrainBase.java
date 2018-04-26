@@ -2,6 +2,7 @@ package org.usfirst.frc.team4342.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -18,13 +19,16 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     private PIDSourceType pidSourceType = PIDSourceType.kDisplacement;
 
     private final AHRS navx;
+    private final AnalogInput ultraL, ultraR;
     
     /**
      * Drive Train base class
      * @param navx the NavX
      */
-    public DriveTrainBase(AHRS navx) {
+    public DriveTrainBase(AHRS navx, AnalogInput ultraL, AnalogInput ultraR) {
         this.navx = navx;
+        this.ultraL = ultraL;
+        this.ultraR = ultraR;
 
         yawPID = new PIDController(p, i, d, this, this);
         yawPID.setInputRange(-180.0, 180.0);
@@ -183,6 +187,16 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
 	public double getHeading() {
 		return normalizeYaw(navx.getYaw() + getOffset());
     }
+	
+	public double getLeftUltra()
+	{
+		return (ultraL.getVoltage() / 0.000977 / 25.4);
+	}
+	
+	public double getRightUltra()
+	{
+		return ultraR.getVoltage() / 0.000977 / 25.4;
+	}
 
     /**
      * Gets the heading offset
@@ -199,6 +213,8 @@ public abstract class DriveTrainBase extends SubsystemBase implements PIDSource,
     public double getAngle() {
         return navx.getAngle();
     }
+    
+    
 
     /**
      * {@inheritDoc}

@@ -65,6 +65,8 @@ public class DemonDashboard
                         putSwerveModuleData(oi.Drive.fl, "FL");
                         putSwerveModuleData(oi.Drive.rr, "RR");
                         putSwerveModuleData(oi.Drive.rl, "RL");
+                        SmartDashboard.putNumber("Left Ultrasonic", oi.Drive.getLeftUltra());
+                        SmartDashboard.putNumber("Right Ultrasonic", oi.Drive.getRightUltra());
                     }
                     
                     if(oi.Elevator != null) {

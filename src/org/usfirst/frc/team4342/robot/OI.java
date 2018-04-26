@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -77,7 +76,7 @@ public class OI {
 	private TalonSRX FrontRightPivot, FrontLeftPivot, RearRightPivot, RearLeftPivot;
 	private Encoder FrontRightDriveEnc, FrontLeftDriveEnc, RearRightDriveEnc, RearLeftDriveEnc;
 	private AnalogInput FrontRightPivotEnc, FrontLeftPivotEnc, RearRightPivotEnc, RearLeftPivotEnc;
-	private Ultrasonic CubeUltra;
+	private AnalogInput UltraLeft, UltraRight;
 
 	// Climber
 	public Climber Climber;
@@ -132,6 +131,9 @@ public class OI {
 
 			// NavX Board
 			NavX = new AHRS(RobotMap.NAVX_PORT, RobotMap.NAVX_UPDATE_RATE_HZ);
+			UltraLeft = new AnalogInput(RobotMap.ULTRA_LEFT);
+			UltraRight = new AnalogInput(RobotMap.ULTRA_RIGHT);
+			
 
 			// Drive Motors
 			FrontRightDrive = new TalonSRX(RobotMap.FRONT_RIGHT_DRIVE);
@@ -208,7 +210,7 @@ public class OI {
 			RL.setReverse(true);
 			
 			// Swerve
-			Drive = new SwerveDrive(FR, FL, RR, RL, NavX);
+			Drive = new SwerveDrive(FR, FL, RR, RL, UltraLeft, UltraRight, NavX);
 			
 			FL.setOffset(0);
 			FR.setOffset(0);
@@ -339,7 +341,7 @@ public class OI {
 			IntakeMotorRight = new Talon(RobotMap.INTAKE_MOTOR_RIGHT);
 //			CubeUltra = new Ultrasonic(RobotMap.ULTRA_OUT, RobotMap.ULTRA_IN);
 //			CubeUltra.setAutomaticMode(true);
-			Intake = new Intake(IntakeMotorLeft, IntakeMotorRight, CubeUltra);
+			Intake = new Intake(IntakeMotorLeft, IntakeMotorRight);
 
 			// Switch to enable the intake for a cube
 			JoystickButton intakeSwitch = new JoystickButton(SwitchBox, ButtonMap.SwitchBox.INTAKE);
