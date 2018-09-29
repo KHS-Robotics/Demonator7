@@ -22,7 +22,7 @@ public class AutoSwitch extends AutonomousRoutine
 	private static final double CENTER_DIAGONAL_DISTANCE = 95 + ROBOT_Y;
 	// Left or Right Switch
 	// Start Position and Switch location are the same
-	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 145 - ROBOT_X;
+	private static final double LEFT_RIGHT_PANEL_ALIGN_DISTANCE = 130 - ROBOT_X;
 	private static final double LEFT_RIGHT_SWITCH_DISTANCE = 40 - (ROBOT_Y);
 	// Start Position and Switch location are opposite
 	//private static final double LEFT_RIGHT_PAST_SWITCH_DISTANCE = 198;
@@ -71,20 +71,20 @@ public class AutoSwitch extends AutonomousRoutine
 //					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 //					this.addSequential(new ReleaseCube(i));
 					
-					if(isScaleLeft())
-					{
-//						this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
-//						this.addParallel(new ElevateToScaleHigh(e));
-//						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
-//						this.addSequential(new ReleaseCube(i));
-//						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-						
-						this.addSequential(new AutoScale(position, d, e, i));
-					}
-					else
-					{
+//					if(isScaleLeft())
+//					{
+////						this.addSequential(new DriveStraightSwerve(d, -1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+////						this.addParallel(new ElevateToScaleHigh(e));
+////						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+////						this.addSequential(new ReleaseCube(i));
+////						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+//						
+//						this.addSequential(new AutoScale(position, d, e, i));
+//					}
+//					else
+//					{
 						this.addSequential(new DriveStraightSwerve(d, -0.8, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
-					}
+//					}
 					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 					
@@ -112,20 +112,20 @@ public class AutoSwitch extends AutonomousRoutine
 //					this.addSequential(new DriveStraight(d, -0.5, LEFT_RIGHT_MOVE_TO_SWITCH_DISTANCE));
 //					this.addSequential(new ReleaseCube(i));
 					
-					if(isScaleRight())
-					{
-//						this.addParallel(new ElevateToScaleHigh(e));
-//						this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
-//						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
-//						this.addSequential(new ReleaseCube(i));
-//						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
-						
-						this.addSequential(new AutoScale(position, d, e, i));
-					}
-					else
-					{
+//					if(isScaleRight())
+//					{
+////						this.addParallel(new ElevateToScaleHigh(e));
+////						this.addSequential(new DriveStraightSwerve(d, 1, 0, MOVE_STRAIGHT_SCALE_DISTANCE));
+////						this.addSequential(new DriveStraight(d, -0.5, MOVE_TO_SCALE_DISTANCE));
+////						this.addSequential(new ReleaseCube(i));
+////						this.addSequential(new DriveStraight(d, 0.5, MOVE_TO_SCALE_DISTANCE));
+//						
+//						this.addSequential(new AutoScale(position, d, e, i));
+//					}
+//					else
+//					{
 						this.addSequential(new DriveStraightSwerve(d, 0.8, 0.0, LEFT_RIGHT_PANEL_ALIGN_DISTANCE));
-					}
+//					}
 					// TODO: Pick up another cube and put in on our switch plate or scale
 				}
 			}

@@ -36,7 +36,7 @@ public class AutoCenter2Cube extends AutonomousRoutine
 		//private static final double MOVE_STRAIGHT_SCALE_DISTANCE = 300;
 		//private static final double MOVE_TO_SCALE_DISTANCE = 10;
 
-		private static final double CENTER_MOVE_BACKWARDS = 64;
+		private static final double CENTER_MOVE_BACKWARDS = 61;
 		private static final double MOVE_TO_SECOND_CUBE = 60;
 		//private static final double DRIFT_DISTANCE = 40;
 		/**

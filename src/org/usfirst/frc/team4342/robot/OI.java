@@ -239,6 +239,11 @@ public class OI {
 			setFOD.whenPressed(new SetFOD(Drive, true));
 			setFOD.whenReleased(new SetFOD(Drive, false));
 			
+			//Button to maintain heading
+			JoystickButton strafeStraight = new JoystickButton(DriveController, ButtonMap.DriveController.GO_STRAIGHT);
+			strafeStraight.whenPressed(new DriveStraightWithJoystickSwerve(DriveController, Drive));
+			strafeStraight.whenReleased(new StopSubsystem(Drive));
+			
 //			JoystickButton test = new JoystickButton(DriveController, 7);
 //			test.whenPressed(new SwerveSetY(Drive, false));
 //			test.whenReleased(new StopSubsystem(Drive));
